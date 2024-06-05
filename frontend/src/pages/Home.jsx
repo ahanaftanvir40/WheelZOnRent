@@ -5,7 +5,7 @@ import driver from '../assets/driver.jpg'
 
 function Home() {
     return (
-        <div className="w-full min-h-screen bg-gradient-to-r from-slate-800 to-orange-950 p-20">
+        <div className="w-full min-h-screen  p-20">
             <div className="flex justify-center w-full h-full">
                 <Hero />
             </div>

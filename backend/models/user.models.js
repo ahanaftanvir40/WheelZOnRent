@@ -14,14 +14,15 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        
+
     },
-    drivingLicense: { 
-        type: String 
+    drivingLicense: {
+        type: String
     },
-    nationalId: { 
-        type: String 
+    nationalId: {
+        type: String
     }
+
 
 
 }, { timestamps: true })
