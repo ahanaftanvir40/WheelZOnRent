@@ -1,9 +1,11 @@
 import express from 'express'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
+import './config/mongoose-connection.js'
 const app = express()
 
 app.use(express.json())
+app.use(cookieParser())
 app.use(cors())
 
 const port = process.env.PORT || 3000
