@@ -12,7 +12,7 @@ router.post('/createuser', async (req, res) => {
     try {
         let user = await User.findOne({ email: email })
         if (user) {
-            console.log('user already exists');//show this on the frontend
+            res.json({ success: false });
         }
 
         bcrypt.genSalt(10, (err, salt) => {
