@@ -14,7 +14,7 @@ function Home() {
 
                 <div className="max-w-sm bg-slate-700 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <a href="#">
-                        <img className="rounded-t-lg" src={rent} alt="" />
+                        <img className="h-[300px] rounded-t-lg object-fill" src={rent} alt="" />
                     </a>
                     <div className="p-5">
                         <a href="#">
@@ -31,7 +31,7 @@ function Home() {
                 </div>
                 <div className="max-w-sm bg-slate-700  rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <a href="#">
-                        <img className="rounded-t-lg" src={listcar} alt="" />
+                        <img className="rounded-t-lg h-[300px]" src={listcar} alt="" />
                     </a>
                     <div className="p-5">
                         <a href="#">
@@ -48,7 +48,7 @@ function Home() {
                 </div>
                 <div className="max-w-sm bg-slate-700 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <a href="#">
-                        <img className="rounded-t-lg" src={driver} alt="" />
+                        <img className="rounded-t-lg h-[300px]" src={driver} alt="" />
                     </a>
                     <div className="p-5">
                         <a href="#">

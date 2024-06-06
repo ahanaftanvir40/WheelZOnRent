@@ -1,7 +1,15 @@
 import logo from '../assets/logo.png'
 import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 function Header() {
+
+    let navigate = useNavigate()
+
+    const handleLogout = () => {
+        localStorage.removeItem('authToken')
+        navigate('/login')
+    }
     return (
         <div>
 
@@ -27,10 +35,25 @@ function Header() {
                             <li>
                                 <Link to="#" className="block py-2 px-3 text-slate-300 rounded hover:bg-blue-600 ">Pricing</Link>
                             </li>
-                            <li>
-                                <Link to="/signup" className="block py-2 px-3 text-slate-300 rounded hover:bg-blue-600 ">Sign Up</Link>
-                            </li>
+
                         </ul>
+                        {(!localStorage.getItem('authToken')) ?
+                            <div className='flex'>
+                                <Link to="/signup" className="block py-2 px-3 text-slate-300 rounded hover:bg-blue-600 ">Sign Up</Link>
+                                <Link to="/login" className="block py-2 px-3 text-slate-300 rounded hover:bg-blue-600 ">Login</Link>
+                            </div>
+
+                            :
+
+                            <div className='flex'>
+                                <button onClick={handleLogout} to="/logout" className="block py-2 px-3 text-slate-300 rounded hover:bg-blue-600 ">Logout</button>
+                            </div>
+
+
+
+
+                        }
+
                     </div>
                 </div>
             </nav>

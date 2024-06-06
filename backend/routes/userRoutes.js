@@ -48,6 +48,8 @@ router.post('/loginuser', async (req, res) => {
                     let authToken = jwt.sign({ id: userData.id }, process.env.JWT_SECRET)
                     res.json({ success: true, authToken: authToken })
 
+                } else {
+                    res.json({ success: false })
                 }
             });
         }

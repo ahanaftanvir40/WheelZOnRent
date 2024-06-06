@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom"
-import { Home, Login, SignUp } from "../pages"
+import { Home, Login,SignUp } from "../pages"
 
 
 function AllRoutes() {
