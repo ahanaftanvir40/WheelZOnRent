@@ -28,7 +28,7 @@ function Header() {
                                 <Link to="#" className="block py-2 px-3 text-slate-300 rounded hover:bg-blue-600 ">Pricing</Link>
                             </li>
                             <li>
-                                <Link to="#" className="block py-2 px-3 text-slate-300 rounded hover:bg-blue-600 ">Contact</Link>
+                                <Link to="/signup" className="block py-2 px-3 text-slate-300 rounded hover:bg-blue-600 ">Sign Up</Link>
                             </li>
                         </ul>
                     </div>

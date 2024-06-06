@@ -3,6 +3,9 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import './config/mongoose-connection.js'
 import userRoutes from './routes/userRoutes.js'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const app = express()
 

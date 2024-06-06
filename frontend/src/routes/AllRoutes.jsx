@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom"
-import { Home, SignUp } from "../pages"
+import { Home, Login, SignUp } from "../pages"
 
 
 function AllRoutes() {
@@ -8,6 +8,7 @@ function AllRoutes() {
             <Routes>
                 <Route path="/" element={<Home />}></Route>
                 <Route path="/signup" element={<SignUp />}></Route>
+                <Route path="/login" element={<Login />}></Route>
             </Routes>
 
 
