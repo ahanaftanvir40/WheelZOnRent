@@ -29,6 +29,8 @@ function Login() {
             }
             if (json.success) {
                 localStorage.setItem('authToken', json.authToken)
+                localStorage.setItem('isAdmin', JSON.stringify(json.isAdmin))
+                console.log(localStorage.getItem('isAdmin'));
                 console.log(localStorage.getItem('authToken'));
                 navigate('/')
             }

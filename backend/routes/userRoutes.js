@@ -46,7 +46,7 @@ router.post('/loginuser', async (req, res) => {
             bcrypt.compare(password, userData.password, function (err, result) {
                 if (result) {
                     let authToken = jwt.sign({ id: userData.id }, process.env.JWT_SECRET)
-                    res.json({ success: true, authToken: authToken })
+                    res.json({ success: true, authToken: authToken, isAdmin: userData.isAdmin })
 
                 } else {
                     res.json({ success: false })

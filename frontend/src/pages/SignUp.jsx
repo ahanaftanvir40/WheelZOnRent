@@ -29,7 +29,7 @@ function SignUp() {
                 alert('Enter Valid Credentials')
             }
             if (json.success) {
-                navigate('/signup')
+                navigate('/login')
             }
         } catch (error) {
             console.log(error);

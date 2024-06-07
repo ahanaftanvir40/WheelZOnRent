@@ -8,6 +8,7 @@ function Header() {
 
     const handleLogout = () => {
         localStorage.removeItem('authToken')
+        localStorage.removeItem('isAdmin')
         navigate('/login')
     }
     return (
@@ -53,6 +54,12 @@ function Header() {
 
 
                         }
+                        {(localStorage.getItem('isAdmin') === 'true') ?
+                            <div>
+                                <Link to='/admin' className='className="block py-2 px-3 text-slate-300 rounded hover:bg-blue-600'>Admin Dashboard</Link>
+                            </div>
+                            : ''}
+
 
                     </div>
                 </div>
