@@ -2,13 +2,15 @@ import express from 'express'
 import { User } from '../models/user.models.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import { upload } from '../config/multer-config.js'
 
 
 const router = express.Router()
 
-router.post('/createuser', async (req, res) => {
+router.post('/createuser', upload.fields([{ name: 'avatar' }, { name: 'licenseFile' }]), async (req, res) => {
     let { name, email, password, drivingLicense, nationalId } = req.body
-
+    const avatar = req.files['avatar'] ? req.files['avatar'][0].filename : null
+    const licenseFile = req.files['licenseFile'][0].filename
     try {
         let user = await User.findOne({ email: email })
         if (user) {
@@ -18,9 +20,11 @@ router.post('/createuser', async (req, res) => {
         bcrypt.genSalt(10, (err, salt) => {
             bcrypt.hash(password, salt, async (err, hash) => {
                 await User.create({
+                    avatar,
                     name,
                     email,
                     password: hash,
+                    licenseFile,
                     drivingLicense,
                     nationalId
                 })

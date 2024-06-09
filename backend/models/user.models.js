@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
 
+    avatar: {
+        type: String,
+        default: 'default.jpg'
+    },
     name: {
         type: String,
         required: true
@@ -21,10 +25,15 @@ const userSchema = new mongoose.Schema({
         default: false
     },
     drivingLicense: {
+        type: String,
+        required: true
+    },
+    licenseFile: {
         type: String
     },
     nationalId: {
-        type: String
+        type: String,
+        required: true
     }
 
 

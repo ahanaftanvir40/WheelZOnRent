@@ -13,15 +13,49 @@ function SignUp() {
         drivingLicense: '',
         nationalId: ''
     })
+    const [avatar, setAvatar] = useState(null)
+    const [licenseFile, setLicenseFile] = useState(null)
 
     const onChange = (e) => {
         setUserData({ ...userData, [e.target.name]: e.target.value })
     }
 
+    const onFileChange = (e) => {
+        if (e.target.name === 'avatar') {
+            setAvatar(e.target.files[0])
+        } else if (e.target.name === 'licenseFile') {
+            setLicenseFile(e.target.files[0])
+        }
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const response = await axios.post(`http://localhost:3000/api/createuser`, userData)
+
+            const formData = new FormData()
+
+            formData.append('name', userData.name)
+            formData.append('email', userData.email)
+            formData.append('password', userData.password)
+            formData.append('drivingLicense', userData.drivingLicense)
+            formData.append('nationalId', userData.nationalId)
+
+            if (avatar) {
+                formData.append('avatar', avatar)
+            }
+            if (licenseFile) {
+                formData.append('licenseFile', licenseFile)
+            }
+
+
+
+
+
+            const response = await axios.post(`http://localhost:3000/api/createuser`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
             console.log(response.data); //remove console log
             const json = await response.data
             console.log(json); //remove log
@@ -47,6 +81,10 @@ function SignUp() {
                 <h1 className="text-center mb-10 text-3xl font-medium bg-gradient-to-r from-orange-500 to-blue-500 text-transparent bg-clip-text">Sign Up as a New User</h1>
                 <form onSubmit={handleSubmit} className="text-black">
                     <div className="mb-5">
+                        <label htmlFor="avatar" className="block mb-2 text-sm font-medium text-slate-300">Upload Avatar</label>
+                        <input onChange={onFileChange} type="file" id="avatar" name="avatar" className="bg-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                    </div>
+                    <div className="mb-5">
                         <label htmlFor="name" className="block mb-2 text-sm font-medium text-slate-300">Your name</label>
                         <input onChange={onChange} value={userData.name} type="text" id="name" name="name" className="bg-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name" required />
                     </div>
@@ -61,6 +99,10 @@ function SignUp() {
                     <div className="mb-5">
                         <label htmlFor="drivingLicense" className="block mb-2 text-sm font-medium text-slate-300">Your Driving License</label>
                         <input onChange={onChange} value={userData.drivingLicense} type="number" id="license" name="drivingLicense" className="bg-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Driving License" required />
+                    </div>
+                    <div className="mb-5">
+                        <label htmlFor="licenseFile" className="block mb-2 text-sm font-medium text-slate-300">Upload Driving License</label>
+                        <input onChange={onFileChange} type="file" id="licenseFile" name="licenseFile" className="bg-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                     </div>
                     <div className="mb-5">
                         <label htmlFor="nationalId" className="block mb-2 text-sm font-medium text-slate-300">Your National ID</label>
