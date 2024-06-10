@@ -10,7 +10,7 @@ const router = express.Router()
 
 router.post('/createuser', upload.fields([{ name: 'avatar' }, { name: 'licenseFile' }]), async (req, res) => {
     let { name, email, password, drivingLicense, nationalId } = req.body
-    const avatar = req.files['avatar'] ? req.files['avatar'][0].filename : null
+    const avatar = req.files['avatar'] ? req.files['avatar'][0].filename : 'default.jpg'
     const licenseFile = req.files['licenseFile'][0].filename
     try {
         let user = await User.findOne({ email: email })

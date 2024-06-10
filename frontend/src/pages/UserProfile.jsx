@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 
+
 function UserProfile() {
 
   const [user, setUser] = useState(null)
@@ -39,7 +40,7 @@ function UserProfile() {
           <img
             className="w-32 h-32 mb-4 rounded-full shadow-lg"
             src={`http://localhost:3000/public/images/user-avatars/${user.avatar}`}
-            alt={`${user.name}'s avatar`}
+            alt={`http://localhost:3000/public/images/user-avatars/${user.avatar}`}
           />
           <h2 className="mb-1 text-2xl font-bold text-gray-900 dark:text-white">
             {user.name}
