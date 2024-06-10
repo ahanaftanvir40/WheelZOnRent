@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom"
-import { AdminDashboard, Home, Login, SignUp } from "../pages"
+import { AdminDashboard, Home, Login, SignUp, UserProfile } from "../pages"
 
 
 function AllRoutes() {
@@ -10,6 +10,7 @@ function AllRoutes() {
                 <Route path="/signup" element={<SignUp />}></Route>
                 <Route path="/login" element={<Login />}></Route>
                 <Route path="/admin" element={<AdminDashboard />}></Route>
+                <Route path="/profile" element={<UserProfile />}></Route>
             </Routes>
 
 

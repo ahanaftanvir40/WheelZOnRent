@@ -47,6 +47,7 @@ function Header() {
                             :
 
                             <div className='flex'>
+                                <Link to="/profile" className="block py-2 px-3 text-slate-300 rounded hover:bg-blue-600 ">Profile</Link>
                                 <button onClick={handleLogout} to="/logout" className="block py-2 px-3 text-slate-300 rounded hover:bg-blue-600 ">Logout</button>
                             </div>
 

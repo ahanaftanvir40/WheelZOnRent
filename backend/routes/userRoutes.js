@@ -3,6 +3,7 @@ import { User } from '../models/user.models.js'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { upload } from '../config/multer-config.js'
+import { auth } from '../middlewares/auth.js'
 
 
 const router = express.Router()
@@ -49,7 +50,7 @@ router.post('/loginuser', async (req, res) => {
         if (userData) {
             bcrypt.compare(password, userData.password, function (err, result) {
                 if (result) {
-                    let authToken = jwt.sign({ id: userData.id }, process.env.JWT_SECRET)
+                    let authToken = jwt.sign({ id: userData.id, email: userData.email }, process.env.JWT_SECRET)
                     res.json({ success: true, authToken: authToken, isAdmin: userData.isAdmin })
 
                 } else {
@@ -60,6 +61,15 @@ router.post('/loginuser', async (req, res) => {
     } catch (error) {
         console.log(error);
     }
+})
+
+
+router.get('/profile', auth, async (req, res) => {
+    const userData = await User.findOne({ email: req.user.email })
+    if (!userData) {
+        res.json({ success: false })
+    }
+    res.json(userData)
 })
 
 
