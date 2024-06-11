@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom"
-import { AdminDashboard, Home, Login, SignUp, UserProfile } from "../pages"
+import { AddVehicles, AdminDashboard, Home, Login, SignUp, UserProfile } from "../pages"
 
 
 function AllRoutes() {
@@ -11,6 +11,7 @@ function AllRoutes() {
                 <Route path="/login" element={<Login />}></Route>
                 <Route path="/admin" element={<AdminDashboard />}></Route>
                 <Route path="/profile" element={<UserProfile />}></Route>
+                <Route path="/addvehicles" element={<AddVehicles />}></Route>
             </Routes>
 
 

@@ -3,9 +3,11 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import './config/mongoose-connection.js'
 import userRoutes from './routes/userRoutes.js'
+import vehicleRoutes from './routes/vehicleRoutes.js'
 import dotenv from 'dotenv'
 import path from 'path'
 import { fileURLToPath } from 'url'
+
 
 
 dotenv.config()
@@ -22,6 +24,7 @@ app.use(cookieParser())
 app.use(cors())
 
 app.use('/api', userRoutes)
+app.use('/api', vehicleRoutes)
 
 const port = process.env.PORT || 3000
 
