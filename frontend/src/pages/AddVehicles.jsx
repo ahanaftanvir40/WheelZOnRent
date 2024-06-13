@@ -1,8 +1,10 @@
 import { useState } from "react"
+import { useNavigate } from 'react-router-dom'
 import axios from "axios"
 import { VehicleTypes, VehicleCategories } from "../../utils/enum"
 
 function AddVehicles() {
+    const navigate = useNavigate()
     const [vehicle, setVehicle] = useState({
         type: VehicleTypes.CAR,
         brand: '',
@@ -33,7 +35,9 @@ function AddVehicles() {
             })
             const json = response.data
             if (json.success) {
+                navigate('/')
                 alert('Vehicle Added Successfully')
+
             } else {
                 alert('Failed To add Vehicle')
             }

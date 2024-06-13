@@ -2,6 +2,13 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
 
+    added_vehicle_id: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            required: true
+        }
+    ],
+
     avatar: {
         type: String,
         default: 'default.jpg'

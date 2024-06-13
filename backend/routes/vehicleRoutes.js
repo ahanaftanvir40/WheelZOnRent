@@ -1,6 +1,7 @@
 import express from 'express'
 import { auth } from '../middlewares/auth.js'
 import { Vehicle } from '../models/vehicle.models.js';
+import { User } from '../models/user.models.js';
 
 const router = express.Router()
 
@@ -40,6 +41,9 @@ router.post('/vehicles', auth, async (req, res) => {
             registration_no,
         })
         await vehicle.save()
+        const user = await User.findOne({ email: req.user.email })
+        user.added_vehicle_id.push(vehicle._id)
+        await user.save()
         res.json({ success: true })
     } catch (error) {
         console.log(error);
