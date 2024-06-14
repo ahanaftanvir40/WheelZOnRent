@@ -39,12 +39,15 @@ function AddVehicles() {
                 alert('Vehicle Added Successfully')
 
             } else {
-                alert('Failed To add Vehicle')
+                alert('Failed To add Vehicle Please Login')
+                navigate('/login')
             }
 
         } catch (error) {
             console.log(error);
             alert('Failed To add vehicles')
+
+
         }
     }
     return (

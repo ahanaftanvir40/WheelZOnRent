@@ -53,8 +53,13 @@ router.post('/vehicles', auth, async (req, res) => {
 })
 
 router.get('/vehicles/:vehicleId', auth, async (req, res) => {
-    let vehicleData = await Vehicle.findOne({ id: req.params.id }).populate('ownerId')
-    console.log(vehicleData);
+    let vehicleData = await Vehicle.findOne({ _id: req.params.vehicleId }).populate('ownerId')
+    //console.log(vehicleData);
+    res.json(vehicleData)
+})
+
+router.get('/allvehicles', async (req, res) => {
+    let vehicleData = await Vehicle.find()
     res.json(vehicleData)
 })
 

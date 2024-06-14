@@ -41,17 +41,17 @@ function Header() {
                     <div className="flex space-x-4">
                         {!localStorage.getItem('authToken') ? (
                             <>
-                                <Link to="/signup" className="text-white dark:text-gray-300 hover:text-blue-500 transition duration-300">Sign Up</Link>
-                                <Link to="/login" className="text-white dark:text-gray-300 hover:text-blue-500 transition duration-300">Login</Link>
+                                <Link to="/signup" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Sign Up</Link>
+                                <Link to="/login" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Login</Link>
                             </>
                         ) : (
                             <>
-                                <Link to="/profile" className="text-white dark:text-gray-300 hover:text-blue-500 transition duration-300">Profile</Link>
-                                <button onClick={handleLogout} className="text-white dark:text-gray-300 hover:text-blue-500 transition duration-300">Logout</button>
+                                <Link to="/profile" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Profile</Link>
+                                <button onClick={handleLogout} className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Logout</button>
                             </>
                         )}
                         {localStorage.getItem('isAdmin') === 'true' && (
-                            <Link to="/admin" className="text-white dark:text-gray-300 hover:text-blue-500 transition duration-300">Admin Dashboard</Link>
+                            <Link to="/admin" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Admin Dashboard</Link>
                         )}
                     </div>
                 </div>
