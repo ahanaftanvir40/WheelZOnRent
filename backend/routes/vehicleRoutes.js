@@ -8,6 +8,7 @@ const router = express.Router()
 router.post('/vehicles', auth, async (req, res) => {
 
     const {
+        description,
         type,
         brand,
         model,
@@ -26,6 +27,7 @@ router.post('/vehicles', auth, async (req, res) => {
     try {
         const vehicle = await Vehicle.create({
             ownerId: req.user.id,
+            description,
             type,
             brand,
             model,

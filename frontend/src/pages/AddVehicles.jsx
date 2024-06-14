@@ -6,6 +6,7 @@ import { VehicleTypes, VehicleCategories } from "../../utils/enum"
 function AddVehicles() {
     const navigate = useNavigate()
     const [vehicle, setVehicle] = useState({
+        description: '',
         type: VehicleTypes.CAR,
         brand: '',
         model: '',
@@ -78,6 +79,23 @@ function AddVehicles() {
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="year">Year:</label>
                     <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="number" name="year" value={vehicle.year} onChange={handleChange} required />
                 </div>
+                <div className="mb-4">
+                    <label
+                        htmlFor="message"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                        Description:
+                    </label>
+                    <textarea
+                        id="description"
+                        name="description"
+                        rows={4}
+                        className="block resize-none p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        placeholder="Write your thoughts here..."
+                        value={vehicle.description}
+                        onChange={handleChange}
+                    />
+                </div>
 
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="pricePerDay">Price per day:</label>
@@ -142,3 +160,5 @@ function AddVehicles() {
 }
 
 export default AddVehicles
+
+

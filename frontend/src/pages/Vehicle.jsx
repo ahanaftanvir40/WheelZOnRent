@@ -49,38 +49,50 @@ function Vehicle() {
                     <img src="/docs/images/carousel/carousel-3.svg" alt="Vehicle 3" className="w-full h-full object-cover rounded-sm" />
                 </SwiperSlide>
             </Swiper>
-            <h1 className="flex items-center text-5xl font-extrabold text-white dark:text-white mt-3">
-                {vehicle.brand}
-                <span className="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-2">
-                    {vehicle.model}
-                </span>
-            </h1>
-            <div className="flex justify-between">
 
-                <div className="text-xl text-slate-300 mt-5 flex flex-col gap-3">
-                    <h1>Type: {vehicle.type}</h1>
-                    <h1>Year: {vehicle.year}</h1>
-                    <h1>Price per Day: {vehicle.pricePerDay}Tk</h1>
-                    <h1>Location: {vehicle.location}</h1>
-                    <h1 className={`py-2 px-4 rounded-lg text-lg font-semibold ${vehicle.availability ? 'bg-green-500 text-white' : 'bg-red-500 text-white'}`}>
-                        Availability: {vehicle.availability ? 'Available' : 'Not Available'}
-                    </h1>
-                    <h1>Category: {vehicle.category}</h1>
-                    <h1>Condition: {vehicle.condition}</h1>
-                    <h1>Number Plate: {vehicle.no_plate}</h1>
-                    <h1>Chassis Number: {vehicle.chassis_no}</h1>
-                    <h1>Registration Number: {vehicle.registration_no}</h1>
-                </div>
+            <div className="flex justify-between">
                 <div>
+                    <h1 className="flex items-center text-5xl font-extrabold text-white dark:text-white mt-3">
+                        {vehicle.brand}
+                        <span className="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-2">
+                            {vehicle.model}
+                        </span>
+                    </h1>
+                </div>
+                <h1 className={`py-2 px-4 rounded-lg text-lg font-semibold mt-3 ${vehicle.availability ? 'bg-gradient-to-r from-teal-200 to-lime-200 text-slate-600' : 'bg-red-500 text-white'}`}>
+                    {vehicle.availability ? 'Available' : 'Not Available'}
+                </h1>
+            </div>
+            <div className="mt-2 sm:mt-4 flex justify-between gap-4">
+                <div>
+                    <h1 className="font-medium text-lg text-slate-200">About the Car:</h1>
+                    <p className="text-gray-200 dark:text-gray-400">{vehicle.description}</p>
+                </div>
+
+                <div className="">
                     <button
                         type="button"
-                        className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-lg px-10 py-10 text-center me-2 mb-2"
+                        className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-lg px-5 py-2 text-center mb-2"
                     >
                         Rent Now!
                     </button>
-
                 </div>
             </div>
+
+
+            <div className="grid grid-cols-2 gap-2 text-xl text-slate-300 mt-5">
+                <span>Type: {vehicle.type}</span>
+                <span>Year: {vehicle.year}</span>
+                <span>Price per Day: {vehicle.pricePerDay} Tk</span>
+                <span>Location: {vehicle.location}</span>
+                <span>Category: {vehicle.category}</span>
+                <span>Condition: {vehicle.condition}</span>
+                <span>Number Plate: {vehicle.no_plate}</span>
+                <span>Chassis Number: {vehicle.chassis_no}</span>
+                <span>Registration Number: {vehicle.registration_no}</span>
+
+            </div>
+
 
         </div>
 

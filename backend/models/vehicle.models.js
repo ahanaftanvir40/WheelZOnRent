@@ -7,6 +7,10 @@ const vehicleSchema = new mongoose.Schema({
         ref: 'user',
         required: true,
     },
+    description: {
+        type: String,
+        required: true
+    },
     type: {
         type: String,
         enum: ['Car', 'Bike'],
