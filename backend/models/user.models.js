@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
     added_vehicle_id: [
         {
             type: mongoose.Schema.Types.ObjectId,
+            ref: 'vehicle',
             required: true
         }
     ],

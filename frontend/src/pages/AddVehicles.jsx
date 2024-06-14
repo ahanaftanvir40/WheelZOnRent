@@ -35,7 +35,7 @@ function AddVehicles() {
             })
             const json = response.data
             if (json.success) {
-                navigate('/')
+                navigate(`/vehicles/${json.vehicleId}`)
                 alert('Vehicle Added Successfully')
 
             } else {
