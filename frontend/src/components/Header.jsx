@@ -13,60 +13,51 @@ function Header() {
     }
     return (
         <div>
-
-
-            <nav className="bg-gradient-to-r  border-gray-200 dark:bg-gray-900 from-slate-800 to-orange-950">
-                <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+            <nav className="py-2">
+                <div className="max-w-screen-xl mx-auto px-4 py-3 flex justify-between items-center">
+                    {/* Logo and Branding */}
                     <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
-                        <img className='h-12 w-12' src={logo} alt="Flowbite Logo" />
-                        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white  bg-gradient-to-r from-blue-500 to-blue-800 text-transparent bg-clip-text">WheelzOnRent</span>
+                        <img className="h-12 w-12 rounded-full" src={logo} alt="Logo" />
+                        <span className="text-2xl font-semibold text-white dark:text-gray-200">WheelzOnRent</span>
                     </Link>
 
-                    <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-                        <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 rounded-lg md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0">
-                            <li>
-                                <Link to="/" className="block py-2 px-3 text-white rounded md:bg-transparent ">Home</Link>
-                            </li>
-                            <li>
-                                <Link to="#" className="block py-2 px-3 text-slate-300 rounded hover:bg-blue-600 ">About</Link>
-                            </li>
-                            <li>
-                                <Link to="#" className="block py-2 px-3 text-slate-300 rounded hover:bg-blue-600 ">Services</Link>
-                            </li>
-                            <li>
-                                <Link to="#" className="block py-2 px-3 text-slate-300 rounded hover:bg-blue-600 ">Pricing</Link>
-                            </li>
+                    {/* Navigation Links */}
+                    <ul className="flex space-x-4">
+                        <li>
+                            <Link to="/" className="text-white dark:text-gray-300 hover:text-blue-500 transition duration-300">Home</Link>
+                        </li>
+                        <li>
+                            <Link to="#" className="text-white dark:text-gray-300 hover:text-blue-500 transition duration-300">About</Link>
+                        </li>
+                        <li>
+                            <Link to="#" className="text-white dark:text-gray-300 hover:text-blue-500 transition duration-300">Services</Link>
+                        </li>
+                        <li>
+                            <Link to="#" className="text-white dark:text-gray-300 hover:text-blue-500 transition duration-300">Pricing</Link>
+                        </li>
+                    </ul>
 
-                        </ul>
-                        {(!localStorage.getItem('authToken')) ?
-                            <div className='flex'>
-                                <Link to="/signup" className="block py-2 px-3 text-slate-300 rounded hover:bg-blue-600 ">Sign Up</Link>
-                                <Link to="/login" className="block py-2 px-3 text-slate-300 rounded hover:bg-blue-600 ">Login</Link>
-                            </div>
-
-                            :
-
-                            <div className='flex'>
-                                <Link to="/profile" className="block py-2 px-3 text-slate-300 rounded hover:bg-blue-600 ">Profile</Link>
-                                <button onClick={handleLogout} to="/logout" className="block py-2 px-3 text-slate-300 rounded hover:bg-blue-600 ">Logout</button>
-                            </div>
-
-
-
-
-                        }
-                        {(localStorage.getItem('isAdmin') === 'true') ?
-                            <div>
-                                <Link to='/admin' className='className="block py-2 px-3 text-slate-300 rounded hover:bg-blue-600'>Admin Dashboard</Link>
-                            </div>
-                            : ''}
-
-
+                    {/* Auth Links */}
+                    <div className="flex space-x-4">
+                        {!localStorage.getItem('authToken') ? (
+                            <>
+                                <Link to="/signup" className="text-white dark:text-gray-300 hover:text-blue-500 transition duration-300">Sign Up</Link>
+                                <Link to="/login" className="text-white dark:text-gray-300 hover:text-blue-500 transition duration-300">Login</Link>
+                            </>
+                        ) : (
+                            <>
+                                <Link to="/profile" className="text-white dark:text-gray-300 hover:text-blue-500 transition duration-300">Profile</Link>
+                                <button onClick={handleLogout} className="text-white dark:text-gray-300 hover:text-blue-500 transition duration-300">Logout</button>
+                            </>
+                        )}
+                        {localStorage.getItem('isAdmin') === 'true' && (
+                            <Link to="/admin" className="text-white dark:text-gray-300 hover:text-blue-500 transition duration-300">Admin Dashboard</Link>
+                        )}
                     </div>
                 </div>
             </nav>
-
         </div>
+
     )
 }
 

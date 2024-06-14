@@ -4,7 +4,7 @@ import { AddVehicles, AdminDashboard, Home, Login, SignUp, UserProfile, Vehicle 
 
 function AllRoutes() {
     return (
-        <div className="bg-gradient-to-r from-slate-800 to-orange-950 w-full min-h-screen p-20">
+        <div className="w-full min-h-screen p-20">
             <Routes>
                 <Route path="/" element={<Home />}></Route>
                 <Route path="/signup" element={<SignUp />}></Route>
