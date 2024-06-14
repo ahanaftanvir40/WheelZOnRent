@@ -24,16 +24,16 @@ function Header() {
                     {/* Navigation Links */}
                     <ul className="flex space-x-4">
                         <li>
-                            <Link to="/" className="text-white dark:text-gray-300 hover:text-blue-500 transition duration-300">Home</Link>
+                            <Link to="/" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Home</Link>
                         </li>
                         <li>
-                            <Link to="#" className="text-white dark:text-gray-300 hover:text-blue-500 transition duration-300">About</Link>
+                            <Link to="#" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">About</Link>
                         </li>
                         <li>
-                            <Link to="#" className="text-white dark:text-gray-300 hover:text-blue-500 transition duration-300">Services</Link>
+                            <Link to="#" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Services</Link>
                         </li>
                         <li>
-                            <Link to="#" className="text-white dark:text-gray-300 hover:text-blue-500 transition duration-300">Pricing</Link>
+                            <Link to="#" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Pricing</Link>
                         </li>
                     </ul>
 
