@@ -83,7 +83,7 @@ function Vehicle() {
             <div className="grid grid-cols-2 gap-2 text-xl text-slate-300 mt-5">
                 <span>Type: {vehicle.type}</span>
                 <span>Year: {vehicle.year}</span>
-                <span>Price per Day: {vehicle.pricePerDay} Tk</span>
+                <span className="p-2 bg-gradient-to-br from-purple-600 to-blue-500 rounded-md w-fit font-medium text-slate-200">Price per Day: {vehicle.pricePerDay} Tk</span>
                 <span>Location: {vehicle.location}</span>
                 <span>Category: {vehicle.category}</span>
                 <span>Condition: {vehicle.condition}</span>
