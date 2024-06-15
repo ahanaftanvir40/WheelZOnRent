@@ -72,5 +72,29 @@ router.get('/profile', auth, async (req, res) => {
     res.json(userData)
 })
 
+router.post('/updateuser', auth, upload.fields([{ name: 'avatar' }, { name: 'licenseFile' }]), async (req, res) => {
+    let { name, drivingLicense, nationalId } = req.body
+    const avatar = req.files['avatar'] ? req.files['avatar'][0].filename : 'default.jpg'
+    const licenseFile = req.files['licenseFile'][0].filename
+
+
+
+    let user = await User.findOneAndUpdate({ email: req.user.email }, {
+        avatar,
+        name,
+        licenseFile,
+        drivingLicense,
+        nationalId
+    })
+    return res.json({ success: true })
+})
+
+router.delete('/deleteuser', auth, async (req, res) => {
+    let user = await User.findOneAndDelete({ email: req.user.email })
+    
+    return res.json({ success: true, message: 'User deleted successfully' })
+})
+
+
 
 export default router

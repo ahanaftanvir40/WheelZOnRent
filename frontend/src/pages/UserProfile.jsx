@@ -1,10 +1,13 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 
 
 function UserProfile() {
-
+  const navigate = useNavigate()
   const [user, setUser] = useState(null)
+  const [showModal, setShowModal] = useState(false);
+
   useEffect(() => {
     const fetchUser = async () => {
 
@@ -23,6 +26,30 @@ function UserProfile() {
     }
     fetchUser()
   }, [])
+
+  const deleteUser = async () => {
+    try {
+      const response = await axios.delete(`http://localhost:3000/api/deleteuser`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('authToken')}`
+        }
+      });
+      if (response.data.success) {
+        alert(response.data.message);
+        localStorage.removeItem('authToken');
+        navigate('/');
+      }
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      alert('Error deleting user');
+    }
+  };
+
+
+
+
+
+
 
   if (!user) {
     return <div>Loading...</div>;
@@ -77,22 +104,49 @@ function UserProfile() {
             </div>
           </div>
           <div className="flex mt-4 space-x-4">
-            <a
-              href="#"
+            <Link
+              to="/editprofile"
               className="inline-flex items-center px-6 py-2 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-blue-800"
             >
               Edit
-            </a>
-            <a
-              href="#"
+            </Link>
+            <button
+              onClick={() => setShowModal(true)}
               className="inline-flex items-center px-6 py-2 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:z-10 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
             >
-              Update
-            </a>
+              Delete Profile
+            </button>
           </div>
         </div>
       </div>
+
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-96">
+            <h2 className="text-lg font-semibold mb-4">Are you sure?</h2>
+            <p className="mb-4">Do you really want to delete your profile? This action cannot be undone.</p>
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-4 py-2 bg-gray-200 rounded-lg"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={deleteUser}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg"
+              >
+                Yes, Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+
     </div>
+
+
   )
 }
 
