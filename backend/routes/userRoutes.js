@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { upload } from '../config/multer-config.js'
 import { auth } from '../middlewares/auth.js'
+import { Vehicle } from '../models/vehicle.models.js'
 
 
 const router = express.Router()
@@ -92,6 +93,7 @@ router.post('/updateuser', auth, upload.fields([{ name: 'avatar' }, { name: 'lic
 })
 
 router.delete('/deleteuser', auth, async (req, res) => {
+    let vehicle = await Vehicle.deleteMany({ ownerId: req.user.id })
     let user = await User.findOneAndDelete({ email: req.user.email })
 
     return res.json({ success: true, message: 'User deleted successfully' })
