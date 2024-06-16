@@ -81,6 +81,7 @@ function Vehicle() {
 
 
             <div className="grid grid-cols-2 gap-2 text-xl text-slate-300 mt-5">
+                <span className="bg-gradient-to-br from-purple-600 to-blue-500  p-1 text-md tracking-tighter text-slate-200 w-fit rounded-md">Owner Name : {vehicle.ownerId && vehicle.ownerId.name}</span>
                 <span>Type: {vehicle.type}</span>
                 <span>Year: {vehicle.year}</span>
                 <span className="p-2 bg-gradient-to-br from-purple-600 to-blue-500 rounded-md w-fit font-medium text-slate-200">Price per Day: {vehicle.pricePerDay} Tk</span>
