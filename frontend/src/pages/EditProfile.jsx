@@ -6,6 +6,9 @@ function EditProfile() {
     let navigate = useNavigate()
     const [userData, setUserData] = useState({
         name: '',
+        email: '',
+        userType: 'Normal',
+        password: '',
         drivingLicense: '',
         nationalId: ''
     })
@@ -31,16 +34,17 @@ function EditProfile() {
             const formData = new FormData()
 
             formData.append('name', userData.name)
-            formData.append('drivingLicense', userData.drivingLicense)
-            formData.append('nationalId', userData.nationalId)
-
-            if (avatar) {
-                formData.append('avatar', avatar)
+            formData.append('userType', userData.userType)
+            if (userData.userType === 'Driver') {
+                formData.append('drivingLicense', userData.drivingLicense);
+                formData.append('nationalId', userData.nationalId);
             }
             if (licenseFile) {
                 formData.append('licenseFile', licenseFile)
             }
-
+            if (avatar) {
+                formData.append('avatar', avatar);
+            }
 
 
 
@@ -84,19 +88,30 @@ function EditProfile() {
                         <label htmlFor="name" className="block mb-2 text-sm font-medium text-slate-300">Change name</label>
                         <input onChange={onChange} value={userData.name} type="text" id="name" name="name" className="bg-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name" required />
                     </div>
+                    <div className="mb-5">
+                        <label htmlFor="userType" className="block mb-2 text-sm font-medium text-slate-300">Change User Type:</label>
+                        <select name="userType" value={userData.userType} onChange={onChange}>
+                            <option value="Normal">Normal</option>
+                            <option value="Driver">Driver</option>
+                        </select>
+                    </div>
+                    {userData.userType === 'Driver' && (
+                        <>
+                            <div className="mb-5">
+                                <label htmlFor="drivingLicense" className="block mb-2 text-sm font-medium text-slate-300">Edit Driving License</label>
+                                <input onChange={onChange} value={userData.drivingLicense} type="number" id="license" name="drivingLicense" className="bg-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Driving License" required />
+                            </div>
+                            <div className="mb-5">
+                                <label htmlFor="licenseFile" className="block mb-2 text-sm font-medium text-slate-300">Update Driving License Photo</label>
+                                <input onChange={onFileChange} type="file" id="licenseFile" name="licenseFile" className="bg-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                            </div>
+                            <div className="mb-5">
+                                <label htmlFor="nationalId" className="block mb-2 text-sm font-medium text-slate-300">Edit National ID</label>
+                                <input onChange={onChange} value={userData.nationalId} type="number" id="nid" name="nationalId" className="bg-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter NID" required />
+                            </div>
+                        </>
+                    )}
 
-                    <div className="mb-5">
-                        <label htmlFor="drivingLicense" className="block mb-2 text-sm font-medium text-slate-300">Edit Driving License</label>
-                        <input onChange={onChange} value={userData.drivingLicense} type="number" id="license" name="drivingLicense" className="bg-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Driving License" required />
-                    </div>
-                    <div className="mb-5">
-                        <label htmlFor="licenseFile" className="block mb-2 text-sm font-medium text-slate-300">Update Driving License Photo</label>
-                        <input onChange={onFileChange} type="file" id="licenseFile" name="licenseFile" className="bg-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
-                    </div>
-                    <div className="mb-5">
-                        <label htmlFor="nationalId" className="block mb-2 text-sm font-medium text-slate-300">Edit National ID</label>
-                        <input onChange={onChange} value={userData.nationalId} type="number" id="nid" name="nationalId" className="bg-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter NID" required />
-                    </div>
                     <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
                 </form>
             </div>

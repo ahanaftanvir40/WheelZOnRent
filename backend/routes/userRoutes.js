@@ -9,9 +9,9 @@ import { auth } from '../middlewares/auth.js'
 const router = express.Router()
 
 router.post('/createuser', upload.fields([{ name: 'avatar' }, { name: 'licenseFile' }]), async (req, res) => {
-    let { name, email, password, drivingLicense, nationalId } = req.body
+    let { name, email, password, drivingLicense, nationalId, userType } = req.body
     const avatar = req.files['avatar'] ? req.files['avatar'][0].filename : 'default.jpg'
-    const licenseFile = req.files['licenseFile'][0].filename
+    const licenseFile = req.files['licenseFile'] ? req.files['licenseFile'][0].filename : null;
     try {
         let user = await User.findOne({ email: email })
         if (user) {
@@ -22,6 +22,7 @@ router.post('/createuser', upload.fields([{ name: 'avatar' }, { name: 'licenseFi
             bcrypt.hash(password, salt, async (err, hash) => {
                 await User.create({
                     avatar,
+                    userType,
                     name,
                     email,
                     password: hash,
@@ -73,14 +74,15 @@ router.get('/profile', auth, async (req, res) => {
 })
 
 router.post('/updateuser', auth, upload.fields([{ name: 'avatar' }, { name: 'licenseFile' }]), async (req, res) => {
-    let { name, drivingLicense, nationalId } = req.body
+    let { name, drivingLicense, nationalId, userType } = req.body
     const avatar = req.files['avatar'] ? req.files['avatar'][0].filename : 'default.jpg'
-    const licenseFile = req.files['licenseFile'][0].filename
+    const licenseFile = req.files['licenseFile'] ? req.files['licenseFile'][0].filename : ''
 
 
 
     let user = await User.findOneAndUpdate({ email: req.user.email }, {
         avatar,
+        userType,
         name,
         licenseFile,
         drivingLicense,
@@ -91,7 +93,7 @@ router.post('/updateuser', auth, upload.fields([{ name: 'avatar' }, { name: 'lic
 
 router.delete('/deleteuser', auth, async (req, res) => {
     let user = await User.findOneAndDelete({ email: req.user.email })
-    
+
     return res.json({ success: true, message: 'User deleted successfully' })
 })
 

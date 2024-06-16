@@ -32,17 +32,28 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    drivingLicense: {
+    userType: {
         type: String,
+        enum: ['Normal', 'Driver'],
         required: true
     },
+    drivingLicense: {
+        type: String,
+        required: function () { return this.userType === 'Driver' }
+    },
     licenseFile: {
-        type: String
+        type: String,
+        required: function () { return this.userType === 'Driver' }
     },
     nationalId: {
         type: String,
-        required: true
-    }
+        required: function () { return this.userType === 'Driver' }
+    },
+    bookings: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'booking'
+
+    }]
 
 
 

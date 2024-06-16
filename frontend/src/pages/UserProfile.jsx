@@ -76,32 +76,37 @@ function UserProfile() {
             Welcome {user.name} to your profile
           </p>
           <div className="w-3/4">
-            <div className="text-left mb-4">
-              <h6 className="text-lg font-medium text-gray-900 dark:text-white">
-                Driving License Number
-              </h6>
-              <p className="text-sm text-slate-700 dark:text-gray-400">
-                {user.drivingLicense}
-              </p>
-            </div>
-            <div className="text-left mb-4">
-              <h6 className="text-lg font-medium text-gray-900 dark:text-white">
-                Driving License Image
-              </h6>
-              <img
-                className="w-full h-72 rounded-lg shadow-lg"
-                src={`http://localhost:3000/public/images/license-images/${user.licenseFile}`}
-                alt="Driving License"
-              />
-            </div>
-            <div className="text-left mb-4">
-              <h6 className="text-lg font-medium text-gray-900 dark:text-white">
-                National ID Number
-              </h6>
-              <p className="text-sm text-slate-700 dark:text-gray-400">
-                {user.nationalId}
-              </p>
-            </div>
+            {user.userType === 'Driver' && (
+              <>
+                <div className="text-left mb-4">
+                  <h6 className="text-lg font-medium text-gray-900 dark:text-white">
+                    Driving License Number
+                  </h6>
+                  <p className="text-sm text-slate-700 dark:text-gray-400">
+                    {user.drivingLicense}
+                  </p>
+                </div>
+                <div className="text-left mb-4">
+                  <h6 className="text-lg font-medium text-gray-900 dark:text-white">
+                    Driving License Image
+                  </h6>
+                  <img
+                    className="w-full h-72 rounded-lg shadow-lg"
+                    src={`http://localhost:3000/public/images/license-images/${user.licenseFile}`}
+                    alt="Driving License"
+                  />
+                </div>
+                <div className="text-left mb-4">
+                  <h6 className="text-lg font-medium text-gray-900 dark:text-white">
+                    National ID Number
+                  </h6>
+                  <p className="text-sm text-slate-700 dark:text-gray-400">
+                    {user.nationalId}
+                  </p>
+                </div>
+              </>
+            )}
+
           </div>
           <div className="flex mt-4 space-x-4">
             <Link
