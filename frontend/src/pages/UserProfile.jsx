@@ -37,6 +37,7 @@ function UserProfile() {
       if (response.data.success) {
         alert(response.data.message);
         localStorage.removeItem('authToken');
+        localStorage.removeItem('isAdmin')
         navigate('/');
       }
     } catch (error) {
@@ -78,6 +79,14 @@ function UserProfile() {
           <div className="w-3/4">
             {user.userType === 'Driver' && (
               <>
+               <div className="text-left mb-4">
+                  <h6 className="text-lg font-medium text-gray-900 dark:text-white">
+                    Contact Number
+                  </h6>
+                  <p className="text-sm text-slate-700 dark:text-gray-400">
+                    {user.phoneNumber}
+                  </p>
+                </div>
                 <div className="text-left mb-4">
                   <h6 className="text-lg font-medium text-gray-900 dark:text-white">
                     Driving License Number

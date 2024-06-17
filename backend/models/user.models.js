@@ -37,6 +37,15 @@ const userSchema = new mongoose.Schema({
         enum: ['Normal', 'Driver'],
         required: true
     },
+    isAvailable: {
+        type: Boolean,
+        required: function () { return this.userType === 'Driver' },
+        default: true
+    },
+    phoneNumber: {
+        type: String,
+        required: function () { return this.userType === 'Driver' }
+    },
     drivingLicense: {
         type: String,
         required: function () { return this.userType === 'Driver' }

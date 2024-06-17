@@ -9,6 +9,7 @@ function EditProfile() {
         email: '',
         userType: 'Normal',
         password: '',
+        phoneNumber: '',
         drivingLicense: '',
         nationalId: ''
     })
@@ -36,6 +37,7 @@ function EditProfile() {
             formData.append('name', userData.name)
             formData.append('userType', userData.userType)
             if (userData.userType === 'Driver') {
+                formData.append('phoneNumber', userData.phoneNumber)
                 formData.append('drivingLicense', userData.drivingLicense);
                 formData.append('nationalId', userData.nationalId);
             }
@@ -97,6 +99,10 @@ function EditProfile() {
                     </div>
                     {userData.userType === 'Driver' && (
                         <>
+                            <div className="mb-5">
+                                <label htmlFor="phoneNumber" className="block mb-2 text-sm font-medium text-slate-300">Edit Contact Number:</label>
+                                <input onChange={onChange} value={userData.phoneNumber} type="number" name="phoneNumber" placeholder="Contact Number" className="bg-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                            </div>
                             <div className="mb-5">
                                 <label htmlFor="drivingLicense" className="block mb-2 text-sm font-medium text-slate-300">Edit Driving License</label>
                                 <input onChange={onChange} value={userData.drivingLicense} type="number" id="license" name="drivingLicense" className="bg-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Driving License" required />

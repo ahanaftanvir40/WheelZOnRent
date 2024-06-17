@@ -10,7 +10,7 @@ import { Vehicle } from '../models/vehicle.models.js'
 const router = express.Router()
 
 router.post('/createuser', upload.fields([{ name: 'avatar' }, { name: 'licenseFile' }]), async (req, res) => {
-    let { name, email, password, drivingLicense, nationalId, userType } = req.body
+    let { name, email, password, drivingLicense, nationalId, userType, phoneNumber } = req.body
     const avatar = req.files['avatar'] ? req.files['avatar'][0].filename : 'default.jpg'
     const licenseFile = req.files['licenseFile'] ? req.files['licenseFile'][0].filename : null;
     try {
@@ -27,6 +27,7 @@ router.post('/createuser', upload.fields([{ name: 'avatar' }, { name: 'licenseFi
                     name,
                     email,
                     password: hash,
+                    phoneNumber,
                     licenseFile,
                     drivingLicense,
                     nationalId
@@ -75,7 +76,7 @@ router.get('/profile', auth, async (req, res) => {
 })
 
 router.post('/updateuser', auth, upload.fields([{ name: 'avatar' }, { name: 'licenseFile' }]), async (req, res) => {
-    let { name, drivingLicense, nationalId, userType } = req.body
+    let { name, drivingLicense, nationalId, userType, phoneNumber } = req.body
     const avatar = req.files['avatar'] ? req.files['avatar'][0].filename : 'default.jpg'
     const licenseFile = req.files['licenseFile'] ? req.files['licenseFile'][0].filename : ''
 
@@ -85,6 +86,7 @@ router.post('/updateuser', auth, upload.fields([{ name: 'avatar' }, { name: 'lic
         avatar,
         userType,
         name,
+        phoneNumber,
         licenseFile,
         drivingLicense,
         nationalId
