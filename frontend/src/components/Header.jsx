@@ -1,15 +1,20 @@
 import logo from '../assets/logo.png'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../store/auth'
 
 function Header() {
+    const { user } = useAuth()
 
     let navigate = useNavigate()
 
+
+
     const handleLogout = () => {
         localStorage.removeItem('authToken')
-        localStorage.removeItem('isAdmin')
+
         navigate('/login')
+        window.location.reload();
     }
     return (
         <div>
@@ -50,9 +55,13 @@ function Header() {
                                 <button onClick={handleLogout} className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Logout</button>
                             </>
                         )}
-                        {localStorage.getItem('isAdmin') === 'true' && (
+                        {user.isAdmin ? (
+
                             <Link to="/admin" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Admin Dashboard</Link>
-                        )}
+
+                        ) : ''}
+
+
                     </div>
                 </div>
             </nav>

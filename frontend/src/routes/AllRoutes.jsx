@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom"
 import { AddVehicles, AdminDashboard, AllVehicles, EditProfile, Home, Login, SignUp, UserProfile, Vehicle } from "../pages"
-import PrivateRoutes from "../../utils/PrivateRoutes"
-import AdminRoutes from "../../utils/AdminRoutes"
+import PrivateRoutes from "../utils/PrivateRoutes"
+
 
 
 
@@ -19,9 +19,9 @@ function AllRoutes() {
                     <Route path="/vehicles/:vehicleId" element={<Vehicle />}></Route>
                     <Route path="/vehicles" element={<AllVehicles />}></Route>
                 </Route>
-                <Route element={<AdminRoutes />}>
-                    <Route path="/admin" element={<AdminDashboard />}></Route>
-                </Route>
+
+                <Route path="/admin" element={<AdminDashboard />}></Route>
+
 
 
 

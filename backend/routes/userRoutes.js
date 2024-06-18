@@ -5,6 +5,8 @@ import jwt from 'jsonwebtoken'
 import { upload } from '../config/multer-config.js'
 import { auth } from '../middlewares/auth.js'
 import { Vehicle } from '../models/vehicle.models.js'
+import { AdminAuth } from '../middlewares/admin-auth.js'
+
 
 
 const router = express.Router()
@@ -53,8 +55,8 @@ router.post('/loginuser', async (req, res) => {
         if (userData) {
             bcrypt.compare(password, userData.password, function (err, result) {
                 if (result) {
-                    let authToken = jwt.sign({ id: userData.id, email: userData.email }, process.env.JWT_SECRET)
-                    res.json({ success: true, authToken: authToken, isAdmin: userData.isAdmin })
+                    let authToken = jwt.sign({ id: userData.id, email: userData.email, isAdmin: userData.isAdmin }, process.env.JWT_SECRET)
+                    res.json({ success: true, authToken: authToken })
 
                 } else {
                     res.json({ success: false })
@@ -101,6 +103,9 @@ router.delete('/deleteuser', auth, async (req, res) => {
     return res.json({ success: true, message: 'User deleted successfully' })
 })
 
-
+router.get('/user', auth, async (req,res)=> {
+    let user = await User.findOne({ email: req.user.email })
+    res.json(user)
+})
 
 export default router
