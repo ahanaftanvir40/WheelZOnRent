@@ -3,7 +3,7 @@ import axios from "axios";
 import { useAuth } from "../store/auth";
 
 function AdminDashboard() {
-    const { user, loading } = useAuth();
+    const { user, isLoading } = useAuth();
     const [users, setUsers] = useState([]);
     const [error, setError] = useState(null);
 
@@ -37,7 +37,7 @@ function AdminDashboard() {
         }
     }, [user]);
 
-    if (loading) {
+    if (isLoading) {
         return <h1>...Loading</h1>;
     }
 
