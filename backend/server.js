@@ -5,6 +5,7 @@ import './config/mongoose-connection.js'
 import userRoutes from './routes/userRoutes.js'
 import vehicleRoutes from './routes/vehicleRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
+import bookingRoutes from './routes/bookingRoutes.js'
 import dotenv from 'dotenv'
 import path from 'path'
 
@@ -26,7 +27,6 @@ app.use(cors())
 
 app.use('/api', userRoutes)
 app.use('/api', vehicleRoutes)
-app.use('/api/admin', adminRoutes)
 
 const port = process.env.PORT || 3000
 
