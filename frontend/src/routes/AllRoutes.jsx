@@ -1,5 +1,8 @@
 import { Route, Routes } from "react-router-dom"
 import { AddVehicles, AdminDashboard, AllVehicles, EditProfile, Home, Login, SignUp, UserProfile, Vehicle } from "../pages"
+import PrivateRoutes from "../../utils/PrivateRoutes"
+import AdminRoutes from "../../utils/AdminRoutes"
+
 
 
 function AllRoutes() {
@@ -9,12 +12,24 @@ function AllRoutes() {
                 <Route path="/" element={<Home />}></Route>
                 <Route path="/signup" element={<SignUp />}></Route>
                 <Route path="/login" element={<Login />}></Route>
-                <Route path="/admin" element={<AdminDashboard />}></Route>
-                <Route path="/profile" element={<UserProfile />}></Route>
-                <Route path="/editprofile" element={<EditProfile />}></Route>
-                <Route path="/addvehicles" element={<AddVehicles />}></Route>
-                <Route path="/vehicles/:vehicleId" element={<Vehicle />}></Route>
-                <Route path="/vehicles" element={<AllVehicles />}></Route>
+                <Route element={<PrivateRoutes />}>
+                    <Route path="/profile" element={<UserProfile />}></Route>
+                    <Route path="/editprofile" element={<EditProfile />}></Route>
+                    <Route path="/addvehicles" element={<AddVehicles />}></Route>
+                    <Route path="/vehicles/:vehicleId" element={<Vehicle />}></Route>
+                    <Route path="/vehicles" element={<AllVehicles />}></Route>
+                </Route>
+                <Route element={<AdminRoutes />}>
+                    <Route path="/admin" element={<AdminDashboard />}></Route>
+                </Route>
+
+
+
+
+
+
+
+
             </Routes>
 
 
