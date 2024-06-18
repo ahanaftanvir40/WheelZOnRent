@@ -1,17 +1,11 @@
-import { useEffect, useState } from "react"
-import axios from "axios"
-import { useAuth } from "../store/auth"
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useAuth } from "../store/auth";
 
 function AdminDashboard() {
-    const { user, isLoading } = useAuth()
-    if (isLoading) {
-        return <h1>....Loading</h1>
-    }
-    
-    const [users, setUsers] = useState([])
-
-    //console.log('from admindash: ', user.isAdmin);
-
+    const { user, loading } = useAuth();
+    const [users, setUsers] = useState([]);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -20,16 +14,36 @@ function AdminDashboard() {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('authToken')}`
                     }
-                })
-                console.log('from response admin: ', response.data);
-                setUsers(response.data)
+                });
+                setUsers(response.data);
             } catch (error) {
+                if (error.response) {
+                    if (error.response.status === 403) {
+                        setError('You are not authorized to visit this section');
+                    } else {
+                        setError('An error occurred while fetching users');
+                    }
+                } else {
+                    setError('An error occurred while fetching users');
+                }
                 console.log(error);
             }
+        };
 
+        if (user && user.isAdmin) {
+            fetchUsers();
+        } else {
+            setError('You are not authorized to visit this section');
         }
-        fetchUsers()
-    }, [])
+    }, [user]);
+
+    if (loading) {
+        return <h1>...Loading</h1>;
+    }
+
+    if (error) {
+        return <h1>{error}</h1>;
+    }
 
     return (
         <div>
@@ -40,7 +54,7 @@ function AdminDashboard() {
                 </div>
             ))}
         </div>
-    )
+    );
 }
 
-export default AdminDashboard
+export default AdminDashboard;
