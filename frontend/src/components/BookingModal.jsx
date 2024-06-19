@@ -1,50 +1,43 @@
 // import React from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-
-const BookingModal = () => {
+// import axios from 'axios';
+const BookingModal = ({ vehicle }) => {
     const { register, handleSubmit, errors } = useForm();
-
+    const [total, setTotal] = useState(0);
+    const dailyRate = 100;
     const onSubmit = data => {
-        fetch('/bookings', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Success:', data);
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+        console.log(data);
+        console.log(vehicle);
+        const startDate = new Date(data.startDate);
+        const endDate = new Date(data.endDate);
+        const diffTime = Math.abs(endDate - startDate);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        setTotal(diffDays * dailyRate);
+        // axios.post('/bookings', data)
+        //     .then(response => {
+        //         console.log('Success:', response.data);
+        //     })
+        //     .catch((error) => {
+        //         console.error('Error:', error);
+        //     });
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            <input name="vehicleId" ref={register({ required: true })} placeholder="Vehicle ID" />
-            {errors.vehicleId && <p>This field is required</p>}
-
-            <input name="driverId" ref={register} placeholder="Driver ID" />
-
-            <input name="ownerId" ref={register({ required: true })} placeholder="Owner ID" />
-            {errors.ownerId && <p>This field is required</p>}
-
-            <input name="userId" ref={register({ required: true })} placeholder="User ID" />
-            {errors.userId && <p>This field is required</p>}
-
-            <input name="bookingStart" type="datetime-local" ref={register({ required: true })} />
-            {errors.bookingStart && <p>This field is required</p>}
-
-            <input name="bookingEnd" type="datetime-local" ref={register({ required: true })} />
-            {errors.bookingEnd && <p>This field is required</p>}
-
-            <input name="totalAmount" ref={register({ required: true })} placeholder="Total Amount" />
-            {errors.totalAmount && <p>This field is required</p>}
-
-            <input type="submit" />
-        </form>
+        <div>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <label>
+                    Start Date:
+                    <input name="startDate" type="date" ref={register({ required: true })} />
+                </label>
+                <label>
+                    End Date:
+                    <input name="endDate" type="date" ref={register({ required: true })} />
+                </label>
+                <input type="submit" />
+                {total > 0 && <p>Total Amount: {total}</p>}
+            </form>
+        </div>
     );
 };
 

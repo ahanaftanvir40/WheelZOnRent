@@ -7,7 +7,7 @@ import 'swiper/css/navigation';
 import { Navigation, Pagination } from 'swiper/modules';
 import gt86 from '../assets/gt86.jpg' //dummy
 
-
+import { useForm } from 'react-hook-form';
 
 function Vehicle() {
     const { vehicleId } = useParams()
@@ -30,9 +30,53 @@ function Vehicle() {
         }
         fetchVehicle()
     }, [vehicleId])
+
+    //FORM
+    const { register, handleSubmit, formState: { errors } } = useForm();
+    const [total, setTotal] = useState(0);
+    const [isOpen, setIsOpen] = useState(false);
+    const today = new Date().toISOString().split('T')[0];
+    const [startDate, setStartDate] = useState(today);
+    const nextDay = new Date(startDate);
+    nextDay.setDate(nextDay.getDate() + 1);
+    const validateStartDate = (value) => {
+        if (new Date(value) < new Date(today)) {
+            return "Start date cannot be in the past";
+        }
+        return true;
+    };
+
+    const validateEndDate = (value) => {
+        if (new Date(value) <= new Date(startDate)) {
+            return "End date must be at least one day after the start date";
+        }
+        return true;
+    };
+    const onSubmit = data => {
+        console.log(data);
+        console.log(vehicle);
+        const startDate = new Date(data.startDate);
+        const endDate = new Date(data.endDate);
+        const dailyRate = vehicle.pricePerDay;
+        const diffTime = Math.abs(endDate - startDate);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        setTotal(diffDays * dailyRate);
+        const newBooking = { vehicleId: vehicle._id, ownerId: vehicle.ownerId, bookingStart: startDate, bookingEnd: endDate, totalAmount: total }
+        axios.post('http://localhost:3000/api/bookings', newBooking, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('authToken')}`
+            }
+        })
+            .then(response => {
+                console.log('Success:', response.data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    };
     return (
         <div className="mx-auto max-w-3xl">
-            {/* <Swiper
+            <Swiper
                 modules={[Navigation, Pagination]}
                 spaceBetween={50}
                 slidesPerView={1}
@@ -48,37 +92,7 @@ function Vehicle() {
                 <SwiperSlide>
                     <img src="/docs/images/carousel/carousel-3.svg" alt="Vehicle 3" className="w-full h-full object-cover rounded-sm" />
                 </SwiperSlide>
-            </Swiper> */}
-            <div className="carousel w-full">
-                <div id="slide1" className="carousel-item relative w-full">
-                    <img src="https://img.daisyui.com/images/stock/photo-1625726411847-8cbb60cc71e6.jpg" className="w-full" />
-                    <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                        <a href="#slide4" className="btn btn-circle">❮</a>
-                        <a href="#slide2" className="btn btn-circle">❯</a>
-                    </div>
-                </div>
-                <div id="slide2" className="carousel-item relative w-full">
-                    <img src="https://img.daisyui.com/images/stock/photo-1609621838510-5ad474b7d25d.jpg" className="w-full" />
-                    <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                        <a href="#slide1" className="btn btn-circle">❮</a>
-                        <a href="#slide3" className="btn btn-circle">❯</a>
-                    </div>
-                </div>
-                <div id="slide3" className="carousel-item relative w-full">
-                    <img src="https://img.daisyui.com/images/stock/photo-1414694762283-acccc27bca85.jpg" className="w-full" />
-                    <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                        <a href="#slide2" className="btn btn-circle">❮</a>
-                        <a href="#slide4" className="btn btn-circle">❯</a>
-                    </div>
-                </div>
-                <div id="slide4" className="carousel-item relative w-full">
-                    <img src="https://img.daisyui.com/images/stock/photo-1665553365602-b2fb8e5d1707.jpg" className="w-full" />
-                    <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                        <a href="#slide3" className="btn btn-circle">❮</a>
-                        <a href="#slide1" className="btn btn-circle">❯</a>
-                    </div>
-                </div>
-            </div>
+            </Swiper>
 
             <div className="flex justify-between">
                 <div>
@@ -100,12 +114,32 @@ function Vehicle() {
                 </div>
 
                 <div className="">
-                    <button
-                        type="button"
-                        className="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-lg px-5 py-2 text-center mb-2"
-                    >
-                        Rent Now!
-                    </button>
+                    <button onClick={() => setIsOpen(true)} className="btn btn-primary">Book Now</button>
+                    {
+                        isOpen && <dialog id="my_modal_4" className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 ">
+                            <div className="modal-box bg-white p-20  rounded-lg shadow-xl ">
+                                <h3 className="font-bold text-center text-lg mb-4">BOOKING INFO</h3>
+                                <div className="modal-action">
+                                    <form onSubmit={handleSubmit(onSubmit)} method="dialog" className="space-y-6 px-20">
+                                        <label className="block">
+                                            <span className="text-gray-700">Start Date:</span>
+                                            <input {...register("startDate", { required: "Start date is required", validate: validateStartDate })} type="date" min={today} className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                            {errors.startDate && <p className="text-red-500">{errors.startDate.message}</p>}
+                                        </label>
+                                        <label className="block">
+                                            <span className="text-gray-700">End Date:</span>
+                                            <input {...register("endDate", { required: "End date is required", validate: validateEndDate })} type="date" min={nextDay.toISOString().split('T')[0]} className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                                            {errors.endDate && <p className="text-red-500">{errors.endDate.message}</p>}
+                                        </label>
+
+                                        <input type="submit" className="py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" />
+                                        <button type="button" onClick={() => setIsOpen(false)} className="btn">Close</button>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </dialog>
+                    }
                 </div>
             </div>
 

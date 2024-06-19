@@ -103,9 +103,19 @@ router.delete('/deleteuser', auth, async (req, res) => {
     return res.json({ success: true, message: 'User deleted successfully' })
 })
 
-router.get('/user', auth, async (req,res)=> {
+router.get('/user', auth, async (req, res) => {
     let user = await User.findOne({ email: req.user.email })
     res.json(user)
 })
+
+router.get('/drivers', async (req, res) => {
+    try {
+        const drivers = await User.find({ userType: 'driver', isAvailable: true });
+        res.json({ success: true, drivers });
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false });
+    }
+});
 
 export default router
