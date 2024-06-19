@@ -142,21 +142,26 @@ function Vehicle() {
                     }
                 </div>
             </div>
+            <div className="flex w-full sm:mt-20 mt-12 font-medium">
+                <div className="grid h-44 flex-grow card bg-gradient-to-r from-purple-500 to-pink-500  rounded-box place-items-center p-1">
+                    <span className="text-md tracking-tighter text-slate-200 w-fit ">Owner Name : {vehicle.ownerId && vehicle.ownerId.name}</span>
+                    <span>Type: {vehicle.type}</span>
+                    <span>Year: {vehicle.year}</span>
+                    <span>Location: {vehicle.location}</span>
+                    <span>Category: {vehicle.category}</span>
 
-
-            <div className="grid grid-cols-2 gap-2 text-xl text-slate-300 mt-5">
-                <span className="bg-gradient-to-br from-purple-600 to-blue-500  p-1 text-md tracking-tighter text-slate-200 w-fit rounded-md">Owner Name : {vehicle.ownerId && vehicle.ownerId.name}</span>
-                <span>Type: {vehicle.type}</span>
-                <span>Year: {vehicle.year}</span>
-                <span className="p-2 bg-gradient-to-br from-purple-600 to-blue-500 rounded-md w-fit font-medium text-slate-200">Price per Day: {vehicle.pricePerDay} Tk</span>
-                <span>Location: {vehicle.location}</span>
-                <span>Category: {vehicle.category}</span>
-                <span>Condition: {vehicle.condition}</span>
-                <span>Number Plate: {vehicle.no_plate}</span>
-                <span>Chassis Number: {vehicle.chassis_no}</span>
-                <span>Registration Number: {vehicle.registration_no}</span>
-
+                </div>
+                <div className="divider divider-horizontal"></div>
+                <div className="grid h-44 flex-grow card bg-gradient-to-br from-pink-500 to-orange-400  rounded-box place-items-center p-1">
+                    <span className="w-fit font-medium text-slate-200">Price per Day: {vehicle.pricePerDay} Tk</span>
+                    <span>Condition: {vehicle.condition}</span>
+                    <span>Number Plate: {vehicle.no_plate}</span>
+                    <span>Chassis Number: {vehicle.chassis_no}</span>
+                    <span>Registration Number: {vehicle.registration_no}</span>
+                </div>
             </div>
+
+
 
 
         </div>

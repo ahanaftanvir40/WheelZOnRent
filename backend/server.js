@@ -27,6 +27,7 @@ app.use(cors())
 
 app.use('/api', userRoutes)
 app.use('/api', vehicleRoutes)
+app.use('/api/admin', adminRoutes)
 app.use('/api', bookingRoutes)
 
 const port = process.env.PORT || 3000
