@@ -110,7 +110,7 @@ router.get('/user', auth, async (req, res) => {
 
 router.get('/drivers', async (req, res) => {
     try {
-        const drivers = await User.find({ userType: 'driver', isAvailable: true });
+        const drivers = await User.find({ userType: 'Driver', isAvailable: true });
         res.json({ success: true, drivers });
     } catch (error) {
         console.log(error);

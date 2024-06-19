@@ -12,7 +12,9 @@ import { useForm } from 'react-hook-form';
 function Vehicle() {
     const { vehicleId } = useParams()
     const [vehicle, setVehicle] = useState({})
+    const [drivers, setDrivers] = useState({})
     console.log('vehicle id from params:', vehicleId);
+    const [booked, setBooked] = useState(false);
 
     useEffect(() => {
         const fetchVehicle = async () => {
@@ -29,9 +31,27 @@ function Vehicle() {
             }
         }
         fetchVehicle()
-    }, [vehicleId])
+    }, [vehicleId, booked])
 
-    //FORM
+    useEffect(() => {
+        const fetchDrivers = async () => {
+            try {
+                const response = await axios.get('http://localhost:3000/api/drivers', {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('authToken')}`
+                    }
+                });
+                setDrivers(response.data.drivers);
+                console.log(response.data.drivers);
+            } catch (error) {
+                console.log('Driver fetch failed:', error);
+            }
+        };
+        fetchDrivers();
+    }, []);
+    console.log('Drivers:', drivers);
+    //BOOKING 
+
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [total, setTotal] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
@@ -60,8 +80,9 @@ function Vehicle() {
         const dailyRate = vehicle.pricePerDay;
         const diffTime = Math.abs(endDate - startDate);
         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        const driverId = data.driverId;
         setTotal(diffDays * dailyRate);
-        const newBooking = { vehicleId: vehicle._id, ownerId: vehicle.ownerId, bookingStart: startDate, bookingEnd: endDate, totalAmount: total }
+        const newBooking = { vehicleId: vehicle._id, ownerId: vehicle.ownerId, driverId, bookingStart: startDate, bookingEnd: endDate, totalAmount: total }
         axios.post('http://localhost:3000/api/bookings', newBooking, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('authToken')}`
@@ -69,6 +90,7 @@ function Vehicle() {
         })
             .then(response => {
                 console.log('Success:', response.data);
+                setBooked(true);
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -114,9 +136,11 @@ function Vehicle() {
                 </div>
 
                 <div className="">
-                    <button onClick={() => setIsOpen(true)} className="btn btn-primary">Book Now</button>
                     {
-                        isOpen && <dialog id="my_modal_4" className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 ">
+                        !booked ? <button onClick={() => setIsOpen(true)} className="btn">Book Now</button> : <button className="btn" disabled>Already Booked</button>
+                    }
+                    {
+                        isOpen && !booked && <dialog id="my_modal_4" className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 ">
                             <div className="modal-box bg-white p-20  rounded-lg shadow-xl ">
                                 <h3 className="font-bold text-center text-lg mb-4">BOOKING INFO</h3>
                                 <div className="modal-action">
@@ -131,7 +155,16 @@ function Vehicle() {
                                             <input {...register("endDate", { required: "End date is required", validate: validateEndDate })} type="date" min={nextDay.toISOString().split('T')[0]} className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
                                             {errors.endDate && <p className="text-red-500">{errors.endDate.message}</p>}
                                         </label>
-
+                                        <label className="block">
+                                            <span className="text-gray-700">Driver:</span>
+                                            <select {...register("driverId", { required: "Driver selection is required" })} defaultValue={drivers[0]._id} className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                                                {drivers.map(driver => (
+                                                    <option key={driver._id} value={driver._id}>
+                                                        {driver.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </label>
                                         <input type="submit" className="py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" />
                                         <button type="button" onClick={() => setIsOpen(false)} className="btn">Close</button>
                                     </form>
