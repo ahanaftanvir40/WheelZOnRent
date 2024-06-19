@@ -175,17 +175,16 @@ function Vehicle() {
                     }
                 </div>
             </div>
-            <div className="flex w-full sm:mt-20 mt-12 font-medium">
-                <div className="grid h-44 flex-grow card bg-gradient-to-r from-purple-500 to-pink-500  rounded-box place-items-center p-1">
-                    <span className="text-md tracking-tighter text-slate-200 w-fit ">Owner Name : {vehicle.ownerId && vehicle.ownerId.name}</span>
+            <div className="flex flex-col md:flex-row w-full mt-12 sm:mt-20 font-medium">
+                <div className="grid h-auto md:h-44 flex-grow card bg-gradient-to-r from-purple-500 to-pink-500 rounded-box place-items-center p-4 sm:p-1">
+                    <span className="text-md tracking-tighter text-slate-200 w-fit">Owner Name: {vehicle.ownerId && vehicle.ownerId.name}</span>
                     <span>Type: {vehicle.type}</span>
                     <span>Year: {vehicle.year}</span>
                     <span>Location: {vehicle.location}</span>
                     <span>Category: {vehicle.category}</span>
-
                 </div>
-                <div className="divider divider-horizontal"></div>
-                <div className="grid h-44 flex-grow card bg-gradient-to-br from-pink-500 to-orange-400  rounded-box place-items-center p-1">
+                <div className="divider md:divider-horizontal"></div>
+                <div className="grid h-auto md:h-44 flex-grow card bg-gradient-to-br from-pink-500 to-orange-400 rounded-box place-items-center p-4 sm:p-1">
                     <span className="w-fit font-medium text-slate-200">Price per Day: {vehicle.pricePerDay} Tk</span>
                     <span>Condition: {vehicle.condition}</span>
                     <span>Number Plate: {vehicle.no_plate}</span>
@@ -193,6 +192,7 @@ function Vehicle() {
                     <span>Registration Number: {vehicle.registration_no}</span>
                 </div>
             </div>
+
 
 
 
