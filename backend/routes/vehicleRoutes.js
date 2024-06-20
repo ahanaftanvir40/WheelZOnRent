@@ -61,8 +61,36 @@ router.get('/vehicles/:vehicleId', auth, async (req, res) => {
 })
 
 router.get('/allvehicles', async (req, res) => {
-    let vehicleData = await Vehicle.find()
-    res.json(vehicleData)
+
+    const { search } = req.query || ''
+    const searchTerms = search.split(' ').map((term) => new RegExp(term, 'i'))
+
+    //console.log(searchTerms);
+
+    try {
+
+
+        let vehicleData = await Vehicle.find({
+            $and: searchTerms.map(term => ({
+                $or: [
+                    { brand: term },
+                    { model: term },
+                    { category: term },
+                    { location: term }
+
+                ]
+            }))
+
+        })
+        return res.json(vehicleData)
+
+    } catch (error) {
+        console.log(error);
+    }
+
+
+
+
 })
 
 export default router
