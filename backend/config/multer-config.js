@@ -10,8 +10,9 @@ const storage = multer.diskStorage({
             uploadPath = './public/images/user-avatars'
         } else if (file.fieldname === 'licenseFile') {
             uploadPath = './public/images/license-images'
+        } else if (file.fieldname === 'vehicleImages') {
+            uploadPath = './public/images/vehicle-images'
         }
-
 
         cb(null, uploadPath)
     },
@@ -25,3 +26,4 @@ const storage = multer.diskStorage({
 })
 
 export const upload = multer({ storage: storage })
+
