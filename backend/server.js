@@ -22,8 +22,6 @@ const __dirname = path.resolve()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/public', express.static(path.join(__dirname, 'public')))
 app.use(cookieParser())
 app.use(cors())
