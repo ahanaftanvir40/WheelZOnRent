@@ -40,12 +40,12 @@ function SignUp() {
             formData.append('email', userData.email)
             formData.append('password', userData.password)
             formData.append('userType', userData.userType)
-
+            formData.append('phoneNumber', userData.phoneNumber)
 
             if (userData.userType === 'Driver') {
                 formData.append('drivingLicense', userData.drivingLicense);
                 formData.append('nationalId', userData.nationalId);
-                formData.append('phoneNumber', userData.phoneNumber)
+
                 if (licenseFile) {
                     formData.append('licenseFile', licenseFile);
                 }
@@ -105,6 +105,10 @@ function SignUp() {
                         <input onChange={onChange} value={userData.password} type="password" name="password" id="password" placeholder="password" className="bg-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                     </div>
                     <div className="mb-5">
+                        <label htmlFor="phoneNumber" className="block mb-2 text-sm font-medium text-slate-300">Your Contact Number:</label>
+                        <input onChange={onChange} value={userData.phoneNumber} type="number" name="phoneNumber" placeholder="Contact Number" className="bg-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+                    </div>
+                    <div className="mb-5">
                         <label htmlFor="userType" className="block mb-2 text-sm font-medium text-slate-300">Select User Type:</label>
                         <select name="userType" value={userData.userType} onChange={onChange}>
                             <option value='Normal'>Normal</option>
@@ -113,10 +117,7 @@ function SignUp() {
                     </div>
                     {userData.userType === 'Driver' && (
                         <>
-                            <div className="mb-5">
-                                <label htmlFor="phoneNumber" className="block mb-2 text-sm font-medium text-slate-300">Your Contact Number:</label>
-                                <input onChange={onChange} value={userData.phoneNumber} type="number" name="phoneNumber" placeholder="Contact Number" className="bg-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
-                            </div>
+
                             <div className="mb-5">
                                 <label htmlFor="drivingLicense" className="block mb-2 text-sm font-medium text-slate-300">Your Driving License</label>
                                 <input onChange={onChange} value={userData.drivingLicense} type="number" id="license" name="drivingLicense" className="bg-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Driving License" required />

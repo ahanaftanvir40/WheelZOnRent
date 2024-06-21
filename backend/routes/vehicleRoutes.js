@@ -26,7 +26,7 @@ router.post('/vehicles', auth, upload.array('vehicleImages', 5), async (req, res
 
     try {
         // console.log(req.files);
-        const images = req.files.map(file => file.path);
+        const images = req.files.map(file => file.filename);
 
         const vehicle = await Vehicle.create({
             ownerId: req.user.id,
@@ -65,35 +65,35 @@ router.get('/vehicles/:vehicleId', auth, async (req, res) => {
     res.json(vehicleData)
 })
 
-// router.get('/allvehicles', async (req, res) => {
+router.get('/allvehicles', async (req, res) => {
 
-//     const { search } = req.query || ''
-//     const searchTerms = search.split(' ').map((term) => new RegExp(term, 'i'))
+    const { search } = req.query || ''
+    const searchTerms = search.split(' ').map((term) => new RegExp(term, 'i'))
 
-//     //console.log(searchTerms);
+    //console.log(searchTerms);
 
-//     try {
+    try {
 
 
-//         let vehicleData = await Vehicle.find({
-//             $and: searchTerms.map(term => ({
-//                 $or: [
-//                     { brand: term },
-//                     { model: term },
-//                     { category: term },
-//                     { location: term }
+        let vehicleData = await Vehicle.find({
+            $and: searchTerms.map(term => ({
+                $or: [
+                    { brand: term },
+                    { model: term },
+                    { category: term },
+                    { location: term }
 
-//                 ]
-//             }))
+                ]
+            }))
 
-//         })
-//         return res.json(vehicleData)
+        })
+        return res.json(vehicleData)
 
-//     } catch (error) {
-//         console.log(error);
-//     }
+    } catch (error) {
+        console.log(error);
+    }
 
-// })
+})
 
 
 

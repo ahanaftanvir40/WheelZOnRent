@@ -7,8 +7,15 @@ function VehicleCard({ vehicle }) {
         <div>
             <div className="max-w-sm bg-slate-200  rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <Link to={`/vehicles/${vehicle._id}`}>
-                    <img className="rounded-t-lg" src={gt86} alt="" />
+
+                    {vehicle.images && vehicle.images.length > 0 ? (
+                        <img className="rounded-t-lg" src={`http://localhost:3000/public/images/vehicle-images/${vehicle.images[0][0]}`} alt="" />
+                    ) : (
+                        <img className="rounded-t-lg" src={gt86} alt="" />
+                    )}
+
                 </Link>
+                
                 <div className="p-5">
                     <Link to={`/vehicles/${vehicle._id}`}>
                         <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
