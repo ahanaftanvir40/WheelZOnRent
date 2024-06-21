@@ -1,5 +1,6 @@
 import express from 'express'
 import cookieParser from 'cookie-parser'
+// import bodyParser from 'body-parser';
 import cors from 'cors'
 import './config/mongoose-connection.js'
 import userRoutes from './routes/userRoutes.js'
@@ -21,6 +22,8 @@ const __dirname = path.resolve()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+// app.use(bodyParser.json());
+// app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/public', express.static(path.join(__dirname, 'public')))
 app.use(cookieParser())
 app.use(cors())

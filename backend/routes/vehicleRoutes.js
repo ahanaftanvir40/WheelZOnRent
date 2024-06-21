@@ -5,8 +5,8 @@ import { User } from '../models/user.models.js';
 
 const router = express.Router()
 
-router.post('/vehicles', auth, async (req, res) => {
 
+router.post('/vehicles', auth, upload.array('vehicleImages', 10), async (req, res) => {
     const {
         description,
         type,
@@ -16,7 +16,6 @@ router.post('/vehicles', auth, async (req, res) => {
         pricePerDay,
         location,
         availability,
-        images,
         category,
         condition,
         no_plate,
@@ -25,6 +24,10 @@ router.post('/vehicles', auth, async (req, res) => {
     } = req.body;
 
     try {
+        // Get the paths of uploaded images
+        const images = req.files.map(file => file.path);
+
+        // Create a new vehicle
         const vehicle = await Vehicle.create({
             ownerId: req.user.id,
             description,
@@ -41,18 +44,21 @@ router.post('/vehicles', auth, async (req, res) => {
             no_plate,
             chassis_no,
             registration_no,
-        })
-        await vehicle.save()
-        const user = await User.findOne({ email: req.user.email })
-        user.added_vehicle_id.push(vehicle._id)
-        await user.save()
-        res.json({ success: true, vehicleId: vehicle.id }) //note :._id changed
+        });
+
+        await vehicle.save();
+
+        // Add the vehicle ID to the user's added_vehicle_id array
+        const user = await User.findOne({ email: req.user.email });
+        user.added_vehicle_id.push(vehicle._id);
+        await user.save();
+
+        res.json({ success: true, vehicleId: vehicle.id });
     } catch (error) {
         console.log(error);
-        res.json({ success: false })
+        res.json({ success: false, message: error.message });
     }
-
-})
+});
 
 router.get('/vehicles/:vehicleId', auth, async (req, res) => {
     let vehicleData = await Vehicle.findOne({ _id: req.params.vehicleId }).populate('ownerId')

@@ -9,4 +9,6 @@ router.get('/allusers', auth, AdminAuth, async (req, res) => {
     res.json(allUser)
 })
 
+
+
 export default router
