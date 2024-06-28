@@ -3,21 +3,21 @@ import mongoose from "mongoose";
 const bookingSchema = new mongoose.Schema({
     vehicleId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Vehicle',
+        ref: 'vehicle',
         required: true
     },
     driverId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'user',
     },
     ownerId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'user',
         required: true
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'user',
         required: true
     },
     bookingStart: {

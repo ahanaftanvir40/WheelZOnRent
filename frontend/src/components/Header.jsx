@@ -48,7 +48,7 @@ function Header() {
                             <Link to="#" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Services</Link>
                         </li>
                         <li>
-                            <Link to="#" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Pricing</Link>
+                            <Link to="/userdashboard" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Dashboard</Link>
                         </li>
                     </ul>
 

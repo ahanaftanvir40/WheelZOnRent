@@ -45,4 +45,30 @@ router.post('/bookings', auth, async (req, res) => {
     }
 });
 
+router.get('/bookings/pending', auth, async (req, res) => {
+    try {
+        const bookings = await Booking.find({ ownerId: req.user.id, status: 'pending', status: 'approved' }).populate('vehicleId userId')
+        console.log(bookings);
+        res.json(bookings)
+    } catch (error) {
+        res.status(500).send(error.message)
+    }
+})
+
+router.post('/bookings/:id/approve', async (req, res) => {
+    try {
+        const bookingId = req.params.id;
+        const booking = await Booking.findById(bookingId);
+        if (!booking) {
+            return res.status(404).send('Booking not found');
+        }
+
+        booking.status = 'approved';
+        await booking.save();
+        res.status(200).send('Booking approved');
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
 export default router;
