@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -15,6 +15,7 @@ function Vehicle() {
     const [drivers, setDrivers] = useState({})
     console.log('vehicle id from params:', vehicleId);
     const [booked, setBooked] = useState(false);
+    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchVehicle = async () => {
@@ -91,6 +92,7 @@ function Vehicle() {
             .then(response => {
                 console.log('Success:', response.data);
                 setBooked(true);
+                navigate('/checkout', { state: { amount: totalAmount } });
             })
             .catch((error) => {
                 console.error('Error:', error);

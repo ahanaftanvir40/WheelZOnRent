@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom"
-import { AddVehicles, AdminDashboard, AllVehicles, CheckOut, EditProfile, Home, Login, SignUp, UserProfile, Vehicle } from "../pages"
+import { AddVehicles, AdminDashboard, AllVehicles, CheckOut, CheckoutCancel, CheckoutSuccess, EditProfile, Home, Login, SignUp, UserProfile, Vehicle } from "../pages"
 import PrivateRoutes from "../utils/PrivateRoutes"
 
 
@@ -18,7 +18,9 @@ function AllRoutes() {
                     <Route path="/addvehicles" element={<AddVehicles />}></Route>
                     <Route path="/vehicles/:vehicleId" element={<Vehicle />}></Route>
                     <Route path="/vehicles" element={<AllVehicles />}></Route>
-                    <Route path="/checkout" element={<CheckOut/>}></Route>
+                    <Route path="/checkout" element={<CheckOut />}></Route>
+                    <Route path="/success" element={<CheckoutSuccess />}></Route>
+                    <Route path="/cancel" element={<CheckoutCancel />}></Route>
                 </Route>
 
                 <Route path="/admin" element={<AdminDashboard />}></Route>
