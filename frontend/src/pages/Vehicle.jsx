@@ -109,15 +109,24 @@ function Vehicle() {
                 navigation
                 pagination={{ clickable: true }}
             >
-                <SwiperSlide>
-                    <img src={gt86} alt="Vehicle 1" className="w-full h-full object-cover rounded-sm" />
-                </SwiperSlide>
-                <SwiperSlide>
+
+                {/* <SwiperSlide>
                     <img src={gt86} alt="Vehicle 2" className="w-full h-full object-cover rounded-sm" />
                 </SwiperSlide>
                 <SwiperSlide>
                     <img src="/docs/images/carousel/carousel-3.svg" alt="Vehicle 3" className="w-full h-full object-cover rounded-sm" />
                 </SwiperSlide>
+            </Swiper> */}
+
+                {vehicle.images && vehicle.images.length > 0 && vehicle.images.map((imageArray, index) => (
+                    <div key={index}>
+                        {[...imageArray].reverse().map((image) => (
+                            <SwiperSlide>
+                                <img src={`http://localhost:3000/public/images/vehicle-images/${image}`} alt="Vehicle 2" className="w-full h-full object-cover rounded-sm" />
+                            </SwiperSlide>
+                        ))}
+                    </div>
+                ))}
             </Swiper>
 
             <div className="flex justify-between">

@@ -1,10 +1,10 @@
-import { useState } from "react"
-import { useNavigate } from 'react-router-dom'
-import axios from "axios"
-import { VehicleTypes, VehicleCategories } from "../utils/enum"
+import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import axios from "axios";
+import { VehicleTypes, VehicleCategories } from "../utils/enum";
 
 function AddVehicles() {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const [vehicle, setVehicle] = useState({
         description: '',
         type: VehicleTypes.CAR,
@@ -14,43 +14,55 @@ function AddVehicles() {
         pricePerDay: '',
         location: '',
         availability: true,
-        images: '',
         category: VehicleCategories.SEDAN,
         condition: '',
         no_plate: '',
         chassis_no: '',
         registration_no: '',
-    })
+    });
+
+    const [images, setImages] = useState([]);
 
     const handleChange = (e) => {
-        setVehicle({ ...vehicle, [e.target.name]: e.target.value })
-    }
+        setVehicle({ ...vehicle, [e.target.name]: e.target.value });
+    };
+
+    const handleImageChange = (e) => {
+        setImages([...e.target.files]);
+    };
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         try {
-            const response = await axios.post(`http://localhost:3000/api/vehicles`, vehicle, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('authToken')}`
-                }
-            })
-            const json = response.data
-            if (json.success) {
-                navigate(`/vehicles/${json.vehicleId}`)
-                alert('Vehicle Added Successfully')
-
-            } else {
-                alert('Failed To add Vehicle Please Login')
-                navigate('/login')
+            const formData = new FormData();
+            for (const key in vehicle) {
+                formData.append(key, vehicle[key]);
             }
+            images.forEach(image => {
+                formData.append('vehicleImages', image);
+            });
 
+            const response = await axios.post(`http://localhost:3000/api/vehicles`, formData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+
+            const json = response.data;
+            if (json.success) {
+                navigate(`/vehicles/${json.vehicleId}`);
+                alert('Vehicle Added Successfully');
+            } else {
+                alert('Failed To add Vehicle. Please Login');
+                navigate('/login');
+            }
         } catch (error) {
             console.log(error);
-            alert('Failed To add vehicles')
-
-
+            alert('Failed To add vehicle');
         }
-    }
+    };
+
     return (
         <div className="mx-auto max-w-xl">
             <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -79,11 +91,9 @@ function AddVehicles() {
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="year">Year:</label>
                     <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="number" name="year" value={vehicle.year} onChange={handleChange} required />
                 </div>
+
                 <div className="mb-4">
-                    <label
-                        htmlFor="message"
-                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                    >
+                    <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         Description:
                     </label>
                     <textarea
@@ -94,6 +104,7 @@ function AddVehicles() {
                         placeholder="Write your thoughts here..."
                         value={vehicle.description}
                         onChange={handleChange}
+                        
                     />
                 </div>
 
@@ -113,8 +124,8 @@ function AddVehicles() {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="images">Images (comma separated URLs):</label>
-                    <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="images" value={vehicle.images} onChange={(e) => setVehicle({ ...vehicle, images: e.target.value.split(',') })} />
+                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="images">Images:</label>
+                    <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="file" name="images" multiple onChange={handleImageChange} />
                 </div>
 
                 <div className="mb-4">
@@ -155,10 +166,7 @@ function AddVehicles() {
                 </div>
             </form>
         </div>
-
-    )
+    );
 }
 
-export default AddVehicles
-
-
+export default AddVehicles;

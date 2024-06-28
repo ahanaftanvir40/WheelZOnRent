@@ -9,7 +9,7 @@ const vehicleSchema = new mongoose.Schema({
     },
     description: {
         type: String,
-        required: true
+        required: false,
     },
     type: {
         type: String,
@@ -40,7 +40,8 @@ const vehicleSchema = new mongoose.Schema({
         type: Boolean
     },
     images: [{
-        type: String,
+        type: Array,
+        required: true,
     }],
     /*ratings: [{
         userId: {

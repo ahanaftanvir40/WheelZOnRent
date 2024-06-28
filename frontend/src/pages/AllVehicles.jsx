@@ -86,7 +86,7 @@ function AllVehicles() {
                 </div>
             </form>
 
-            <div className="flex gap-6 flex-wrap w-full mt-20">
+            <div className="flex gap-8 flex-wrap w-full mt-20">
                 {vehicles.map((vehicle) => (
                     <VehicleCard key={vehicle._id} vehicle={vehicle} />
                 ))}
