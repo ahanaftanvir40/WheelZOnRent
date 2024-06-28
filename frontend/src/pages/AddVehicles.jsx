@@ -104,7 +104,7 @@ function AddVehicles() {
                         placeholder="Write your thoughts here..."
                         value={vehicle.description}
                         onChange={handleChange}
-                        
+
                     />
                 </div>
 
@@ -125,7 +125,7 @@ function AddVehicles() {
 
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="images">Images:</label>
-                    <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="file" name="images" multiple onChange={handleImageChange} />
+                    <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="file" name="image" multiple onChange={handleImageChange} />
                 </div>
 
                 <div className="mb-4">

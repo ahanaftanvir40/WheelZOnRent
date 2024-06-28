@@ -4,6 +4,7 @@ import { Elements, CardElement, useStripe, useElements } from '@stripe/react-str
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 
+
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 const CheckoutForm = ({ amount }) => {
@@ -33,7 +34,7 @@ const CheckoutForm = ({ amount }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <CardElement />
+            {/* <CardElement /> */}
             <button type="submit" disabled={!stripe || loading}>
                 {loading ? 'Processing...' : `Pay ${amount} Tk`}
             </button>

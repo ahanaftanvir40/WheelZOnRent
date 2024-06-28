@@ -39,7 +39,7 @@ router.post('/vehicles', auth, upload.array('vehicleImages', 5), async (req, res
             pricePerDay,
             location,
             availability,
-            // images,
+            images,
             category,
             condition,
             no_plate,
