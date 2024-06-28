@@ -26,7 +26,7 @@ function Vehicle() {
                     }
                 })
                 setVehicle(response.data);
-                console.log(response.data);
+                // console.log(response.data);
             } catch (error) {
                 console.log('Vehicle fetch failed:', error);
             }
@@ -43,18 +43,17 @@ function Vehicle() {
                     }
                 });
                 setDrivers(response.data.drivers);
-                console.log(response.data.drivers);
+                // console.log(response.data.drivers);
             } catch (error) {
                 console.log('Driver fetch failed:', error);
             }
         };
         fetchDrivers();
     }, []);
-    console.log('Drivers:', drivers);
+    // console.log('Drivers:', drivers);
     //BOOKING 
 
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const [total, setTotal] = useState(0);
     const [isOpen, setIsOpen] = useState(false);
     const today = new Date().toISOString().split('T')[0];
     const [startDate, setStartDate] = useState(today);
@@ -74,16 +73,21 @@ function Vehicle() {
         return true;
     };
     const onSubmit = data => {
-        console.log(data);
-        console.log(vehicle);
-        const startDate = new Date(data.startDate);
-        const endDate = new Date(data.endDate);
+        // console.log(data);
+        // console.log(vehicle);
         const dailyRate = vehicle.pricePerDay;
-        const diffTime = Math.abs(endDate - startDate);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        const startDate = new Date(data.startDate);
+        startDate.setHours(0, 0, 0, 0); // Reset time to start of the day
+        const endDate = new Date(data.endDate);
+        endDate.setHours(0, 0, 0, 0); // Reset time to start of the day
+        const diffTime = endDate - startDate;
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+        // console.log('Diff days:', diffDays);
         const driverId = data.driverId;
-        setTotal(diffDays * dailyRate);
-        const newBooking = { vehicleId: vehicle._id, ownerId: vehicle.ownerId, driverId, bookingStart: startDate, bookingEnd: endDate, totalAmount: total }
+        const totalAmount = diffDays * dailyRate;
+        // setTotal(totalAmount);
+        const newBooking = { vehicleId: vehicle._id, ownerId: vehicle.ownerId, driverId, bookingStart: startDate, bookingEnd: endDate, totalAmount: totalAmount }
+        console.log(newBooking);
         axios.post('http://localhost:3000/api/bookings', newBooking, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('authToken')}`

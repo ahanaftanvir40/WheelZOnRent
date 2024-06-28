@@ -34,8 +34,11 @@ router.post('/bookings', auth, async (req, res) => {
 
         await newBooking.save();
 
-        const user = await User.findOne({ _id: req.user._id });
+        const user = await User.findOne({ _id: req.user.id });
+        // console.log("USER-", user);
+        // console.log("BOOKING ID", newBooking._id);
         user.bookings.push(newBooking._id);
+
         await user.save();
 
         res.json({ success: true, bookingId: newBooking._id });
