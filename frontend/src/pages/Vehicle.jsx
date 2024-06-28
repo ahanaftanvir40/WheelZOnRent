@@ -97,7 +97,7 @@ function Vehicle() {
                 console.log('Success:', response.data);
                 setBooked(true);
                 //change the navigate later when we finish building the user confirmation.
-                navigate('/checkout', { state: { amount: totalAmount } });
+                // navigate('/checkout', { state: { amount: totalAmount } });
             })
             .catch((error) => {
                 console.error('Error:', error);

@@ -48,4 +48,6 @@ router.post('/bookings', auth, async (req, res) => {
     }
 });
 
+
+
 export default router;
