@@ -32,8 +32,9 @@ function UserDashboard() {
 
 
             // Update the local state to reflect the approval
-            setPendingBookings(pendingBookings.filter(booking => booking._id !== bookingId));
             const approvedBooking = pendingBookings.find(booking => booking._id === bookingId);
+            setPendingBookings(pendingBookings.filter(booking => booking._id !== bookingId));
+
             setApprovedBookings([...approvedBookings, { ...approvedBooking, status: 'approved' }]);
         } catch (error) {
             console.error('Error approving booking:', error);
@@ -70,11 +71,11 @@ function UserDashboard() {
                     </div>
                 </div>
                 <div className="divider"></div>
-                <div className="card bg-base-300 rounded-box grid h-fit place-items-center">
+                <div className="card  rounded-box grid h-fit place-items-center">
                     <h1>All Approved Bookings</h1>
                 </div>
                 <div className="divider"></div>
-                <div className="card bg-base-300 rounded-box grid h-fit place-items-center">
+                <div className="card  rounded-box grid h-fit place-items-center">
                     <div className='flex flex-wrap'>
                         {approvedBookings.map(booking => (
                             <div key={booking._id} className="card glass w-96 m-2">
