@@ -60,7 +60,8 @@ const userSchema = new mongoose.Schema({
     },
     bookings: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'booking'
+        ref: 'booking',
+        required: true
 
     }]
 

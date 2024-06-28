@@ -134,6 +134,5 @@ router.post('/upload', upload.array('photos', 10), async (req, res) => {
     }
 });
 
-asdwad
 
 export default router
