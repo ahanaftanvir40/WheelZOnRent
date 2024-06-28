@@ -7,4 +7,4 @@ export { default as AddVehicles } from './AddVehicles'
 export { default as Vehicle } from './Vehicle'
 export { default as AllVehicles } from './AllVehicles'
 export { default as EditProfile } from './EditProfile'
-
+export {default as CheckOut} from './CheckOut'
