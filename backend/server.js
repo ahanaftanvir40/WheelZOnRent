@@ -7,6 +7,7 @@ import userRoutes from './routes/userRoutes.js'
 import vehicleRoutes from './routes/vehicleRoutes.js'
 import adminRoutes from './routes/adminRoutes.js'
 import bookingRoutes from './routes/bookingRoutes.js'
+import checkoutRoutes from './routes/checkoutRoutes.js'
 import dotenv from 'dotenv'
 import path from 'path'
 
@@ -30,6 +31,7 @@ app.use('/api', userRoutes)
 app.use('/api', vehicleRoutes)
 app.use('/api/admin', adminRoutes)
 app.use('/api', bookingRoutes)
+app.use('/api/stripe', checkoutRoutes)
 
 const port = process.env.PORT || 3000
 
