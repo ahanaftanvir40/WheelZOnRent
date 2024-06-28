@@ -82,8 +82,6 @@ router.post('/updateuser', auth, upload.fields([{ name: 'avatar' }, { name: 'lic
     const avatar = req.files['avatar'] ? req.files['avatar'][0].filename : 'default.jpg'
     const licenseFile = req.files['licenseFile'] ? req.files['licenseFile'][0].filename : ''
 
-
-
     let user = await User.findOneAndUpdate({ email: req.user.email }, {
         avatar,
         userType,
@@ -99,7 +97,6 @@ router.post('/updateuser', auth, upload.fields([{ name: 'avatar' }, { name: 'lic
 router.delete('/deleteuser', auth, async (req, res) => {
     let vehicle = await Vehicle.deleteMany({ ownerId: req.user.id })
     let user = await User.findOneAndDelete({ email: req.user.email })
-
     return res.json({ success: true, message: 'User deleted successfully' })
 })
 

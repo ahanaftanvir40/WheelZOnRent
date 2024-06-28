@@ -4,6 +4,7 @@ import { Vehicle } from '../models/vehicle.models.js';
 import { User } from '../models/user.models.js';
 import { upload } from '../config/multer-config.js'
 
+
 const router = express.Router()
 
 
@@ -38,7 +39,7 @@ router.post('/vehicles', auth, upload.array('vehicleImages', 5), async (req, res
             pricePerDay,
             location,
             availability,
-            images,
+            // images,
             category,
             condition,
             no_plate,
@@ -95,6 +96,47 @@ router.get('/allvehicles', async (req, res) => {
 
 })
 
+router.post('/vehicles-update/:vehicleId', async (req, res) => {
+    let { description, type, brand, model, year, pricePerDay, location, category, condition, no_plate, chassis_no, registration_no } = req.body
+    let images = req.files['images'] ? req.files['images'].map(file => file.filename) : []
+    let vehicle = await Vehicle.findOneAndUpdate({ _id: req.params.vehicleId }, {
+        description,
+        type,
+        brand,
+        model,
+        year,
+        pricePerDay,
+        location,
+        category,
+        condition,
+        no_plate,
+        chassis_no,
+        registration_no
+    })
+    return res.json({ success: true })
+})
+
+router.post('/upload', upload.array('photos', 10), async (req, res) => {
+    try {
+        const uploadedPhotos = [];
+
+        // Loop through uploaded files and process each
+        for (const file of req.files) {
+            const photo = new Photo({
+                name: file.originalname,
+                path: file.path // Adjust path based on your storage strategy
+            });
+
+            await photo.save();
+            uploadedPhotos.push(photo);
+        }
+
+        res.json({ message: 'Photos uploaded successfully!', data: uploadedPhotos });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Error uploading photos' });
+    }
+});
 
 
 export default router
