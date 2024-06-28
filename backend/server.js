@@ -1,5 +1,6 @@
 import express from 'express'
 import cookieParser from 'cookie-parser'
+// import bodyParser from 'body-parser';
 import cors from 'cors'
 import './config/mongoose-connection.js'
 import userRoutes from './routes/userRoutes.js'

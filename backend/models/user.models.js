@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema({
     },
     phoneNumber: {
         type: String,
-        required: function () { return this.userType === 'Driver' }
+        required: true
     },
     drivingLicense: {
         type: String,
