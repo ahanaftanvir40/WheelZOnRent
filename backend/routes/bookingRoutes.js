@@ -71,4 +71,31 @@ router.post('/bookings/:id/approve', async (req, res) => {
     }
 });
 
+router.get('/user/bookings', auth, async (req, res) => {
+
+    try {
+        const userBooking = await Booking.find({ userId: req.user.id }).populate('vehicleId ownerId')
+        res.json(userBooking)
+    } catch (error) {
+        console.log(error);
+    }
+})
+
+router.delete('/booking/:id', auth, async (req, res) => {
+    try {
+        const booking = await Booking.findOneAndDelete({ _id: req.params.id })
+
+        if (!booking) {
+            return res.status(404)
+        }
+        if (booking.userId.toString() !== req.user.id) {
+            return res.status(401).json({ success: false, message: 'Unauthorized' });
+        }
+
+        res.json({ success: true, message: 'Booking deleted successfully' });
+    } catch (error) {
+        console.log(error);
+    }
+})
+
 export default router;
