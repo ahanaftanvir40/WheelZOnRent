@@ -95,7 +95,7 @@ function UserDashboard() {
                     <img src={`http://localhost:3000/public/images/user-avatars/${user?.avatar || 'default-avatar.jpg'}`} alt={`${user?.name || 'User'}'s avatar`} className="w-full h-full object-cover" />
                 </div>
                 <div>
-                    <h1 className="text-lg font-bold sm:py-4 sm:px-4 bg-slate-200 py-2 px-2 rounded-md">Welcome, {user.name} to your Dashboard</h1>
+                    <h1 className="text-lg sm:text-2xl font-bold sm:py-6 sm:px-6 bg-slate-200 py-2 px-2 rounded-md">Welcome, {user.name} to your Dashboard</h1>
                 </div>
             </div>
 
