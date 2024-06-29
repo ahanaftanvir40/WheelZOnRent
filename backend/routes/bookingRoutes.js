@@ -1,5 +1,5 @@
 import express from 'express';
-import { Booking } from '../models/booking.model.js';// Assuming your Booking model is in './models/Booking'
+import { Booking } from '../models/booking.model.js';
 import { auth } from '../middlewares/auth.js';
 import { User } from '../models/user.models.js';
 
