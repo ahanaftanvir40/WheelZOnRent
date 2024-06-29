@@ -1,10 +1,12 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
+
 function UserDashboard() {
     const [pendingBookings, setPendingBookings] = useState([]);
     const [approvedBookings, setApprovedBookings] = useState([]);
-
+    const [user , setUser] = useState({})
+    
     useEffect(() => {
         const fetchBookings = async () => {
             try {
@@ -41,9 +43,34 @@ function UserDashboard() {
         }
     };
 
+    const fetchUser = async ()=>{
+        let response = await axios.get(`http://localhost:3000/api/user`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('authToken')}`
+            }
+        })
+        if (response.status === 200) {
+            
+            setUser(response.data)
+            
+        }
+    }
+    useEffect(()=>{
+        fetchUser()
+    }, [])
+
     return (
         <div>
-            <div className="flex w-full flex-col">
+            <div className="flex items-center justify-center gap-4">
+                <div className="w-24 h-24 rounded-xl overflow-hidden">
+                    <img src={`http://localhost:3000/public/images/user-avatars/${user?.avatar || 'default-avatar.jpg'}`} alt={`${user?.name || 'User'}'s avatar`} className="w-full h-full object-cover" />
+                </div>
+                <div>
+                    <h1 className="text-lg font-bold sm:py-4 sm:px-4 bg-slate-200 py-2 px-2 rounded-md">Welcome, {user.name} to your Dashboard</h1>
+                </div>
+            </div>
+
+            <div className="flex w-full flex-col sm:mt-24 mt-8">
                 <div className="card rounded-box grid h-fit place-items-center">
                     <h1 className='font-semibold text-2xl tracking-tighter'>All Pending Bookings</h1>
                 </div>

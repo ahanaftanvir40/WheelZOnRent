@@ -25,7 +25,7 @@ export const AuthProvider = ({ children }) => {
                 }
             })
             if (response.status === 200) {
-                //console.log('Auth user: ', response);
+                console.log('Auth user: ', response);
                 setUser(response.data)
                 setIsLoading(false)
             } else {
