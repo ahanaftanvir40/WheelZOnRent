@@ -54,7 +54,7 @@ function UserDashboard() {
                             <div key={booking._id} className="card glass w-96 m-2">
                                 <figure>
                                     <img
-                                        src={`http://localhost:3000/public/images/vehicle-images/${booking.vehicleId.images[0][0]}`} // Assuming you have an imageUrl field in your Vehicle model
+                                        src={`http://localhost:3000/public/images/vehicle-images/${booking.vehicleId.images[0][0]}`} 
                                         alt="vehicle" />
                                 </figure>
                                 <div className="card-body">
