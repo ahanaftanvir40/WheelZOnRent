@@ -140,7 +140,7 @@ function Vehicle() {
             </div>
             <div className="mt-2 sm:mt-4 flex justify-between gap-4">
                 <div>
-                    <h1 className="font-medium text-lg text-slate-200">About the Car:</h1>
+                    <h1 className="font-medium text-lg text-slate-200">About the Vehicle:</h1>
                     <p className="text-gray-200 dark:text-gray-400">{vehicle.description}</p>
                 </div>
 
