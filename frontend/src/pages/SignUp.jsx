@@ -2,7 +2,7 @@
 import axios from 'axios'
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
-
+import apiEndpoint from '../variables'
 
 function SignUp() {
     let navigate = useNavigate()
@@ -58,7 +58,7 @@ function SignUp() {
 
 
 
-            const response = await axios.post(`http://localhost:3000/api/createuser`, formData, {
+            const response = await axios.post(`${apiEndpoint}/api/createuser`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { VehicleTypes, VehicleCategories } from "../utils/enum";
+import apiEndpoint from "../variables";
 
 function AddVehicles() {
     const navigate = useNavigate();
@@ -42,7 +43,7 @@ function AddVehicles() {
                 formData.append('vehicleImages', image);
             });
 
-            const response = await axios.post(`http://localhost:3000/api/vehicles`, formData, {
+            const response = await axios.post(`${apiEndpoint}/api/vehicles`, formData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('authToken')}`,
                     'Content-Type': 'multipart/form-data'

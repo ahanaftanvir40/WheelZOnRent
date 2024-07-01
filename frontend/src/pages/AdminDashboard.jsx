@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useAuth } from "../store/auth";
+import apiEndpoint from "../variables";
 
 function AdminDashboard() {
     const { user, isLoading } = useAuth();
@@ -10,7 +11,7 @@ function AdminDashboard() {
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/api/admin/allusers`, {
+                const response = await axios.get(`${apiEndpoint}/api/admin/allusers`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('authToken')}`
                     }

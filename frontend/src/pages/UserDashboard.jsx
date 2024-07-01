@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-
+import apiEndpoint  from '../variables';
 
 function UserDashboard() {
     const [pendingBookings, setPendingBookings] = useState([]);
@@ -12,7 +12,7 @@ function UserDashboard() {
 
     const handleDelete = async (bookingId) => {
         try {
-            await axios.delete(`http://localhost:3000/api/booking/${bookingId}`, {
+            await axios.delete(`${apiEndpoint}/api/booking/${bookingId}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('authToken')}`
                 }
@@ -26,7 +26,7 @@ function UserDashboard() {
     useEffect(() => {
         const fetchBookings = async () => {
             try {
-                const response = await axios.get('http://localhost:3000/api/bookings/pending', {
+                const response = await axios.get(`${apiEndpoint}/api/bookings/pendin`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('authToken')}`
                     }
@@ -46,7 +46,7 @@ function UserDashboard() {
 
     const approveBooking = async (bookingId) => {
         try {
-            await axios.post(`http://localhost:3000/api/bookings/${bookingId}/approve`)
+            await axios.post(`${apiEndpoint}/api/bookings/${bookingId}/approve`)
 
 
             // Update the local state to reflect the approval
@@ -60,7 +60,7 @@ function UserDashboard() {
     };
 
     const fetchUser = async () => {
-        let response = await axios.get(`http://localhost:3000/api/user`, {
+        let response = await axios.get(`${apiEndpoint}/api/user`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('authToken')}`
             }
@@ -76,7 +76,7 @@ function UserDashboard() {
     }, [])
 
     const fetchUserBooking = async () => {
-        let response = await axios.get(`http://localhost:3000/api/user/bookings`, {
+        let response = await axios.get(`${apiEndpoint}/api/user/bookings`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('authToken')}`
             }
