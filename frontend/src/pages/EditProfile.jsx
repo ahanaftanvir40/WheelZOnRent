@@ -1,7 +1,7 @@
 import { useNavigate, } from "react-router-dom"
 import { useState } from "react"
 import axios from "axios"
-import apiEndpoint from "../variables"
+
 function EditProfile() {
     let navigate = useNavigate()
     const [userData, setUserData] = useState({
@@ -51,7 +51,7 @@ function EditProfile() {
 
 
 
-            const response = await axios.post(`${apiEndpoint}/api/updateuser`, formData, {
+            const response = await axios.post(`http://localhost:3000/api/updateuser`, formData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('authToken')}`,
                     'Content-Type': 'multipart/form-data'

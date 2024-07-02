@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate, Link } from 'react-router-dom'
-import apiEndpoint from '../variables'
+
 
 function Login() {
     const navigate = useNavigate()
@@ -21,7 +21,7 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const response = await axios.post(`${apiEndpoint}/api/loginuser`, userData)
+            const response = await axios.post(`http://localhost:3000/api/loginuser`, userData)
             console.log(response.data); //remove console log
             const json = await response.data
             if (!json.success) {

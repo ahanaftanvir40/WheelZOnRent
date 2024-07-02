@@ -1,7 +1,7 @@
 import axios from "axios"
 import { VehicleCard } from "../components"
 import { useEffect, useState } from "react"
-import apiEndpoint from "../variables"
+
 
 function AllVehicles() {
 
@@ -12,7 +12,7 @@ function AllVehicles() {
 
     const fetchVehicles = async (query = '') => {
         setLoading(true)
-        const response = await axios.get(`${apiEndpoint}/api/allvehicles`, {
+        const response = await axios.get(`http://localhost:3000/api/allvehicles`, {
             params: { search: query }
         })
         setVehicles(response.data)

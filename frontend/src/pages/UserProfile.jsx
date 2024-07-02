@@ -1,7 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
-import apiEndpoint from "../variables"
+
 
 function UserProfile() {
   const navigate = useNavigate()
@@ -12,7 +12,7 @@ function UserProfile() {
     const fetchUser = async () => {
 
       try {
-        let response = await axios.get(`${apiEndpoint}/api/profile`, {
+        let response = await axios.get(`http://localhost:3000/api/profile`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('authToken')}`
           }
@@ -29,7 +29,7 @@ function UserProfile() {
 
   const deleteUser = async () => {
     try {
-      const response = await axios.delete(`${apiEndpoint}/api/deleteuser`, {
+      const response = await axios.delete(`http://localhost:3000/api/deleteuser`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('authToken')}`
         }

@@ -6,7 +6,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation, Pagination } from 'swiper/modules';
 import gt86 from '../assets/gt86.jpg' //dummy
-import apiEndPoint from "../variables";
+
 import { useForm } from 'react-hook-form';
 
 function Vehicle() {
@@ -19,7 +19,7 @@ function Vehicle() {
     useEffect(() => {
         const fetchVehicle = async () => {
             try {
-                const response = await axios.get(`${apiEndPoint}/api/vehicles/${vehicleId}`, {
+                const response = await axios.get(`http://localhost:3000/api/vehicles/${vehicleId}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('authToken')}`
                     }
@@ -36,7 +36,7 @@ function Vehicle() {
     useEffect(() => {
         const fetchDrivers = async () => {
             try {
-                const response = await axios.get(`${apiEndPoint}/api/drivers`, {
+                const response = await axios.get(`http://localhost:3000/api/drivers`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('authToken')}`
                     }
@@ -85,7 +85,7 @@ function Vehicle() {
         const driverId = data.driverId;
         const totalAmount = (diffDays * dailyRate);
         const newBooking = { vehicleId: vehicle._id, ownerId: vehicle.ownerId, driverId, bookingStart: startDate, bookingEnd: endDate, totalAmount: totalAmount }
-        axios.post(`${apiEndPoint}/api/bookings`, newBooking, {
+        axios.post(`http://localhost:3000/api/bookings`, newBooking, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('authToken')}`
             }
