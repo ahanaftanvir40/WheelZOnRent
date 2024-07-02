@@ -48,7 +48,7 @@ router.post('/bookings', auth, async (req, res) => {
 router.get('/bookings/pending', auth, async (req, res) => {
     try {
         const bookings = await Booking.find({ ownerId: req.user.id, status: { $in: ['pending', 'approved'] } }).populate('vehicleId userId')
-        console.log(bookings);
+        console.log('bookings: ', bookings);
         res.json(bookings)
     } catch (error) {
         res.status(500).send(error.message)

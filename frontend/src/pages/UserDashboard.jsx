@@ -26,7 +26,7 @@ function UserDashboard() {
     useEffect(() => {
         const fetchBookings = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/api/bookings/pendin`, {
+                const response = await axios.get(`http://localhost:3000/api/bookings/pending`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('authToken')}`
                     }
