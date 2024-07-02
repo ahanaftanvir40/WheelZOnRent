@@ -34,7 +34,7 @@ router.post('/bookings', auth, async (req, res) => {
 
         await newBooking.save();
 
-        const user = await User.findOne({ _id: req.user._id });
+        const user = await User.findOne({ _id: req.user.id });
         user.bookings.push(newBooking._id);
         await user.save();
 

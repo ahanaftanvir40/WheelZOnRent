@@ -76,13 +76,15 @@ function Vehicle() {
         console.log(data);
         console.log(vehicle);
         const startDate = new Date(data.startDate);
+        startDate.setHours(0, 0, 0, 0); // Reset time to start of the day
         const endDate = new Date(data.endDate);
+        endDate.setHours(0, 0, 0, 0); // Reset time to start of the day
         const dailyRate = vehicle.pricePerDay;
         const diffTime = Math.abs(endDate - startDate);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
         const driverId = data.driverId;
-        setTotal(diffDays * dailyRate);
-        const newBooking = { vehicleId: vehicle._id, ownerId: vehicle.ownerId, driverId, bookingStart: startDate, bookingEnd: endDate, totalAmount: total }
+        const totalAmount = (diffDays * dailyRate);
+        const newBooking = { vehicleId: vehicle._id, ownerId: vehicle.ownerId, driverId, bookingStart: startDate, bookingEnd: endDate, totalAmount: totalAmount }
         axios.post(`${apiEndPoint}/api/bookings`, newBooking, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('authToken')}`
