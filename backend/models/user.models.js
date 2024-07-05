@@ -40,6 +40,7 @@ const userSchema = new mongoose.Schema({
         required: function () { return this.userType === 'Driver' },
         default: true
     },
+
     phoneNumber: {
         type: String,
         required: true
