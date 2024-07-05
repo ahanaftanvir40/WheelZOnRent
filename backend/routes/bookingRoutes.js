@@ -49,7 +49,7 @@ router.post('/bookings', auth, async (req, res) => {
         }
 
         const emailResponse = await sendEmail(
-            [ownerEmail, user.email], 
+            [ownerEmail, user.email],
             `A booking was requested. Booking ID: ${bookingID}`,
             `Dear ${owner.name}, ${user.name} has requested to book your vehicle ${vehicle.brand} ${vehicle.model} from ${bookingStart} to ${bookingEnd}.`
         );
@@ -88,8 +88,8 @@ router.post('/bookings/:id/approve', async (req, res) => {
         }
 
         const emailResponse = await sendEmail(
-            ownerEmail, 
-            `Your booking has been approved ${bookingID}`,
+            ownerEmail,
+            `Your booking has been approved ${bookingId}`, // Corrected here
             'Dear customer, your booking has been approved.'
         );
         res.status(200).send('Booking approved');

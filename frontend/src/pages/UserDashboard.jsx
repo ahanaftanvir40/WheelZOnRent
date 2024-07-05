@@ -1,14 +1,11 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 
-
 function UserDashboard() {
     const [pendingBookings, setPendingBookings] = useState([]);
     const [approvedBookings, setApprovedBookings] = useState([]);
-    const [user, setUser] = useState({})
-    const [userBooking, setUserBooking] = useState([])
-
-
+    const [user, setUser] = useState({});
+    const [userBooking, setUserBooking] = useState([]);
 
     const handleDelete = async (bookingId) => {
         try {
@@ -16,12 +13,12 @@ function UserDashboard() {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('authToken')}`
                 }
-            })
-            setUserBooking(userBooking.filter(booking => booking._id !== bookingId))
+            });
+            setUserBooking(userBooking.filter(booking => booking._id !== bookingId));
         } catch (error) {
-            console.log('Error deleteing requested rent vehicle', error);
+            console.log('Error deleting requested rent vehicle', error);
         }
-    }
+    };
 
     useEffect(() => {
         const fetchBookings = async () => {
@@ -31,7 +28,7 @@ function UserDashboard() {
                         Authorization: `Bearer ${localStorage.getItem('authToken')}`
                     }
                 });
-                const data = await response.data
+                const data = await response.data;
                 const pending = data.filter(booking => booking.status === 'pending');
                 const approved = data.filter(booking => booking.status === 'approved');
                 setPendingBookings(pending);
@@ -46,13 +43,10 @@ function UserDashboard() {
 
     const approveBooking = async (bookingId) => {
         try {
-            await axios.post(`http://localhost:3000/api/bookings/${bookingId}/approve`)
-
-
+            await axios.post(`http://localhost:3000/api/bookings/${bookingId}/approve`);
             // Update the local state to reflect the approval
             const approvedBooking = pendingBookings.find(booking => booking._id === bookingId);
             setPendingBookings(pendingBookings.filter(booking => booking._id !== bookingId));
-
             setApprovedBookings([...approvedBookings, { ...approvedBooking, status: 'approved' }]);
         } catch (error) {
             console.error('Error approving booking:', error);
@@ -64,29 +58,29 @@ function UserDashboard() {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('authToken')}`
             }
-        })
+        });
         if (response.status === 200) {
-
-            setUser(response.data)
-
+            setUser(response.data);
         }
-    }
+    };
+
     useEffect(() => {
-        fetchUser()
-    }, [])
+        fetchUser();
+    }, []);
 
     const fetchUserBooking = async () => {
         let response = await axios.get(`http://localhost:3000/api/user/bookings`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('authToken')}`
             }
-        })
+        });
         console.log(response.data);
-        setUserBooking(response.data)
-    }
+        setUserBooking(response.data);
+    };
+
     useEffect(() => {
-        fetchUserBooking()
-    }, [])
+        fetchUserBooking();
+    }, []);
 
     return (
         <div>
@@ -109,9 +103,15 @@ function UserDashboard() {
                         {[...userBooking].reverse().map(booking => (
                             <div key={booking._id} className="card glass w-96 m-2">
                                 <figure>
-                                    <img
-                                        src={`http://localhost:3000/public/images/vehicle-images/${booking.vehicleId.images[0][0]}`}
-                                        alt="vehicle" />
+                                    {booking.vehicleId.images && booking.vehicleId.images.length > 0 && booking.vehicleId.images[0].length > 0 ? (
+                                        <img
+                                            src={`http://localhost:3000/public/images/vehicle-images/${booking.vehicleId.images[0][0]}`}
+                                            alt="vehicle" />
+                                    ) : (
+                                        <img
+                                            src="http://localhost:3000/public/images/vehicle-images/default-vehicle.jpg"
+                                            alt="default vehicle" />
+                                    )}
                                 </figure>
                                 <div className="card-body">
                                     <h2 className="card-title">{booking.vehicleId.name}</h2>
@@ -127,7 +127,6 @@ function UserDashboard() {
                                         ) : (
                                             <button onClick={() => handleDelete(booking._id)} className="btn btn-primary">Cancel Booking</button>
                                         )}
-
                                     </div>
                                 </div>
                             </div>
@@ -146,9 +145,15 @@ function UserDashboard() {
                         {pendingBookings.map(booking => (
                             <div key={booking._id} className="card glass w-96 m-2">
                                 <figure>
-                                    <img
-                                        src={`http://localhost:3000/public/images/vehicle-images/${booking.vehicleId.images[0][0]}`}
-                                        alt="vehicle" />
+                                    {booking.vehicleId.images && booking.vehicleId.images.length > 0 && booking.vehicleId.images[0].length > 0 ? (
+                                        <img
+                                            src={`http://localhost:3000/public/images/vehicle-images/${booking.vehicleId.images[0][0]}`}
+                                            alt="vehicle" />
+                                    ) : (
+                                        <img
+                                            src="http://localhost:3000/public/images/vehicle-images/default-vehicle.jpg"
+                                            alt="default vehicle" />
+                                    )}
                                 </figure>
                                 <div className="card-body">
                                     <h2 className="card-title">{booking.vehicleId.name}</h2>
@@ -164,8 +169,6 @@ function UserDashboard() {
                     </div>
                 </div>
                 <div className="divider"></div>
-
-
                 <div tabIndex={0} className="collapse collapse-arrow border-base-300 bg-base-200 border">
                     <div className="collapse-title text-xl font-medium">All Approved Rent History</div>
                     <div className="collapse-content">
@@ -173,9 +176,15 @@ function UserDashboard() {
                             {approvedBookings.map(booking => (
                                 <div key={booking._id} className="card glass w-96 m-2">
                                     <figure>
-                                        <img
-                                            src={`http://localhost:3000/public/images/vehicle-images/${booking.vehicleId.images[0][0]}`} // Assuming you have an imageUrl field in your Vehicle model
-                                            alt="vehicle" />
+                                        {booking.vehicleId.images && booking.vehicleId.images.length > 0 && booking.vehicleId.images[0].length > 0 ? (
+                                            <img
+                                                src={`http://localhost:3000/public/images/vehicle-images/${booking.vehicleId.images[0][0]}`}
+                                                alt="vehicle" />
+                                        ) : (
+                                            <img
+                                                src="http://localhost:3000/public/images/vehicle-images/default-vehicle.jpg"
+                                                alt="default vehicle" />
+                                        )}
                                     </figure>
                                     <div className="card-body">
                                         <h2 className="card-title">{booking.vehicleId.name}</h2>
@@ -189,11 +198,9 @@ function UserDashboard() {
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     );
 }
 
 export default UserDashboard;
-
