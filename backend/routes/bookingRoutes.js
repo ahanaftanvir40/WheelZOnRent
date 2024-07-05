@@ -2,6 +2,7 @@ import express from 'express';
 import { Booking } from '../models/booking.model.js';
 import { auth } from '../middlewares/auth.js';
 import { User } from '../models/user.models.js';
+import { sendEmail } from '../config/mailer.js';
 
 const router = express.Router();
 
@@ -58,13 +59,23 @@ router.get('/bookings/pending', auth, async (req, res) => {
 router.post('/bookings/:id/approve', async (req, res) => {
     try {
         const bookingId = req.params.id;
-        const booking = await Booking.findById(bookingId);
+        const booking = await Booking.findById(bookingId).populate('ownerId');
         if (!booking) {
             return res.status(404).send('Booking not found');
         }
-
+        console.log(booking.ownerId)
         booking.status = 'approved';
         await booking.save();
+
+        if (!ownerEmail) {
+            return res.status(500).send('Owner email not found');
+        }
+
+        const emailResponse = await sendEmail(
+            ownerEmail, 
+            'Your booking has been approved {bookingId}',
+            'Dear customer, your booking has been approved.'
+        );
         res.status(200).send('Booking approved');
     } catch (error) {
         res.status(500).send(error.message);
