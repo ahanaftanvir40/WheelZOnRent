@@ -3,11 +3,15 @@ import { Booking } from '../models/booking.model.js';
 import { auth } from '../middlewares/auth.js';
 import { User } from '../models/user.models.js';
 import { sendEmail } from '../config/mailer.js';
+import { Vehicle } from '../models/vehicle.models.js';
 
 const router = express.Router();
 
 router.post('/bookings', auth, async (req, res) => {
     const { vehicleId, ownerId, driverId, bookingStart, bookingEnd, totalAmount } = req.body;
+    const owner = await User.findById(ownerId);
+    const vehicle = await Vehicle.findById(vehicleId);
+
     console.log(req.body);
     console.log("USER ID-", req.user.id);
     console.log("NewBooking- ", {
@@ -34,10 +38,21 @@ router.post('/bookings', auth, async (req, res) => {
         console.log(newBooking);
 
         await newBooking.save();
-
+        const bookingID = newBooking._id;
         const user = await User.findOne({ _id: req.user.id });
         user.bookings.push(newBooking._id);
         await user.save();
+
+        const ownerEmail = owner.email;
+        if (!ownerEmail) {
+            return res.status(500).send('Owner email not found');
+        }
+
+        const emailResponse = await sendEmail(
+            [ownerEmail, user.email], 
+            `A booking was requested. Booking ID: ${bookingID}`,
+            `Dear ${owner.name}, ${user.name} has requested to book your vehicle ${vehicle.brand} ${vehicle.model} from ${bookingStart} to ${bookingEnd}.`
+        );
 
         res.json({ success: true, bookingId: newBooking._id });
     } catch (error) {
@@ -63,7 +78,7 @@ router.post('/bookings/:id/approve', async (req, res) => {
         if (!booking) {
             return res.status(404).send('Booking not found');
         }
-        console.log(booking.ownerId)
+
         booking.status = 'approved';
         await booking.save();
 
@@ -74,7 +89,7 @@ router.post('/bookings/:id/approve', async (req, res) => {
 
         const emailResponse = await sendEmail(
             ownerEmail, 
-            'Your booking has been approved {bookingId}',
+            `Your booking has been approved ${bookingID}`,
             'Dear customer, your booking has been approved.'
         );
         res.status(200).send('Booking approved');
