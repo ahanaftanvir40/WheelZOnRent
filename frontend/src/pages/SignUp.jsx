@@ -13,8 +13,11 @@ function SignUp() {
         password: '',
         drivingLicense: '',
         phoneNumber: '',
-        nationalId: ''
+        nationalId: '',
+        
+
     })
+
     const [avatar, setAvatar] = useState(null)
     const [licenseFile, setLicenseFile] = useState(null)
 
