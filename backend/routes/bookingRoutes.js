@@ -67,6 +67,7 @@ router.post('/bookings/:id/approve', async (req, res) => {
         booking.status = 'approved';
         await booking.save();
 
+        const ownerEmail = booking.ownerId.email;
         if (!ownerEmail) {
             return res.status(500).send('Owner email not found');
         }
