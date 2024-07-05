@@ -9,7 +9,6 @@ const userSchema = new mongoose.Schema({
             required: true
         }
     ],
-
     avatar: {
         type: String,
         default: 'default.jpg'
@@ -26,7 +25,6 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-
     },
     isAdmin: {
         type: Boolean,
@@ -61,8 +59,8 @@ const userSchema = new mongoose.Schema({
     bookings: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'booking'
-
-    }]
+    }],
+    
 
 
 
