@@ -6,7 +6,8 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation, Pagination } from 'swiper/modules';
 import gt86 from '../assets/gt86.jpg' //dummy
-
+import { MapContainer, TileLayer, Marker } from 'react-leaflet'
+import 'leaflet/dist/leaflet.css'
 import { useForm } from 'react-hook-form';
 
 function Vehicle() {
@@ -118,8 +119,8 @@ function Vehicle() {
 
                 {vehicle.images && vehicle.images.length > 0 && vehicle.images.map((imageArray, index) => (
                     <div key={index}>
-                        {[...imageArray].reverse().map((image) => (
-                            <SwiperSlide>
+                        {[...imageArray].reverse().map((image , index) => (
+                            <SwiperSlide key={index}>
                                 <img src={`http://localhost:3000/public/images/vehicle-images/${image}`} alt="Vehicle 2" className="w-full h-full object-cover rounded-sm" />
                             </SwiperSlide>
                         ))}
@@ -203,6 +204,14 @@ function Vehicle() {
                     <span>Registration Number: {vehicle.registration_no}</span>
                 </div>
             </div>
+
+            <MapContainer center={[23.7901702, 90.3597012]} zoom={13}>
+                <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+                />
+                <Marker position={[23.7901702, 90.3597012]} />
+            </MapContainer>
 
 
 
