@@ -48,19 +48,20 @@ router.post('/bookings', auth, async (req, res) => {
             return res.status(500).send('Owner email not found');
         }
 
-        const formattedBookingStart = new Date(bookingStart).toLocaleDateString();
-        const formattedBookingEnd = new Date(bookingEnd).toLocaleDateString();
+        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+        const formattedBookingStart = booking.bookingStart.toLocaleDateString('en-GB', options).replace(/\//g, '-');
+        const formattedBookingEnd = booking.bookingEnd.toLocaleDateString('en-GB', options).replace(/\//g, '-');
 
         const ownerNotify = await sendEmail(
             ownerEmail, 
-            `A booking was requested. Booking ID: ${bookingID}`,
-            `Dear ${owner.name}, ${user.name} has requested to book your vehicle ${vehicle.brand} ${vehicle.model} from ${formattedBookingStart} to ${formattedBookingEnd}.`
+            `Booking Request: ${vehicle.brand} ${vehicle.model}. Booking ID: ${bookingID}`,
+            `Dear ${owner.name}, \n${user.name} has requested to book your vehicle ${vehicle.brand} ${vehicle.model} from ${formattedBookingStart} to ${formattedBookingEnd}.\n\nRegards, \nTeam WheelZOnRent`
         );
 
         const userNotify = await sendEmail(
             user.email, 
-            `Booking request sent. Booking ID: ${bookingID}`,
-            `Dear ${user.name}, your booking request for ${vehicle.brand} ${vehicle.model} from ${formattedBookingStart} to ${formattedBookingEnd} has been sent to the owner`
+            `Booking Request sent. Vehicle: ${vehicle.brand} ${vehicle.model}. Booking ID: ${bookingID}`,
+            `Dear ${user.name}, \nyour booking request for ${vehicle.brand} ${vehicle.model} from ${formattedBookingStart} to ${formattedBookingEnd} has been sent to the owner. \n\nRegards, \nTeam WheelZOnRent`
         );
 
         res.json({ success: true, bookingId: newBooking._id });
@@ -111,14 +112,14 @@ router.post('/bookings/:id/approve', async (req, res) => {
 
         const userNotify = await sendEmail(
             userEmail,
-            `Your booking has been approved. Booking ID: ${bookingId}`,
-            `Dear ${user.name}, your booking request for ${vehicle.brand} ${vehicle.model} from ${formattedBookingStart} to ${formattedBookingEnd} has been approved by the owner.`
+            `Booking approved. Vehicle: ${vehicle.brand} ${vehicle.model}. Booking ID: ${bookingId}`,
+            `Dear ${user.name}, \nyour booking request for ${vehicle.brand} ${vehicle.model} from ${formattedBookingStart} to ${formattedBookingEnd} has been approved by the owner. \n\nRegards, \nTeam WheelZOnRent`
         );
 
         const ownerNotify = await sendEmail(
             ownerEmail,
-            `Booking approved. Booking ID: ${bookingId}`,
-            `Dear ${owner.name}, your approval for the booking request of ${vehicle.brand} ${vehicle.model} from ${formattedBookingStart} to ${formattedBookingEnd} has been notified to the customer.`
+            `Booking approved. Vehicle: ${vehicle.brand} ${vehicle.model}. Booking ID: ${bookingId}`,
+            `Dear ${owner.name}, \nyour approval for the booking request of ${vehicle.brand} ${vehicle.model} from ${formattedBookingStart} to ${formattedBookingEnd} has been notified to the customer. \n\nRegards, \nTeam WheelZOnRent`
         );
 
         res.status(200).send('Booking approved');
