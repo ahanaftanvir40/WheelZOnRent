@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { VehicleTypes, VehicleCategories } from "../utils/enum";
 
-
 function AddVehicles() {
     const navigate = useNavigate();
     const [vehicle, setVehicle] = useState({
@@ -14,6 +13,8 @@ function AddVehicles() {
         year: '',
         pricePerDay: '',
         location: '',
+        latitude: 0,
+        longitude: 0,
         availability: true,
         category: VehicleCategories.SEDAN,
         condition: '',
@@ -22,7 +23,7 @@ function AddVehicles() {
         registration_no: '',
     });
 
-    const [currentLocation, setCurrentLocation] = useState(false)
+    const [currentLocation, setCurrentLocation] = useState(false);
     const [images, setImages] = useState([]);
 
     const handleChange = (e) => {
@@ -34,28 +35,30 @@ function AddVehicles() {
     };
 
     const handleCheckboxChange = async () => {
-        setCurrentLocation(!currentLocation)
+        setCurrentLocation(!currentLocation);
 
         if (!currentLocation) {
             navigator.geolocation.getCurrentPosition(async (position) => {
-                const { latitude, longitude } = position.coords
-                
+                const { latitude, longitude } = position.coords;
+                setVehicle(prevVehicle => ({ ...prevVehicle, latitude, longitude }));
 
-                const apiKey = import.meta.env.VITE_OPENCAGE_API_KEY
-                const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`)
-                let json = await response.data
+                const apiKey = import.meta.env.VITE_OPENCAGE_API_KEY;
+                const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${latitude}+${longitude}&key=${apiKey}`);
+                const json = response.data;
                 console.log(json);
                 console.log(json.results[0].formatted);
-                setVehicle({ ...vehicle, location: json.results[0].formatted })
-            })
-
-
+                setVehicle(prevVehicle => ({ ...prevVehicle, location: json.results[0].formatted }));
+            },
+        (error)=>{
+            console.log(error);
+        },
+        {
+            enableHighAccuracy:true
         }
-
-
-
-
-    }
+        
+    );
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -130,7 +133,6 @@ function AddVehicles() {
                         placeholder="Write your thoughts here..."
                         value={vehicle.description}
                         onChange={handleChange}
-
                     />
                 </div>
 
@@ -143,11 +145,11 @@ function AddVehicles() {
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="location">Location:</label>
                     <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="location" value={vehicle.location} onChange={handleChange} required />
                 </div>
+                
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="model">Set Your Current Location as Your Location?</label>
-                    <input className="leading-tight" type="checkbox" name="currentLocation" checked={currentLocation} onChange={handleCheckboxChange} required />
+                    <input className="leading-tight" type="checkbox" name="currentLocation" checked={currentLocation} onChange={handleCheckboxChange} />
                 </div>
-
 
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="availability">Availability:</label>

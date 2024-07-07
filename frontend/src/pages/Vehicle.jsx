@@ -6,7 +6,8 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { Navigation, Pagination } from 'swiper/modules';
 import gt86 from '../assets/gt86.jpg' //dummy
-
+import { MapContainer, TileLayer, Marker } from 'react-leaflet'
+import 'leaflet/dist/leaflet.css'
 import { useForm } from 'react-hook-form';
 
 function Vehicle() {
@@ -15,7 +16,6 @@ function Vehicle() {
     const [drivers, setDrivers] = useState({})
     console.log('vehicle id from params:', vehicleId);
     const [booked, setBooked] = useState(false);
-
     useEffect(() => {
         const fetchVehicle = async () => {
             try {
@@ -24,6 +24,8 @@ function Vehicle() {
                         Authorization: `Bearer ${localStorage.getItem('authToken')}`
                     }
                 })
+
+
                 setVehicle(response.data);
                 console.log(response.data);
             } catch (error) {
@@ -32,6 +34,7 @@ function Vehicle() {
         }
         fetchVehicle()
     }, [vehicleId, booked])
+
 
     useEffect(() => {
         const fetchDrivers = async () => {
@@ -98,6 +101,7 @@ function Vehicle() {
                 console.error('Error:', error);
             });
     };
+
     return (
         <div className="mx-auto max-w-3xl">
             <Swiper
@@ -118,8 +122,8 @@ function Vehicle() {
 
                 {vehicle.images && vehicle.images.length > 0 && vehicle.images.map((imageArray, index) => (
                     <div key={index}>
-                        {[...imageArray].reverse().map((image) => (
-                            <SwiperSlide>
+                        {[...imageArray].reverse().map((image, index) => (
+                            <SwiperSlide key={index}>
                                 <img src={`http://localhost:3000/public/images/vehicle-images/${image}`} alt="Vehicle 2" className="w-full h-full object-cover rounded-sm" />
                             </SwiperSlide>
                         ))}
@@ -203,6 +207,18 @@ function Vehicle() {
                     <span>Registration Number: {vehicle.registration_no}</span>
                 </div>
             </div>
+            {vehicle.latitude && vehicle.latitude !== 0 && (
+                <MapContainer center={[vehicle.latitude, vehicle.longitude]} zoom={13}>
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+                    />
+                    <Marker position={[vehicle.latitude, vehicle.longitude]} />
+                </MapContainer>
+            )}
+
+
+
 
 
 
