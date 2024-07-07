@@ -8,7 +8,7 @@ function App() {
 
 
   return (
-    <div className='bg-gradient-to-br from-blue-900 via-purple-800 to-red-800'>
+    <div className='bg-slate-100'>
       <Header />
       <AllRoutes />
     </div>

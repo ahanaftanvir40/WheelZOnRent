@@ -33,28 +33,28 @@ function Header() {
                     {/* Logo and Branding */}
                     <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                         <img className="h-12 w-12 rounded-full" src={logo} alt="Logo" />
-                        <span className="text-2xl font-semibold text-white dark:text-gray-200">WheelzOnRent</span>
+                        <span className="text-2xl font-semibold text-black dark:text-gray-200">WheelzOnRent</span>
                     </Link>
 
                     {/* Navigation Links */}
                     <ul className="hidden md:flex space-x-4">
                         <li>
-                            <Link to="/" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Home</Link>
+                            <Link to="/" className="text-black font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Home</Link>
                         </li>
                         <li>
-                            <Link to="#" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">About</Link>
+                            <Link to="#" className="text-black font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">About</Link>
                         </li>
                         <li>
-                            <Link to="#" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Services</Link>
+                            <Link to="#" className="text-black font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Services</Link>
                         </li>
                         <li>
-                            <Link to="/userdashboard" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Dashboard</Link>
+                            <Link to="/userdashboard" className="text-black font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Dashboard</Link>
                         </li>
                     </ul>
 
                     {/* Mobile Menu Button */}
                     <div className="md:hidden flex items-center">
-                        <button className="text-white focus:outline-none" onClick={handleToggleDropdown}>
+                        <button className="text-black focus:outline-none" onClick={handleToggleDropdown}>
                             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
                             </svg>
@@ -65,8 +65,8 @@ function Header() {
                     <div className="hidden md:flex space-x-4 items-center">
                         {!localStorage.getItem('authToken') ? (
                             <>
-                                <Link to="/signup" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Sign Up</Link>
-                                <Link to="/login" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Login</Link>
+                                <Link to="/signup" className="text-black font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Sign Up</Link>
+                                <Link to="/login" className="text-black font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Login</Link>
                             </>
                         ) : (
                             <>
@@ -80,7 +80,7 @@ function Header() {
                                         <div className="w-10 rounded-full">
                                             <img alt="Profile Avatar" src={`http://localhost:3000/public/images/user-avatars/${user.avatar}`} />
                                         </div>
-                                        <p className="text-white">Profile</p>
+                                        <p className="text-black">Profile</p>
                                     </div>
                                     {dropdownOpen && (
                                         <ul
@@ -115,22 +115,22 @@ function Header() {
                 {/* Mobile Dropdown Menu */}
                 {dropdownOpen && (
                     <div className="md:hidden flex flex-col space-y-2 mt-4 px-4">
-                        <Link to="/" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300" onClick={handleOptionClick}>Home</Link>
-                        <Link to="#" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300" onClick={handleOptionClick}>About</Link>
-                        <Link to="#" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300" onClick={handleOptionClick}>Services</Link>
-                        <Link to="#" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300" onClick={handleOptionClick}>Pricing</Link>
+                        <Link to="/" className="text-black font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300" onClick={handleOptionClick}>Home</Link>
+                        <Link to="#" className="text-black font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300" onClick={handleOptionClick}>About</Link>
+                        <Link to="#" className="text-black font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300" onClick={handleOptionClick}>Services</Link>
+                        <Link to="#" className="text-black font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300" onClick={handleOptionClick}>Pricing</Link>
                         {!localStorage.getItem('authToken') ? (
                             <>
-                                <Link to="/signup" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300" onClick={handleOptionClick}>Sign Up</Link>
-                                <Link to="/login" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300" onClick={handleOptionClick}>Login</Link>
+                                <Link to="/signup" className="text-black font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300" onClick={handleOptionClick}>Sign Up</Link>
+                                <Link to="/login" className="text-black font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300" onClick={handleOptionClick}>Login</Link>
                             </>
                         ) : (
                             <>
-                                <Link to="/profile" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300" onClick={handleOptionClick}>Profile</Link>
+                                <Link to="/profile" className="text-black font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300" onClick={handleOptionClick}>Profile</Link>
                                 {user.isAdmin && (
-                                    <Link to="/admin" className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300" onClick={handleOptionClick}>Admin Dashboard</Link>
+                                    <Link to="/admin" className="text-black font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300" onClick={handleOptionClick}>Admin Dashboard</Link>
                                 )}
-                                <button onClick={() => { handleLogout(); handleOptionClick(); }} className="text-white font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Logout</button>
+                                <button onClick={() => { handleLogout(); handleOptionClick(); }} className="text-black font-medium dark:text-gray-300 hover:text-blue-500 transition duration-300">Logout</button>
                             </>
                         )}
                     </div>
