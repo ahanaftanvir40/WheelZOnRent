@@ -12,18 +12,18 @@ router.post('/bookings', auth, async (req, res) => {
     const owner = await User.findById(ownerId);
     const vehicle = await Vehicle.findById(vehicleId);
 
-    console.log(req.body);
-    console.log("USER ID-", req.user.id);
-    console.log("NewBooking- ", {
-        vehicleId,
-        driverId,
-        ownerId,
-        userId: req.user.id,
-        bookingStart,
-        bookingEnd,
-        status: 'pending',
-        totalAmount
-    });
+    // console.log(req.body);
+    // console.log("USER ID-", req.user.id);
+    // console.log("NewBooking- ", {
+    //     vehicleId,
+    //     driverId,
+    //     ownerId,
+    //     userId: req.user.id,
+    //     bookingStart,
+    //     bookingEnd,
+    //     status: 'pending',
+    //     totalAmount
+    // });
     try {
         const newBooking = await Booking.create({
             vehicleId,
@@ -35,7 +35,7 @@ router.post('/bookings', auth, async (req, res) => {
             status: 'pending',
             totalAmount
         });
-        console.log(newBooking);
+        // console.log(newBooking);
 
         await newBooking.save();
         const bookingID = newBooking._id;
@@ -48,10 +48,19 @@ router.post('/bookings', auth, async (req, res) => {
             return res.status(500).send('Owner email not found');
         }
 
-        const emailResponse = await sendEmail(
-            [ownerEmail, user.email],
+        const formattedBookingStart = new Date(bookingStart).toLocaleDateString();
+        const formattedBookingEnd = new Date(bookingEnd).toLocaleDateString();
+
+        const ownerNotify = await sendEmail(
+            ownerEmail, 
             `A booking was requested. Booking ID: ${bookingID}`,
-            `Dear ${owner.name}, ${user.name} has requested to book your vehicle ${vehicle.brand} ${vehicle.model} from ${bookingStart} to ${bookingEnd}.`
+            `Dear ${owner.name}, ${user.name} has requested to book your vehicle ${vehicle.brand} ${vehicle.model} from ${formattedBookingStart} to ${formattedBookingEnd}.`
+        );
+
+        const userNotify = await sendEmail(
+            user.email, 
+            `Booking request sent. Booking ID: ${bookingID}`,
+            `Dear ${user.name}, your booking request for ${vehicle.brand} ${vehicle.model} from ${formattedBookingStart} to ${formattedBookingEnd} has been sent to the owner`
         );
 
         res.json({ success: true, bookingId: newBooking._id });
@@ -82,16 +91,36 @@ router.post('/bookings/:id/approve', async (req, res) => {
         booking.status = 'approved';
         await booking.save();
 
-        const ownerEmail = booking.ownerId.email;
+        const owner = booking.ownerId;
+        const vehicle = await Vehicle.findById(booking.vehicleId);
+        const user = await User.findById(booking.userId);
+
+        const userEmail = user.email;
+        if (!userEmail) {
+            return res.status(500).send('Owner email not found');
+        }
+
+        const ownerEmail = owner.email;
         if (!ownerEmail) {
             return res.status(500).send('Owner email not found');
         }
 
-        const emailResponse = await sendEmail(
-            ownerEmail,
-            `Your booking has been approved ${bookingId}`, // Corrected here
-            'Dear customer, your booking has been approved.'
+        const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+        const formattedBookingStart = booking.bookingStart.toLocaleDateString('en-GB', options).replace(/\//g, '-');
+        const formattedBookingEnd = booking.bookingEnd.toLocaleDateString('en-GB', options).replace(/\//g, '-');
+
+        const userNotify = await sendEmail(
+            userEmail,
+            `Your booking has been approved. Booking ID: ${bookingId}`,
+            `Dear ${user.name}, your booking request for ${vehicle.brand} ${vehicle.model} from ${formattedBookingStart} to ${formattedBookingEnd} has been approved by the owner.`
         );
+
+        const ownerNotify = await sendEmail(
+            ownerEmail,
+            `Booking approved. Booking ID: ${bookingId}`,
+            `Dear ${owner.name}, your approval for the booking request of ${vehicle.brand} ${vehicle.model} from ${formattedBookingStart} to ${formattedBookingEnd} has been notified to the customer.`
+        );
+
         res.status(200).send('Booking approved');
     } catch (error) {
         res.status(500).send(error.message);
