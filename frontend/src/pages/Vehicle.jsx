@@ -103,7 +103,7 @@ function Vehicle() {
     };
 
     return (
-        <div className="mx-auto max-w-3xl">
+        <div className="mx-auto max-w-3xl py-4">
             <Swiper
                 modules={[Navigation, Pagination]}
                 spaceBetween={50}
@@ -133,7 +133,7 @@ function Vehicle() {
 
             <div className="flex justify-between">
                 <div>
-                    <h1 className="flex items-center text-5xl font-extrabold text-white dark:text-white mt-3">
+                    <h1 className="flex items-center text-5xl font-extrabold text-slate-700 dark:text-white mt-3">
                         {vehicle.brand}
                         <span className="bg-blue-100 text-blue-800 text-2xl font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-2">
                             {vehicle.model}
@@ -146,8 +146,8 @@ function Vehicle() {
             </div>
             <div className="mt-2 sm:mt-4 flex justify-between gap-4">
                 <div>
-                    <h1 className="font-medium text-lg text-slate-200">About the Vehicle:</h1>
-                    <p className="text-gray-200 dark:text-gray-400">{vehicle.description}</p>
+                    <h1 className="font-medium text-lg text-slate-600">About the Vehicle:</h1>
+                    <p className="text-gray-500 dark:text-gray-400">{vehicle.description}</p>
                 </div>
 
                 <div className="">
