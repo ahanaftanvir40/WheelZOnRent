@@ -13,7 +13,7 @@ function Home() {
     <div className="flex justify-center mt-5 sm:mt-14">
         <Hero />
     </div>
-    <div className="flex flex-wrap gap-4 mt-10 sm:mt-24 justify-center text-white px-4">
+    <div className="flex flex-wrap gap-4 mt-4 sm:mt-6 justify-center text-white px-4">
         <div className="card bg-base-100 image-full w-full max-w-xs sm:max-w-sm lg:w-96 shadow-xl">
             <figure>
                 <img src={rent} alt="rent" className="object-cover h-full w-full" />
