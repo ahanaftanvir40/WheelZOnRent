@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 function Home() {
     return (
         <div className="w-full min-h-screen  p-2">
-            <div className="flex justify-center w-full mt-5 sm:mt-14">
+            <div className="flex justify-center  mt-5 sm:mt-14">
                 <Hero />
             </div>
             <div className='flex gap-4 flex-wrap mt-20 justify-center text-white'>
