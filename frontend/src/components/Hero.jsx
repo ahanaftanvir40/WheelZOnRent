@@ -14,7 +14,7 @@ function Hero() {
             </p>
           </div>
           <div className="flex flex-col items-center px-4 mx-auto max-w-screen-sm sm:max-w-screen-md md:max-w-screen-lg lg:max-w-screen-xl text-center ">
-            
+
             <Link
               to="/vehicles"
               className="mb-2 inline-flex justify-center items-center py-3 px-6 text-base sm:text-lg md:text-xl font-medium text-center text-white rounded-lg bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900 transition ease-in-out duration-300"
