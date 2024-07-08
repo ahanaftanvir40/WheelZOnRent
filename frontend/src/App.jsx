@@ -1,6 +1,6 @@
 
 import './App.css'
-import { Header } from './components'
+import { Footer, Header } from './components'
 import AllRoutes from './routes/AllRoutes'
 
 
@@ -11,6 +11,7 @@ function App() {
     <div className='bg-slate-100'>
       <Header />
       <AllRoutes />
+      <Footer />
     </div>
   )
 }

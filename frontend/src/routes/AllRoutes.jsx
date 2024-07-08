@@ -7,7 +7,7 @@ import PrivateRoutes from "../utils/PrivateRoutes"
 
 function AllRoutes() {
     return (
-        <div className="w-full min-h-screen p-4 sm:p-2">
+        <div className="">
             <Routes>
                 <Route path="/" element={<Home />}></Route>
                 <Route path="/signup" element={<SignUp />}></Route>

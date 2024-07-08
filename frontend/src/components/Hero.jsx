@@ -5,11 +5,11 @@ function Hero() {
     <div>
       <section className="relative bg-center bg-cover bg-[url('./assets/hero2.png')] rounded-md w-full h-[350px] sm:h-[500px] md:h-[200px] lg:h-[400px] overflow-hidden">
         <div className="relative h-full flex flex-col justify-between">
-          <div className="text-center sm:pt-2">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-none text-slate-800 dark:text-white drop-shadow-lg">
+          <div className="text-center pt-3 sm:pt-2">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight leading-none text-slate-800 dark:text-white drop-shadow-lg">
               Welcome to WheelZOnRent
             </h1>
-            <p className=" mb-2 mt-1 sm:mt-2 text-lg sm:text-xl md:text-2xl lg:text-xl font-normal text-slate-700 drop-shadow-lg">
+            <p className=" mb-2 mt-3 sm:mt-2 text-sm sm:text-xl md:text-2xl lg:text-xl font-normal text-slate-700 drop-shadow-lg">
               Discover the perfect ride for your journey with comfort.
             </p>
           </div>
