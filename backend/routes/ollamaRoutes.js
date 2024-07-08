@@ -14,7 +14,7 @@ router.post('/send-prompt', async (req, res) => {
   
     try {
       const response = await axios.post('http://localhost:11434/api/generate', {
-        model  : 'llama3',
+        model  : 'WheelZOnRent',
         prompt : prompt,
         stream : false,
       });
@@ -26,6 +26,13 @@ router.post('/send-prompt', async (req, res) => {
     }
 });
 
+router.post('/api/reset', (req, res) => {
+  conversationHistory = [];
+  res.json({ message: 'Conversation history reset.' });
+});
+
+let conversationHistory = [];
+
 router.post('/api/chat', async (req, res) => {
     const { model, messages, options, stream, keep_alive } = req.body;
   
@@ -33,23 +40,29 @@ router.post('/api/chat', async (req, res) => {
       return res.status(400).json({ error: 'Model and messages are required fields' });
     }
   
+    conversationHistory.push(...messages);
+
     const userMessage = messages.map(msg => `${msg.role}: ${msg.content}`).join('\n');
-  
+    console.log('User message:', userMessage);
+
     try {
       const response = await axios.post('http://localhost:11434/api/generate', {
-        model: 'llama3',
+        model: 'WheelZOnRent',
         prompt: userMessage,
         stream: stream || false,
         keep_alive: keep_alive || '5m',
       });
-  
+      
+      console.log('Model response:', response.data);
       const assistantMessage = response.data.response || 'No response from model';
   
+      conversationHistory.push({ role: 'assistant', content: assistantMessage });
+
       res.json({
         id: 'chatcmpl-123',
         object: 'chat.completion',
         created: Date.now(),
-        model: 'llama3',
+        model: 'WheelZOnRent',
         choices: [
           {
             message: {
@@ -66,6 +79,7 @@ router.post('/api/chat', async (req, res) => {
         }
       });
     } catch (error) {
+      console.error('Error:', error.message);
       res.status(500).json({ error: error.message });
     }
 });
