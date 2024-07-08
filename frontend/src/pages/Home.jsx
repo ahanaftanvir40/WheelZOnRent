@@ -74,7 +74,7 @@ function Home() {
         <div className='text-center  border-black max-w-sm'>
             <img className='m-auto max-w-20 max-h-20' src={rentcar} alt="" />
             <h1 className='text-xl text-slate-600 font-semibold mt-4'>Rent A Vehcile</h1>
-            <p className='text-sm text-slate-400 mt-2'>Select a date and wait for the approval.</p>
+            <p className='text-sm font-medium text-slate-400 mt-2'>Select a date and wait for the approval.</p>
             
         </div>
         
