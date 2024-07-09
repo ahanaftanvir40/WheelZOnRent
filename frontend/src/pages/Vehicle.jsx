@@ -103,16 +103,17 @@ function Vehicle() {
     };
 
     return (
-        <div className="mx-auto max-w-3xl py-4">
-            <Swiper
-                modules={[Navigation, Pagination]}
-                spaceBetween={50}
-                slidesPerView={1}
-                navigation
-                pagination={{ clickable: true }}
-            >
+        <div className="mx-auto max-w-sm sm:max-w-5xl py-4">
+            <div className="max-w-sm sm:max-w-3xl items-center m-auto">
+                <Swiper
+                    modules={[Navigation, Pagination]}
+                    spaceBetween={50}
+                    slidesPerView={1}
+                    navigation
+                    pagination={{ clickable: true }}
+                >
 
-                {/* <SwiperSlide>
+                    {/* <SwiperSlide>
                     <img src={gt86} alt="Vehicle 2" className="w-full h-full object-cover rounded-sm" />
                 </SwiperSlide>
                 <SwiperSlide>
@@ -120,20 +121,22 @@ function Vehicle() {
                 </SwiperSlide>
             </Swiper> */}
 
-                {vehicle.images && vehicle.images.length > 0 && vehicle.images.map((imageArray, index) => (
-                    <div key={index}>
-                        {[...imageArray].reverse().map((image, index) => (
-                            <SwiperSlide key={index}>
-                                <img src={`http://localhost:3000/public/images/vehicle-images/${image}`} alt="Vehicle 2" className="w-full h-full object-cover rounded-sm" />
-                            </SwiperSlide>
-                        ))}
-                    </div>
-                ))}
-            </Swiper>
+                    {vehicle.images && vehicle.images.length > 0 && vehicle.images.map((imageArray, index) => (
+                        <div key={index}>
+                            {[...imageArray].reverse().map((image, index) => (
+                                <SwiperSlide key={index}>
+                                    <img src={`http://localhost:3000/public/images/vehicle-images/${image}`} alt="Vehicle 2" className="w-full h-full object-cover rounded-sm" />
+                                </SwiperSlide>
+                            ))}
+                        </div>
+                    ))}
+                </Swiper>
+            </div>
 
 
 
-            <div className="flex justify-between">
+
+            <div className="flex justify-between mt-3 sm:mt-5">
                 <div>
                     <h1 className="flex items-center text-5xl font-extrabold text-slate-700 dark:text-white mt-3">
                         {vehicle.brand}
@@ -166,7 +169,7 @@ function Vehicle() {
                     </div>
 
                     <div className="flex w-full flex-col lg:flex-row mt-8">
-                        <div className="card bg-base-300 rounded-box grid h-32 max-w-80">
+                        <div className="card bg-base-300 rounded-box grid h-32 max-w-fit">
                             <div className="">
                                 <h1 className="px-3 py-2 text-lg font-semibold text-slate-500">Owner Name: <span className="font-normal">{vehicle.ownerId && vehicle.ownerId.name}</span> </h1>
                                 <h1 className="px-3 py-2 text-lg font-semibold text-slate-500">Location: <span className="font-normal">{vehicle.location}</span> </h1>
@@ -278,7 +281,7 @@ function Vehicle() {
                     }
                 </div>
             </div>
- 
+
         </div>
 
 
