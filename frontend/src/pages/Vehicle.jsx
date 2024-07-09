@@ -131,6 +131,8 @@ function Vehicle() {
                 ))}
             </Swiper>
 
+
+
             <div className="flex justify-between">
                 <div>
                     <h1 className="flex items-center text-5xl font-extrabold text-slate-700 dark:text-white mt-3">
@@ -144,15 +146,101 @@ function Vehicle() {
                     {vehicle.availability ? 'Available' : 'Not Available'}
                 </h1>
             </div>
-            <div className="mt-2 sm:mt-4 flex justify-between gap-4">
-                <div>
-                    <h1 className="font-medium text-lg text-slate-600">About the Vehicle:</h1>
-                    <p className="text-gray-500 dark:text-gray-400">{vehicle.description}</p>
+            <div role="tablist" className="tabs tabs-lifted mt-2 sm:mt-4">
+                <input type="radio" name="my_tabs_2" role="tab" className="tab" aria-label="Rent Details" defaultChecked />
+                <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
+                    <div>
+                        {vehicle.latitude && vehicle.latitude !== 0 && (
+                            <MapContainer center={[vehicle.latitude, vehicle.longitude]} zoom={13}>
+                                <TileLayer
+                                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                                    url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+                                />
+                                <Marker position={[vehicle.latitude, vehicle.longitude]} />
+                            </MapContainer>
+                        )}
+                    </div>
+                    <div className="mt-4">
+                        <h1 className="font-medium text-lg text-slate-600  ">About the Vehicle</h1>
+                        <p className="text-gray-500 dark:text-gray-400">{vehicle.description}</p>
+                    </div>
+
+                    <div className="flex w-full flex-col lg:flex-row mt-5">
+                        <div className="card bg-base-300 rounded-box grid h-32 max-w-80">
+                            <div className="">
+                                <h1 className="px-3 py-2 text-lg font-semibold text-slate-500">Owner Name: <span className="font-normal">{vehicle.ownerId && vehicle.ownerId.name}</span> </h1>
+                                <h1 className="px-3 py-2 text-lg font-semibold text-slate-500">Location: <span className="font-normal">{vehicle.location}</span> </h1>
+                            </div>
+
+
+                        </div>
+                        <div className="divider lg:divider-horizontal"></div>
+                        <div className="card bg-base-300 rounded-box grid h-32 flex-grow ">
+                            <div className="">
+                                <h1 className="px-3 py-2 text-lg font-semibold text-slate-500">Price Per Day: <span className="font-normal">{vehicle.pricePerDay} Taka</span> </h1>
+                                <h1 className="px-3 py-2 text-lg font-semibold text-slate-500">Condition: <span className="font-normal">{vehicle.condition}</span> </h1>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <input
+                    type="radio"
+                    name="my_tabs_2"
+                    role="tab"
+                    className="tab"
+                    aria-label="Vehicle Info"
+                />
+                <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
+                    <div className="flex flex-col sm:flex-row gap-4">
+                        <div className="flex flex-col gap-4 w-full sm:w-1/2">
+                            <div>
+                                <h1 className="px-3 py-2 text-lg font-semibold text-slate-500">Type</h1>
+                                <p className="px-3 py-2 bg-base-200 rounded-md">{vehicle.type}</p>
+                            </div>
+                            <div>
+                                <h1 className="px-3 py-2 text-lg font-semibold text-slate-500">Year</h1>
+                                <p className="px-3 py-2 bg-base-200 rounded-md">{vehicle.year}</p>
+                            </div>
+                            <div>
+                                <h1 className="px-3 py-2 text-lg font-semibold text-slate-500">Category</h1>
+                                <p className="px-3 py-2 bg-base-200 rounded-md">{vehicle.category}</p>
+                            </div>
+                        </div>
+
+                        <div className="divider lg:divider-horizontal"></div>
+
+                        <div className="flex flex-col gap-4 w-full sm:w-1/2">
+                            <div>
+                                <h1 className="px-3 py-2 text-lg font-semibold text-slate-500">Number Plate</h1>
+                                <p className="px-3 py-2 bg-base-200 rounded-md">{vehicle.no_plate}</p>
+                            </div>
+                            <div>
+                                <h1 className="px-3 py-2 text-lg font-semibold text-slate-500">Registration</h1>
+                                <p className="px-3 py-2 bg-base-200 rounded-md">{vehicle.registration_no}</p>
+                            </div>
+                            <div>
+                                <h1 className="px-3 py-2 text-lg font-semibold text-slate-500">Chassis Number</h1>
+                                <p className="px-3 py-2 bg-base-200 rounded-md">{vehicle.chassis_no}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <input type="radio" name="my_tabs_2" role="tab" className="tab" aria-label="Tab 3" />
+                <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
+                    Tab content 3
+                </div>
+            </div>
+            <div className="mt-2 sm:mt-4 flex justify-between gap-4">
+
 
                 <div className="">
                     {
-                        !booked ? <button onClick={() => setIsOpen(true)} className="btn">Book Now</button> : <button className="btn" disabled>Already Booked</button>
+                        !booked ? <button onClick={() => setIsOpen(true)} className="btn bg-blue-700 text-white hover:bg-blue-500">Book Now</button> : <button className="btn bg-slate-500" disabled>Already Booked</button>
                     }
                     {
                         isOpen && !booked && <dialog id="my_modal_4" className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50 ">
@@ -190,40 +278,7 @@ function Vehicle() {
                     }
                 </div>
             </div>
-            <div className="flex flex-col md:flex-row w-full mt-12 sm:mt-20 font-medium">
-                <div className="grid h-auto md:h-44 flex-grow card bg-gradient-to-r from-purple-500 to-pink-500 rounded-box place-items-center p-4 sm:p-1">
-                    <span className="text-md tracking-tighter text-slate-200 w-fit">Owner Name: {vehicle.ownerId && vehicle.ownerId.name}</span>
-                    <span>Type: {vehicle.type}</span>
-                    <span>Year: {vehicle.year}</span>
-                    <span>Location: {vehicle.location}</span>
-                    <span>Category: {vehicle.category}</span>
-                </div>
-                <div className="divider md:divider-horizontal"></div>
-                <div className="grid h-auto md:h-44 flex-grow card bg-gradient-to-br from-pink-500 to-orange-400 rounded-box place-items-center p-4 sm:p-1">
-                    <span className="w-fit font-medium text-slate-200">Price per Day: {vehicle.pricePerDay} Tk</span>
-                    <span>Condition: {vehicle.condition}</span>
-                    <span>Number Plate: {vehicle.no_plate}</span>
-                    <span>Chassis Number: {vehicle.chassis_no}</span>
-                    <span>Registration Number: {vehicle.registration_no}</span>
-                </div>
-            </div>
-            {vehicle.latitude && vehicle.latitude !== 0 && (
-                <MapContainer center={[vehicle.latitude, vehicle.longitude]} zoom={13}>
-                    <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url='https://tile.openstreetmap.org/{z}/{x}/{y}.png'
-                    />
-                    <Marker position={[vehicle.latitude, vehicle.longitude]} />
-                </MapContainer>
-            )}
-
-
-
-
-
-
-
-
+ 
         </div>
 
 
