@@ -9,13 +9,19 @@ import gt86 from '../assets/gt86.jpg' //dummy
 import { MapContainer, TileLayer, Marker } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import { useForm } from 'react-hook-form';
+import { useAuth } from "../store/auth";
+import ChatComponent from "../components/ChatComponent";
 
 function Vehicle() {
+    const {user} = useAuth()
+    console.log('User auth : ' , user._id);
     const { vehicleId } = useParams()
     const [vehicle, setVehicle] = useState({})
     const [drivers, setDrivers] = useState({})
     console.log('vehicle id from params:', vehicleId);
     const [booked, setBooked] = useState(false);
+
+    
     useEffect(() => {
         const fetchVehicle = async () => {
             try {
@@ -101,7 +107,7 @@ function Vehicle() {
                 console.error('Error:', error);
             });
     };
-
+    // console.log('Vehicle ID from fetch:' , vehicle._id);
     return (
         <div className="mx-auto max-w-sm sm:max-w-5xl py-4">
             <div className="max-w-sm sm:max-w-3xl items-center m-auto">
@@ -281,6 +287,7 @@ function Vehicle() {
                     }
                 </div>
             </div>
+            <ChatComponent vehicleId={vehicle._id} ownerId={vehicle.ownerId} userId={user._id} />
 
         </div>
 
