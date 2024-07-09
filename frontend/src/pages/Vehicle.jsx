@@ -165,7 +165,7 @@ function Vehicle() {
                         <p className="text-gray-500 dark:text-gray-400">{vehicle.description}</p>
                     </div>
 
-                    <div className="flex w-full flex-col lg:flex-row mt-5">
+                    <div className="flex w-full flex-col lg:flex-row mt-8">
                         <div className="card bg-base-300 rounded-box grid h-32 max-w-80">
                             <div className="">
                                 <h1 className="px-3 py-2 text-lg font-semibold text-slate-500">Owner Name: <span className="font-normal">{vehicle.ownerId && vehicle.ownerId.name}</span> </h1>
