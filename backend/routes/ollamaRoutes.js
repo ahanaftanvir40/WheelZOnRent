@@ -14,7 +14,7 @@ router.post('/send-prompt', async (req, res) => {
   
     try {
       const response = await axios.post('http://localhost:11434/api/generate', {
-        model  : 'WheelZOnRent',
+        model  : 'llama3',
         prompt : prompt,
         stream : false,
       });
@@ -31,11 +31,10 @@ router.post('/api/reset', (req, res) => {
   res.json({ message: 'Conversation history reset.' });
 });
 
-let conversationHistory = [];
-
 router.post('/api/chat', async (req, res) => {
     const { model, messages, options, stream, keep_alive } = req.body;
-  
+    let conversationHistory = [];
+
     if (!model || !messages || !Array.isArray(messages)) {
       return res.status(400).json({ error: 'Model and messages are required fields' });
     }
