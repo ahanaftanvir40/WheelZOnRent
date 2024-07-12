@@ -1,40 +1,48 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 import io from "socket.io-client";
 
 const socket = io("http://localhost:3000");
 
-function ChatComponent({ vehicleId, ownerId, userId }) {
+function ChatComponent({ vehicleId, userId, ownerId }) {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     const room = `${vehicleId}-${ownerId}-${userId}`;
-    socket.emit("join", room);
+    socket.emit("join", { vehicleId, ownerId, userId });
 
-    socket.on("message", (message) => {
-      setMessages((messages) => [...messages, message]);
+    // Fetch previous messages
+    axios.get(`http://localhost:3000/api/chat/${vehicleId}/${ownerId}/${userId}`)
+      .then(response => {
+        setMessages(response.data);
+      });
+
+    socket.on("message", (newMessage) => {
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
     });
 
     return () => {
       socket.off("message");
     };
-  }, [vehicleId, ownerId, userId]);
+  }, [vehicleId, userId, ownerId]);
 
   const sendMessage = (e) => {
     e.preventDefault();
     const room = `${vehicleId}-${ownerId}-${userId}`;
     if (message) {
-      socket.emit("message", { room, message });
+      socket.emit("message", { vehicleId, ownerId, userId, message, senderId: userId });
       setMessage("");
     }
   };
 
   return (
     <div className="chat-container">
-      <div className="chat-messages">
+      <h1>Chat with Owner {ownerId}</h1>
+      <div className="chat-messages w-fit h-fit">
         {messages.map((msg, index) => (
           <div key={index} className="chat-message">
-            {msg}
+            {msg.message}
           </div>
         ))}
       </div>
