@@ -16,6 +16,7 @@ import OwnerChatComponent from "../components/OwnerChatComponent";
 function Vehicle() {
     const { user } = useAuth()
     const authUser = user && user._id
+    const authUserName = user && user.name
     console.log('User auth : ', user._id);
     const { vehicleId } = useParams()
     const [vehicle, setVehicle] = useState({})
@@ -291,12 +292,12 @@ function Vehicle() {
                 </div>
             </div>
             {authUser !== ownerID && (
-                <ChatComponent vehicleId={vehicleId} ownerId={vehicle.ownerId && vehicle.ownerId._id} userId={authUser} />
+                <ChatComponent vehicleId={vehicleId} ownerId={vehicle.ownerId && vehicle.ownerId._id} userId={authUser} username={authUserName} />
 
             )}
-        {authUser === ownerID && (
-            <OwnerChatComponent vehicleId={vehicleId} ownerId={vehicle.ownerId && vehicle.ownerId._id}  />
-        )}
+            {authUser === ownerID && (
+                <OwnerChatComponent vehicleId={vehicleId} ownerId={vehicle.ownerId && vehicle.ownerId._id} />
+            )}
 
         </div>
 

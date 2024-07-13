@@ -4,7 +4,7 @@ import io from "socket.io-client";
 
 const socket = io("http://localhost:3000");
 
-function ChatComponent({ vehicleId, userId, ownerId }) {
+function ChatComponent({ vehicleId, userId, ownerId, username }) {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
 
@@ -31,7 +31,7 @@ function ChatComponent({ vehicleId, userId, ownerId }) {
     e.preventDefault();
     const room = `${vehicleId}-${ownerId}-${userId}`;
     if (message) {
-      socket.emit("message", { vehicleId, ownerId, userId, message, senderId: userId });
+      socket.emit("message", { vehicleId, ownerId, userId, message, senderId: userId  , username});
       setMessage("");
     }
   };

@@ -14,6 +14,9 @@ const MessageSchema = new Schema({
     type: String,
     required: true,
   },
+  username: {
+    type:String
+  },
   message: {
     type: String,
     required: true,

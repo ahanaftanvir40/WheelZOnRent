@@ -67,12 +67,12 @@ io.on('connection', (socket) => {
       socket.join(room);
     });
   
-    socket.on('message', async ({ vehicleId, ownerId, userId, message, senderId }) => {
+    socket.on('message', async ({ vehicleId, ownerId, userId, message, senderId , username}) => {
       const room = `${vehicleId}-${ownerId}-${userId}`;
-      const newMessage = new Message({ vehicleId, ownerId, userId, message, senderId });
+      const newMessage = new Message({ vehicleId, ownerId, userId, message, senderId , username});
       await newMessage.save();
-      io.to(room).emit('message', { message, senderId, timestamp: newMessage.timestamp });
-      io.to(`${vehicleId}-${ownerId}`).emit('newUser', { userId });
+      io.to(room).emit('message', { message, senderId, username, timestamp: newMessage.timestamp });
+      io.to(`${vehicleId}-${ownerId}`).emit('newUser', { userId , username });
     });
   
     socket.on('disconnect', () => {
@@ -89,7 +89,8 @@ io.on('connection', (socket) => {
   app.get('/api/ownerChats/:vehicleId/:ownerId', async (req, res) => {
     const { vehicleId, ownerId } = req.params;
     const userIds = await Message.distinct('userId', { vehicleId, ownerId });
-    res.json({ userIds });
+    const userNames = await Message.distinct('username' , {vehicleId , ownerId})
+    res.json({ userIds , userNames });
   });
 
 
