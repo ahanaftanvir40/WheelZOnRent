@@ -15,8 +15,6 @@ import bodyParser from 'body-parser';
 import http from 'http'
 import { Server } from 'socket.io'
 import { Socket } from 'dgram'
-import { Chat } from './models/chat.model.js'
-import chatRoutes from './routes/chatRoutes.js'
 import { Message } from './models/message.model.js'
 
 dotenv.config()
@@ -42,7 +40,7 @@ app.use('/api/admin', adminRoutes)
 app.use('/api', bookingRoutes)
 app.use('/api', notificationRoutes)
 app.use('/api/ollama', ollamaRoutes)
-app.use('/api', chatRoutes)
+
 
 const server = http.createServer(app)
 const io = new Server(server, {
