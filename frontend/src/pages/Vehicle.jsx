@@ -178,7 +178,7 @@ function Vehicle() {
                             <h1 className="font-medium text-lg text-slate-600  ">About the Vehicle</h1>
                             <p className="text-gray-500 dark:text-gray-400">{vehicle.description}</p>
                         </div>
-                        <div>
+                        <div className="mt-5">
                             {authUser !== ownerID && (
                                 <ChatComponent vehicleId={vehicleId} ownerId={vehicle.ownerId && vehicle.ownerId._id} userId={authUser} username={authUserName} ownerName={vehicle.ownerId && vehicle.ownerId.name} />
 
