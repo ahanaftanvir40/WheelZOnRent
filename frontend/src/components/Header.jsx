@@ -68,7 +68,7 @@ function Header() {
                                 </svg>
                             </button>
                             {dropdownOpen && (
-                                <ul className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden">
+                                <ul className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 shadow-lg rounded-lg overflow-hidden z-10">
                                     <li>
                                         <Link to="/profile" className="block px-4 py-2 text-black dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-300" onClick={handleOptionClick}>
                                             Profile
