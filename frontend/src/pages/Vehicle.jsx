@@ -173,10 +173,19 @@ function Vehicle() {
                             </MapContainer>
                         )}
                     </div>
-                    <div className="mt-4">
-                        <h1 className="font-medium text-lg text-slate-600  ">About the Vehicle</h1>
-                        <p className="text-gray-500 dark:text-gray-400">{vehicle.description}</p>
+                    <div className="flex justify-between">
+                        <div className="mt-4">
+                            <h1 className="font-medium text-lg text-slate-600  ">About the Vehicle</h1>
+                            <p className="text-gray-500 dark:text-gray-400">{vehicle.description}</p>
+                        </div>
+                        <div className="mt-5">
+                            {authUser !== ownerID && (
+                                <ChatComponent vehicleId={vehicleId} ownerId={vehicle.ownerId && vehicle.ownerId._id} userId={authUser} username={authUserName} ownerName={vehicle.ownerId && vehicle.ownerId.name} />
+
+                            )}
+                        </div>
                     </div>
+
 
                     <div className="flex w-full flex-col lg:flex-row mt-8">
                         <div className="card bg-base-300 rounded-box grid h-32 max-w-fit">
@@ -291,10 +300,10 @@ function Vehicle() {
                     }
                 </div>
             </div>
-            {authUser !== ownerID && (
-                <ChatComponent vehicleId={vehicleId} ownerId={vehicle.ownerId && vehicle.ownerId._id} userId={authUser} username={authUserName} />
+            {/* {authUser !== ownerID && (
+                <ChatComponent vehicleId={vehicleId} ownerId={vehicle.ownerId && vehicle.ownerId._id} userId={authUser} username={authUserName} ownerName={vehicle.ownerId && vehicle.ownerId.name} />
 
-            )}
+            )} */}
             {authUser === ownerID && (
                 <OwnerChatComponent vehicleId={vehicleId} ownerId={vehicle.ownerId && vehicle.ownerId._id} />
             )}
