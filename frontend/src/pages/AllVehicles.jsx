@@ -86,7 +86,12 @@ function AllVehicles() {
                 </div>
             </form>
 
-            <div className="flex gap-8 flex-wrap w-full mt-20">
+            <div className="gap-1 mt-10 mb-8">
+            <h2 className="text-2xl font-bold tracking-tight">Available Vehicles</h2>
+            <p className="text-semibold text-slate-500">Browse our selection of vehicles for rent.</p>
+          </div>
+
+            <div className="flex gap-8 flex-wrap w-full ">
                 {vehicles.map((vehicle) => (
                     <VehicleCard key={vehicle._id} vehicle={vehicle} />
                 ))}
