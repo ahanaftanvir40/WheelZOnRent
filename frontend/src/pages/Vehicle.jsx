@@ -135,7 +135,7 @@ function Vehicle() {
                         <div key={index}>
                             {[...imageArray].reverse().map((image, index) => (
                                 <SwiperSlide key={index}>
-                                    <img src={`http://localhost:3000/public/images/vehicle-images/${image}`} alt="Vehicle 2" className="w-full h-full object-cover rounded-sm" />
+                                    <img src={`http://localhost:3000/public/images/vehicle-images/${image}`} alt="Vehicle 2" className="w-fit h-fit object-cover rounded-sm" />
                                 </SwiperSlide>
                             ))}
                         </div>
