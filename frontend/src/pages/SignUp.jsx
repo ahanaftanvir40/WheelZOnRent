@@ -1,6 +1,7 @@
 
 import axios from 'axios'
 import { useState } from 'react'
+import toast from 'react-hot-toast'
 import { useNavigate, Link } from 'react-router-dom'
 
 
@@ -14,12 +15,13 @@ function SignUp() {
         drivingLicense: '',
         phoneNumber: '',
         nationalId: '',
-        
+
 
     })
 
     const [avatar, setAvatar] = useState(null)
     const [licenseFile, setLicenseFile] = useState(null)
+    const [error, setError] = useState([])
 
     const onChange = (e) => {
         setUserData({ ...userData, [e.target.name]: e.target.value })
@@ -69,8 +71,16 @@ function SignUp() {
             console.log(response.data); //remove console log
             const json = await response.data
             console.log(json); //remove log
-            if (!json.success) {
-                alert('Enter Valid Credentials')
+
+            if (json.error) {
+                toast.error('Please Check Your Inputs' , {
+                    style: {
+                        borderRadius: '10px',
+                        background: '#333',
+                        color: '#fff',
+                      },
+                })
+                setError(json.error)
             }
             if (json.success) {
                 navigate('/login')
@@ -86,7 +96,7 @@ function SignUp() {
 
 
     return (
-        <div className="flex flex-col items-center p-20">
+        <div className="flex flex-col items-center p-20 min-h-screen">
             <div className="w-full max-w-md">
                 <h1 className="text-center mb-10 text-3xl font-medium bg-gradient-to-r from-orange-500 to-blue-500 text-transparent bg-clip-text">Sign Up as a New User</h1>
                 <form onSubmit={handleSubmit} className="text-black">
@@ -135,11 +145,18 @@ function SignUp() {
                             </div>
                         </>
                     )}
+                    {error.map((item) => (
+                        <div key={item.message}>
+                            <p className='text-red-600 text-sm mt-1'>{item.message}</p>
+                        </div>
+                    ))}
+                    <div className='mt-2'>
 
                     <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
                     <span>
                         <Link className='text-sm text-blue-600 ml-4' to='/login'>Already a user?</Link>
                     </span>
+                    </div>
                 </form>
             </div>
         </div>
