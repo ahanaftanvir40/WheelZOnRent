@@ -34,11 +34,11 @@ function AllVehicles() {
 
     if (loading) {
         return (
-            <div className="flex flex-col gap-4 w-52">
-                <div className="skeleton h-32 w-full"></div>
-                <div className="skeleton h-4 w-28"></div>
-                <div className="skeleton h-4 w-full"></div>
-                <div className="skeleton h-4 w-full"></div>
+            <div className="flex flex-col gap-4 w-full min-h-screen justify-center items-center">
+                    <div className="skeleton h-32 w-52"></div>
+                    <div className="skeleton h-4 w-28"></div>
+                    <div className="skeleton h-4 w-20"></div>
+                    <div className="skeleton h-4 w-16"></div>
             </div>
         )
     }
@@ -87,9 +87,9 @@ function AllVehicles() {
             </form>
 
             <div className="gap-1 mt-10 mb-8">
-            <h2 className="text-2xl font-bold tracking-tight dark:text-white/80">Available Vehicles</h2>
-            <p className="text-semibold text-slate-600 dark:text-slate-400">Browse our selection of vehicles for rent.</p>
-          </div>
+                <h2 className="text-2xl font-bold tracking-tight dark:text-white/80">Available Vehicles</h2>
+                <p className="text-semibold text-slate-600 dark:text-slate-400">Browse our selection of vehicles for rent.</p>
+            </div>
 
             <div className="flex gap-8 flex-wrap w-full ">
                 {vehicles.map((vehicle) => (
