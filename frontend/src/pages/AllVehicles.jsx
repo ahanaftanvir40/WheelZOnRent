@@ -43,7 +43,7 @@ function AllVehicles() {
         )
     }
     return (
-        <div className="mt-5 p-4">
+        <div className="mt-5 py-4 sm:px-28">
             <form onSubmit={handleSearchSubmit} className="max-w-md mx-auto ">
                 <label
                     htmlFor="default-search"
@@ -87,8 +87,8 @@ function AllVehicles() {
             </form>
 
             <div className="gap-1 mt-10 mb-8">
-            <h2 className="text-2xl font-bold tracking-tight">Available Vehicles</h2>
-            <p className="text-semibold text-slate-500">Browse our selection of vehicles for rent.</p>
+            <h2 className="text-2xl font-bold tracking-tight dark:text-white/80">Available Vehicles</h2>
+            <p className="text-semibold text-slate-600 dark:text-slate-400">Browse our selection of vehicles for rent.</p>
           </div>
 
             <div className="flex gap-8 flex-wrap w-full ">
