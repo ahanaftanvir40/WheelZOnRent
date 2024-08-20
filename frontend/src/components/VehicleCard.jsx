@@ -4,7 +4,7 @@ import gt86 from '../assets/gt86.jpg' //dummy img
 
 function VehicleCard({ vehicle }) {
     return (
-        <div className="max-w-sm bg-white rounded-lg shadow-md overflow-hidden transition transform hover:-translate-y-1 hover:shadow-lg dark:bg-gray-800 dark:border-gray-700">
+        <div className="max-w-sm bg-white rounded-lg shadow-md overflow-hidden transition transform hover:-translate-y-1 hover:shadow-lg dark:bg-black/70 dark:border-gray-700 dark:shadow-zinc-900">
             <Link to={`/vehicles/${vehicle._id}`}>
                 {vehicle.images && vehicle.images.length > 0 ? (
                     <img className="rounded-t-lg w-full h-56 sm:h-60 object-cover" src={`http://localhost:3000/public/images/vehicle-images/${vehicle.images[0][0]}`} alt={`${vehicle.brand} ${vehicle.model}`} />
@@ -13,7 +13,7 @@ function VehicleCard({ vehicle }) {
                 )}
             </Link>
             <div className="px-6 py-4">
-                <div className="flex justify-between">
+                <div className="flex justify-between items-center">
                     <div>
                         <Link to={`/vehicles/${vehicle._id}`}>
                             <h5 className=" font-roboto text-2xl font-semibold tracking-tight text-slate-800 dark:text-white hover:text-slate-600">
@@ -24,8 +24,8 @@ function VehicleCard({ vehicle }) {
                         </Link>
                     </div>
                     <div>
-                        <span className="bg-slate-800 text-white font-semibold px-3 py-2 pointer-events-none rounded-full">
-                            {vehicle.pricePerDay}Tk<span className="text-slate-200 dark:text-gray-400 font-medium">/day</span>
+                        <span className="bg-slate-800 dark:bg-transparent dark:border-2 text-white font-semibold px-2 py-1.5 pointer-events-none rounded-full">
+                            {vehicle.pricePerDay}Tk<span className="text-slate-200 dark:text-white/60 font-medium">/day</span>
                         </span>
                     </div>
                 </div>
@@ -44,7 +44,7 @@ function VehicleCard({ vehicle }) {
                         height="256"
                         viewBox="0 0 256 256"
                     >
-                        <g fill="#000" strokeMiterlimit="10" strokeWidth="0">
+                        <g fill="#808080" strokeMiterlimit="10" strokeWidth="0">
                             <path
                                 d="M45 90a3 3 0 01-2.583-1.475l-4.471-7.563c-9.222-15.591-17.933-30.317-20.893-36.258a30.788 30.788 0 01-3.138-13.62C13.916 13.944 27.86 0 45 0c17.141 0 31.085 13.944 31.085 31.084a30.8 30.8 0 01-3.124 13.596l-.063.124c-3.007 6.005-11.672 20.654-20.843 36.159l-4.472 7.563A3 3 0 0145 90zm0-84C31.168 6 19.916 17.253 19.916 31.084c0 3.848.847 7.539 2.518 10.969 2.852 5.721 11.909 21.033 20.667 35.839L45 81.104l1.89-3.196c8.763-14.813 17.823-30.131 20.687-35.879l.035-.067a24.843 24.843 0 002.474-10.877C70.085 17.253 58.832 6 45 6z"
                                 transform="matrix(2.81 0 0 2.81 1.407 1.407)"

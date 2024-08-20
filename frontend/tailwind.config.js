@@ -6,6 +6,7 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
 
   ],
+  darkMode:'class',
   theme: {
     extend: {
       fontFamily: {
@@ -14,7 +15,7 @@ export default {
     },
   },
   plugins: [
-    require('daisyui'),
+    daisyui,
   ],
 }
 
