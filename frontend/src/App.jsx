@@ -8,7 +8,7 @@ function App() {
 
 
   return (
-    <div className='dark:bg-zinc-950 bg-base-100'>
+    <div className='dark:bg-zinc-950 bg-white'>
       <Header />
       <AllRoutes />
       <Footer />

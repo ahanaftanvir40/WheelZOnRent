@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 
 function Home() {
     return (
-<div className="w-full min-h-screen overflow-x-hidden">
+<div className="min-h-screen mx-auto p-4">
     <div className="flex justify-center mt-5 sm:mt-14">
         <Hero />
     </div>
@@ -66,16 +66,16 @@ function Home() {
             </div>
         </div>
     </div>
-    <div className='flex justify-center mt-10 sm:mt-16 border-cyan-900 max-w-screen-2xl mx-auto'>
+    <div className='flex justify-center mt-10 sm:mt-16 border-cyan-900 max-w-screen-2xl mx-auto items-center'>
         <h1 className='text-2xl text-slate-600 dark:text-slate-200 font-extrabold'>How It <span className='text-cyan-500'>Works</span></h1>
     </div>
-    <div className='flex flex-wrap justify-center gap-6 mt-5 sm:mt-14 px-4'>
+    <div className='flex flex-wrap justify-center items-center gap-6 mt-5 sm:mt-14 '>
         <div className='text-center max-w-sm'>
             <img className='m-auto max-w-20 max-h-20' src={rentcar} alt="Rent Car" />
             <h1 className='text-xl text-slate-600 dark:text-white/90 font-semibold mt-4'>Rent A Vehicle</h1>
             <p className='text-sm font-medium text-slate-400 mt-2'>Select a date and wait for the approval.</p>
         </div>
-        <div className='text-center max-w-sm sm:ml-20 sm:mr-20'>
+        <div className='text-center max-w-sm '>
             <img className='m-auto max-w-20 max-h-20' src={addcar} alt="Add Car" />
             <h1 className='text-xl text-slate-600 dark:text-white/90 font-semibold mt-4'>Add Your Vehicle</h1>
             <p className='text-sm font-medium text-slate-400 mt-2'>Give necessary details and list it for rent.</p>
