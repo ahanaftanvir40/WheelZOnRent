@@ -43,7 +43,7 @@ function AllVehicles() {
         )
     }
     return (
-        <div className="mt-5 py-4 sm:px-28">
+        <div className="mt-5 py-4 px-8 sm:px-28">
             <form onSubmit={handleSearchSubmit} className="max-w-md mx-auto ">
                 <label
                     htmlFor="default-search"

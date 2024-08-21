@@ -113,7 +113,7 @@ function Vehicle() {
     // console.log('Vehicle ID from fetch:' , vehicle._id);
     const ownerID = vehicle.ownerId && vehicle.ownerId._id
     return (
-        <div className="mx-auto max-w-sm sm:max-w-5xl py-4">
+        <div className="mx-auto max-w-sm sm:max-w-5xl py-8 min-h-screen">
             <div className="max-w-sm sm:max-w-3xl items-center m-auto">
                 <Swiper
                     modules={[Navigation, Pagination]}
@@ -135,7 +135,7 @@ function Vehicle() {
                         <div key={index}>
                             {[...imageArray].reverse().map((image, index) => (
                                 <SwiperSlide key={index}>
-                                    <img src={`http://localhost:3000/public/images/vehicle-images/${image}`} alt="Vehicle 2" className="w-fit h-fit object-cover rounded-sm" />
+                                    <img src={`http://localhost:3000/public/images/vehicle-images/${image}`} alt="Vehicle 2" className=" object-contain object-center rounded-sm" />
                                 </SwiperSlide>
                             ))}
                         </div>
@@ -159,9 +159,9 @@ function Vehicle() {
                     {vehicle.availability ? 'Available' : 'Not Available'}
                 </h1>
             </div>
-            <div role="tablist" className="tabs tabs-lifted mt-2 sm:mt-4">
-                <input type="radio" name="my_tabs_2" role="tab" className="tab" aria-label="Rent Details" defaultChecked />
-                <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
+            <div role="tablist" className="tabs tabs-lifted mt-2 sm:mt-4 " >
+                <input type="radio" name="my_tabs_2" role="tab" className='tab text-blue-500 font-semibold dark:text-white/80 bg-transparent ' aria-label="Rent Details" defaultChecked  data-theme='dark' />
+                <div role="tabpanel" className="tab-content bg-custom-dark border-none  rounded-box p-6 "> 
                     <div>
                         {vehicle.latitude && vehicle.latitude !== 0 && (
                             <MapContainer center={[vehicle.latitude, vehicle.longitude]} zoom={13}>
@@ -210,10 +210,11 @@ function Vehicle() {
                     type="radio"
                     name="my_tabs_2"
                     role="tab"
-                    className="tab"
+                    className="tab text-blue-500 font-semibold dark:text-white/80 bg-transparent"
                     aria-label="Vehicle Info"
+                    data-theme='dark'
                 />
-                <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
+                <div role="tabpanel" className="tab-content  rounded-box p-6 bg-custom-dark border-none">
                     <div className="flex flex-col sm:flex-row gap-4">
                         <div className="flex flex-col gap-4 w-full sm:w-1/2">
                             <div>
@@ -252,8 +253,8 @@ function Vehicle() {
 
 
 
-                <input type="radio" name="my_tabs_2" role="tab" className="tab" aria-label="Tab 3" />
-                <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
+                <input type="radio" name="my_tabs_2" role="tab" className="tab text-blue-500 font-semibold dark:text-white/80 bg-transparent" aria-label="Tab 3" data-theme='dark' />
+                <div role="tabpanel" className="tab-content  rounded-box p-6 bg-custom-dark border-none">
                     Tab content 3
                 </div>
             </div>
