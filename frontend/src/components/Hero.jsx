@@ -6,7 +6,7 @@ function Hero() {
             <section className="relative bg-center bg-cover bg-[url('./assets/hero2.png')] rounded-md w-full h-[350px] sm:h-[500px] md:h-[400px] lg:h-[500px] overflow-hidden">
                 <div className="relative h-full flex flex-col justify-between">
                     <div className="text-center pt-3 sm:pt-8 md:pt-8 lg:pt-8">
-                        <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl bg-clip-text dark:text-transparent dark:bg-gradient-to-b from-neutral-50 to-neutral-400 font-bold">
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl bg-clip-text dark:text-transparent dark:bg-gradient-to-b from-neutral-50 to-neutral-400 font-bold">
                             Welcome to <span className=' bg-clip-text dark:text-transparent dark:bg-gradient-to-b from-amber-300 to-amber-700'>WheelZOnRent</span>
                         </h1>
                         <p className="mb-2 mt-3 sm:mt-4 md:mt-5 lg:mt-5 text-sm sm:text-sm md:text-xl lg:text-xl font-normal text-slate-700 dark:text-slate-200 drop-shadow-lg">
