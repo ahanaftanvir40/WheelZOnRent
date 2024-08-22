@@ -46,17 +46,17 @@ function ChatComponent({ vehicleId, userId, ownerId, username , ownerName }) {
   return (
     <div>
       {/* You can open the modal using document.getElementById('my_modal_3').showModal() method */}
-      <button className="btn bg-slate-800 text-white hover:bg-slate-600" onClick={() => document.getElementById('my_modal_3').showModal()}>Chat With Owner</button>
+      <button className="btn bg-slate-800 border-none text-white hover:bg-slate-900" onClick={() => document.getElementById('my_modal_3').showModal()}>Chat With Owner</button>
       <dialog id="my_modal_3" className="modal">
-        <div className="modal-box w-fit h-fit" style={{  scrollbarWidth: "none", msOverflowStyle: "none" }}>
+        <div className="modal-box w-fit h-fit dark:bg-zinc-700" style={{  scrollbarWidth: "none", msOverflowStyle: "none" }}>
           <form method="dialog">
             {/* if there is a button in form, it will close the modal */}
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            <button className="btn btn-sm btn-circle btn-error absolute right-2 top-2">✕</button>
           </form>
           
           <div className="w-full h-full mx-auto p-6 ">
-            <h1 className="text-2xl font-bold mb-4 text-center">Chat with Owner {ownerName}</h1>
-            <div ref={chatContainerRef} className="chat-messages overflow-hidden flex flex-col space-y-4 overflow-y-auto max-h-72 p-4 border border-gray-300 rounded-lg bg-gray-50">
+            <h1 className="text-2xl font-bold mb-4 text-center dark:text-white/80">Chat with Owner {ownerName}</h1>
+            <div ref={chatContainerRef} className="chat-messages overflow-hidden flex flex-col space-y-4 overflow-y-auto max-h-72 p-4 border-2 border-gray-300 dark:border-gray-400 rounded-lg bg-gray-50 dark:bg-zinc-700">
               {messages.map((msg, index) => (
                 <div
                   key={index}
