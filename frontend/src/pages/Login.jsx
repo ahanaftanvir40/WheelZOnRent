@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import axios from 'axios'
 import { useNavigate, Link } from 'react-router-dom'
-
+import toast from 'react-hot-toast'
 
 function Login() {
     const navigate = useNavigate()
@@ -25,10 +25,11 @@ function Login() {
             console.log(response.data); //remove console log
             const json = await response.data
             if (!json.success) {
-                alert('Login with valid Credentials')
+                toast.error('Login with valid Credentials')
             }
             if (json.success) {
                 localStorage.setItem('authToken', json.authToken)
+                toast.success('You are Signed In')
 
 
                 console.log(localStorage.getItem('authToken'));
