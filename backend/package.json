@@ -1,7 +1,6 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "type": "module",
   "scripts": {
@@ -28,5 +27,7 @@
     "nodemailer": "^6.9.14",
     "socket.io": "^4.7.5",
     "zod": "^3.23.8"
-  }
+  },
+  "devDependencies": {},
+  "description": ""
 }

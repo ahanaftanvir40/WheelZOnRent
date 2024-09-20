@@ -14,7 +14,7 @@ import path from 'path'
 import bodyParser from 'body-parser';
 import http from 'http'
 import { Server } from 'socket.io'
-import { Socket } from 'dgram'
+// import { Socket } from 'dgram'
 import { Message } from './models/message.model.js'
 
 dotenv.config()
@@ -59,37 +59,37 @@ app.get('/', (req, res) => {
 
 // Socekt-Io-Config
 
-io.on('connection', (socket) => {
-    socket.on('join', ({ vehicleId, ownerId, userId }) => {
-      const room = `${vehicleId}-${ownerId}-${userId}`;
-      socket.join(room);
-    });
+// io.on('connection', (socket) => {
+//     socket.on('join', ({ vehicleId, ownerId, userId }) => {
+//       const room = `${vehicleId}-${ownerId}-${userId}`;
+//       socket.join(room);
+//     });
   
-    socket.on('message', async ({ vehicleId, ownerId, userId, message, senderId , username}) => {
-      const room = `${vehicleId}-${ownerId}-${userId}`;
-      const newMessage = new Message({ vehicleId, ownerId, userId, message, senderId , username});
-      await newMessage.save();
-      io.to(room).emit('message', { message, senderId, username, timestamp: newMessage.timestamp });
-      io.to(`${vehicleId}-${ownerId}`).emit('newUser', { userId , username });
-    });
+//     socket.on('message', async ({ vehicleId, ownerId, userId, message, senderId , username}) => {
+//       const room = `${vehicleId}-${ownerId}-${userId}`;
+//       const newMessage = new Message({ vehicleId, ownerId, userId, message, senderId , username});
+//       await newMessage.save();
+//       io.to(room).emit('message', { message, senderId, username, timestamp: newMessage.timestamp });
+//       io.to(`${vehicleId}-${ownerId}`).emit('newUser', { userId , username });
+//     });
   
-    socket.on('disconnect', () => {
-      console.log('User disconnected');
-    });
-  });
+//     socket.on('disconnect', () => {
+//       console.log('User disconnected');
+//     });
+//   });
   
-  app.get('/api/chat/:vehicleId/:ownerId/:userId', async (req, res) => {
-    const { vehicleId, ownerId, userId } = req.params;
-    const messages = await Message.find({ vehicleId, ownerId, userId }).sort('timestamp');
-    res.json(messages);
-  });
+//   app.get('/api/chat/:vehicleId/:ownerId/:userId', async (req, res) => {
+//     const { vehicleId, ownerId, userId } = req.params;
+//     const messages = await Message.find({ vehicleId, ownerId, userId }).sort('timestamp');
+//     res.json(messages);
+//   });
   
-  app.get('/api/ownerChats/:vehicleId/:ownerId', async (req, res) => {
-    const { vehicleId, ownerId } = req.params;
-    const userIds = await Message.distinct('userId', { vehicleId, ownerId });
-    const userNames = await Message.distinct('username' , {vehicleId , ownerId})
-    res.json({ userIds , userNames });
-  });
+//   app.get('/api/ownerChats/:vehicleId/:ownerId', async (req, res) => {
+//     const { vehicleId, ownerId } = req.params;
+//     const userIds = await Message.distinct('userId', { vehicleId, ownerId });
+//     const userNames = await Message.distinct('username' , {vehicleId , ownerId})
+//     res.json({ userIds , userNames });
+//   });
 
 
 
