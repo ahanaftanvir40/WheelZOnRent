@@ -155,4 +155,20 @@ router.delete('/booking/:id', auth, async (req, res) => {
     }
 })
 
+router.get('/bookings/unavailable-dates/:vehicleId', async (req, res) => {
+
+    const {vehicleId} = req.params;
+    try {
+        const bookings = await Booking.find({vehicleId:vehicleId, status:'approved'})
+        const unavailableDates = bookings.map(booking => {
+            return {
+                start: booking.bookingStart,
+                end: booking.bookingEnd
+            }
+        })
+    } catch (error) {
+        
+    }
+})
+
 export default router;
