@@ -53,13 +53,13 @@ router.post('/bookings', auth, async (req, res) => {
         const formattedBookingEnd = newBooking.bookingEnd.toLocaleDateString('en-GB', options).replace(/\//g, '-');
 
         const ownerNotify = await sendEmail(
-            ownerEmail, 
+            ownerEmail,
             `Booking Request: ${vehicle.brand} ${vehicle.model}. Booking ID: ${bookingID}`,
             `Dear ${owner.name}, \n${user.name} has requested to book your vehicle ${vehicle.brand} ${vehicle.model} from ${formattedBookingStart} to ${formattedBookingEnd}.\n\nRegards, \nTeam WheelZOnRent`
         );
 
         const userNotify = await sendEmail(
-            user.email, 
+            user.email,
             `Booking Request sent. Vehicle: ${vehicle.brand} ${vehicle.model}. Booking ID: ${bookingID}`,
             `Dear ${user.name}, \nYour booking request for ${vehicle.brand} ${vehicle.model} from ${formattedBookingStart} to ${formattedBookingEnd} has been sent to the owner. \n\nRegards, \nTeam WheelZOnRent`
         );
@@ -157,17 +157,18 @@ router.delete('/booking/:id', auth, async (req, res) => {
 
 router.get('/bookings/unavailable-dates/:vehicleId', async (req, res) => {
 
-    const {vehicleId} = req.params;
+    const { vehicleId } = req.params;
     try {
-        const bookings = await Booking.find({vehicleId:vehicleId, status:'approved'})
+        const bookings = await Booking.find({ vehicleId: vehicleId, status: 'approved' })
         const unavailableDates = bookings.map(booking => {
             return {
                 start: booking.bookingStart,
                 end: booking.bookingEnd
             }
-        })
+        }) //array of objects dates
+        return res.json({ unavailableDates })
     } catch (error) {
-        
+        res.status(500).json({ message: 'Error fetching unavailable dates' });
     }
 })
 
