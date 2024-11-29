@@ -36,6 +36,8 @@ function Vehicle() {
   console.log("vehicle id from params:", vehicleId);
   const [booked, setBooked] = useState(false);
 
+  const [unavailableDates, setUnavailableDates] = useState([]);
+
   useEffect(() => {
     const fetchVehicle = async () => {
       try {
@@ -60,21 +62,26 @@ function Vehicle() {
   //fetch unavailable dates
   useEffect(() => {
     const fetchUnavailableDates = async () => {
-      const response = await axios.get(
-        `http://localhost:3000/api/bookings/unavailable-dates/${vehicleId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-          },
-        }
-      );
-      console.log(
-        "Unavailable dates fetched: ",
-        response.data.unavailableDates
-      );
+      try {
+        const response = await axios.get(
+          `http://localhost:3000/api/bookings/unavailable-dates/${vehicleId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+            },
+          }
+        );
+        setUnavailableDates(response.data.unavailableDates);
+        console.log("Unavailable Dates:", response.data.unavailableDates);
+
+      } catch (error) {
+        console.error("Error fetching unavailable dates:", error);
+      }
     };
+
     fetchUnavailableDates();
-  });
+  }, []); // Dependency array includes `vehicleId`
+
 
   //fetch drivers
   useEffect(() => {
@@ -202,11 +209,10 @@ function Vehicle() {
           </h1>
         </div>
         <h1
-          className={`py-4 px-4 rounded-lg text-center text-xl font-semibold  sm:mt-0 ${
-            vehicle.availability
-              ? "bg-gradient-to-r from-teal-200 to-lime-200 text-black/80"
-              : "bg-red-500 text-white"
-          }`}
+          className={`py-4 px-4 rounded-lg text-center text-xl font-semibold  sm:mt-0 ${vehicle.availability
+            ? "bg-gradient-to-r from-teal-200 to-lime-200 text-black/80"
+            : "bg-red-500 text-white"
+            }`}
         >
           {vehicle.availability ? "Available" : "Not Available"}
         </h1>
