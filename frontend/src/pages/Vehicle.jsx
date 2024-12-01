@@ -72,7 +72,6 @@ function Vehicle() {
           }
         );
         setUnavailableDates(response.data.unavailableDates);
-        console.log("Unavailable Dates:", response.data.unavailableDates);
 
       } catch (error) {
         console.error("Error fetching unavailable dates:", error);
@@ -114,18 +113,24 @@ function Vehicle() {
   const [startDate, setStartDate] = useState(today);
   const nextDay = new Date(startDate);
   nextDay.setDate(nextDay.getDate() + 1);
+
+
   const validateStartDate = (value) => {
-    if (new Date(value) < new Date(today)) {
-      return "Start date cannot be in the past";
-    }
-    return true;
+    const selectedDate = new Date(value);
+    const isUnavailable = unavailableDates.some(
+      (range) =>
+        selectedDate >= new Date(range.start) && selectedDate <= new Date(range.end)
+    );
+    return isUnavailable ? "Selected start date is unavailable" : true;
   };
 
   const validateEndDate = (value) => {
-    if (new Date(value) <= new Date(startDate)) {
-      return "End date must be at least one day after the start date";
-    }
-    return true;
+    const selectedDate = new Date(value);
+    const isUnavailable = unavailableDates.some(
+      (range) =>
+        selectedDate >= new Date(range.start) && selectedDate <= new Date(range.end)
+    );
+    return isUnavailable ? "Selected end date is unavailable" : true;
   };
   const onSubmit = (data) => {
     console.log(data);
@@ -163,6 +168,8 @@ function Vehicle() {
   };
   // console.log('Vehicle ID from fetch:' , vehicle._id);
   const ownerID = vehicle.ownerId && vehicle.ownerId._id;
+  console.log("unavailable dates:", unavailableDates);
+
   return (
     <div className="mx-auto max-w-sm sm:max-w-full py-8 min-h-screen w-full sm:px-52 ">
       <div className="max-w-sm sm:max-w-2xl items-center m-auto">
