@@ -5,13 +5,17 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Navigation, Pagination } from "swiper/modules";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import toast from "react-hot-toast";
 import gt86 from "../assets/gt86.jpg"; //dummy
 import { MapContainer, TileLayer, Marker } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import { useAuth } from "../store/auth";
 import ChatComponent from "../components/ChatComponent";
 import OwnerChatComponent from "../components/OwnerChatComponent";
+
 
 import {
   MapIcon,
@@ -35,7 +39,6 @@ function Vehicle() {
   const [drivers, setDrivers] = useState({});
   console.log("vehicle id from params:", vehicleId);
   const [booked, setBooked] = useState(false);
-
   const [unavailableDates, setUnavailableDates] = useState([]);
 
   useEffect(() => {
@@ -100,72 +103,138 @@ function Vehicle() {
     fetchDrivers();
   }, []);
   console.log("Drivers:", drivers);
-  //BOOKING
 
+  //BOOKING
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [total, setTotal] = useState(0);
+
   const [isOpen, setIsOpen] = useState(false);
-  const today = new Date().toISOString().split("T")[0];
-  const [startDate, setStartDate] = useState(today);
-  const nextDay = new Date(startDate);
-  nextDay.setDate(nextDay.getDate() + 1);
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+
+  const unavailableDateObjects = unavailableDates.flatMap((dateRange) => {
+    const start = new Date(dateRange.start);
+    const end = new Date(dateRange.end);
 
 
-  const validateStartDate = (value) => {
-    const selectedDate = new Date(value);
-    const isUnavailable = unavailableDates.some(
-      (range) =>
-        selectedDate >= new Date(range.start) && selectedDate <= new Date(range.end)
-    );
-    return isUnavailable ? "Selected start date is unavailable" : true;
-  };
+    const dates = [];
+    let current = new Date(start);
 
-  const validateEndDate = (value) => {
-    const selectedDate = new Date(value);
-    const isUnavailable = unavailableDates.some(
-      (range) =>
-        selectedDate >= new Date(range.start) && selectedDate <= new Date(range.end)
-    );
-    return isUnavailable ? "Selected end date is unavailable" : true;
-  };
-  const onSubmit = (data) => {
-    console.log(data);
-    console.log(vehicle);
-    const startDate = new Date(data.startDate);
-    startDate.setHours(0, 0, 0, 0); // Reset time to start of the day
-    const endDate = new Date(data.endDate);
-    endDate.setHours(0, 0, 0, 0); // Reset time to start of the day
-    const dailyRate = vehicle.pricePerDay;
-    const diffTime = Math.abs(endDate - startDate);
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    const driverId = data.driverId;
-    const totalAmount = diffDays * dailyRate;
-    const newBooking = {
-      vehicleId: vehicle._id,
-      ownerId: vehicle.ownerId,
-      driverId,
-      bookingStart: startDate,
-      bookingEnd: endDate,
-      totalAmount: totalAmount,
-    };
-    axios
-      .post(`http://localhost:3000/api/bookings`, newBooking, {
+    while (current <= end) {
+      dates.push(new Date(current));
+      current.setDate(current.getDate() + 1);
+    }
+
+    return dates;
+  });
+  console.log("unavailableDateObjects:", unavailableDateObjects);
+
+
+  // const nextDay = new Date(startDate);
+  // nextDay.setDate(nextDay.getDate() + 1);
+
+
+
+
+  // const validateStartDate = (value) => {
+  //   const selectedDate = new Date(value);
+  //   const isUnavailable = unavailableDates.some(
+  //     (range) =>
+  //       selectedDate >= new Date(range.start) && selectedDate <= new Date(range.end)
+  //   );
+  //   return isUnavailable ? "Selected start date is unavailable" : true;
+  // };
+
+  // const validateEndDate = (value) => {
+  //   const selectedDate = new Date(value);
+  //   const isUnavailable = unavailableDates.some(
+  //     (range) =>
+  //       selectedDate >= new Date(range.start) && selectedDate <= new Date(range.end)
+  //   );
+  //   return isUnavailable ? "Selected end date is unavailable" : true;
+  // };
+  // const onSubmit = (data) => {
+  //   console.log(data);
+  //   console.log(vehicle);
+  //   const startDate = new Date(data.startDate);
+  //   startDate.setHours(0, 0, 0, 0); // Reset time to start of the day
+  //   const endDate = new Date(data.endDate);
+  //   endDate.setHours(0, 0, 0, 0); // Reset time to start of the day
+  //   const dailyRate = vehicle.pricePerDay;
+  //   const diffTime = Math.abs(endDate - startDate);
+  //   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  //   const driverId = data.driverId;
+  //   const totalAmount = diffDays * dailyRate;
+  //   const newBooking = {
+  //     vehicleId: vehicle._id,
+  //     ownerId: vehicle.ownerId,
+  //     driverId,
+  //     bookingStart: startDate,
+  //     bookingEnd: endDate,
+  //     totalAmount: totalAmount,
+  //   };
+  //   axios
+  //     .post(`http://localhost:3000/api/bookings`, newBooking, {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+  //       },
+  //     })
+  //     .then((response) => {
+  //       console.log("Success:", response.data);
+  //       setBooked(true);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error);
+  //     });
+  // };
+
+  const onSubmit = async (data) => {
+    try {
+      const { driverId } = data;
+
+      // Parse dates and calculate duration
+      const bookingStart = startDate
+      const bookingEnd = endDate
+      const diffDays = Math.ceil((bookingEnd - bookingStart) / (1000 * 60 * 60 * 24)); // Inclusive of both days
+      const totalAmount = diffDays * vehicle.pricePerDay;
+
+      // Prepare booking data
+      const newBooking = {
+        vehicleId: vehicle._id,
+        ownerId: vehicle.ownerId,
+        driverId,
+        bookingStart,
+        bookingEnd,
+        totalAmount,
+      };
+
+      console.log("New Booking:", newBooking);
+
+      if (!bookingStart || !bookingEnd) {
+        console.error("Start Date and End Date are required");
+        return;
+      }
+
+
+      const response = await axios.post(`http://localhost:3000/api/bookings`, newBooking, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("authToken")}`,
         },
-      })
-      .then((response) => {
-        console.log("Success:", response.data);
-        setBooked(true);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
       });
+
+      console.log("Booking Successful:", response.data);
+      setBooked(true);
+      toast.success("Booking Successful!");
+      setIsOpen(false);
+    } catch (error) {
+      console.error("Error creating booking:", error.response?.data || error.message);
+    }
   };
+
+
   // console.log('Vehicle ID from fetch:' , vehicle._id);
   const ownerID = vehicle.ownerId && vehicle.ownerId._id;
   console.log("unavailable dates:", unavailableDates);
@@ -286,14 +355,15 @@ function Vehicle() {
               </div>
               <div className="mt-2 sm:mt-4 flex flex-col sm:flex-row  gap-4">
                 <div>
-                  {!booked ? (
+                  {!booked && ownerID !== authUser && (
                     <button
                       onClick={() => setIsOpen(true)}
                       className="btn border-none bg-blue-700 text-white hover:bg-blue-500"
                     >
                       Book Now
                     </button>
-                  ) : (
+                  )}
+                  {booked && (
                     <button
                       className="btn bg-slate-500 dark:text-white/60"
                       disabled
@@ -355,90 +425,67 @@ function Vehicle() {
                                     )} */}
 
                   {isOpen && (
-                    <dialog
-                      id="my_modal_4"
-                      className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50"
-                    >
+                    <dialog className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
                       <div className="modal-box bg-white p-6 sm:p-20 rounded-lg shadow-xl w-full max-w-lg">
-                        <h3 className="font-bold text-center text-lg mb-4">
-                          BOOKING INFO
-                        </h3>
-                        <div className="modal-action">
-                          <form
-                            onSubmit={handleSubmit(onSubmit)}
-                            method="dialog"
-                            className="space-y-6 px-4 sm:px-20"
-                          >
-                            {/* Start Date */}
-                            <label className="block">
-                              <span className="text-gray-700">Start Date:</span>
-                              <input
-                                {...register("startDate", {
-                                  required: "Start date is required",
-                                  validate: validateStartDate,
-                                })}
-                                type="date"
-                                min={today}
-                                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                              />
-                              {errors.startDate && (
-                                <p className="text-red-500">
-                                  {errors.startDate.message}
-                                </p>
-                              )}
-                            </label>
+                        <h3 className="font-bold text-center text-lg mb-4">BOOKING INFO</h3>
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 px-4 sm:px-20">
+                          {/* Start Date */}
+                          <label className="block">
+                            <span className="text-gray-700">Start Date:</span>
+                            <DatePicker
+                              selected={startDate}
+                              onChange={(date) => setStartDate(date)}
+                              minDate={new Date()}
+                              excludeDates={unavailableDateObjects}
+                              placeholderText="Select a start date"
+                              className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            />
+                          </label>
 
-                            {/* End Date */}
-                            <label className="block">
-                              <span className="text-gray-700">End Date:</span>
-                              <input
-                                {...register("endDate", {
-                                  required: "End date is required",
-                                  validate: validateEndDate,
-                                })}
-                                type="date"
-                                min={nextDay.toISOString().split("T")[0]}
-                                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                              />
-                              {errors.endDate && (
-                                <p className="text-red-500">
-                                  {errors.endDate.message}
-                                </p>
-                              )}
-                            </label>
+                          {/* End Date */}
+                          <label className="block">
+                            <span className="text-gray-700">End Date:</span>
+                            <DatePicker
+                              selected={endDate}
+                              onChange={(date) => setEndDate(date)}
+                              minDate={startDate ? new Date(startDate.getTime() + 86400000) : new Date()} // One day after start date
+                              excludeDates={unavailableDateObjects}
+                              placeholderText="Select an end date"
+                              className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            />
+                          </label>
+                          <label className="block">
+                            <span className="text-gray-700">Driver:</span>
+                            <select
+                              {...register("driverId", { required: "Driver selection is required" })}
+                              defaultValue={drivers[0]._id}
+                              className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            >
+                              {drivers.map((driver) => (
+                                <option key={driver._id} value={driver._id}>
+                                  {driver.name}
+                                </option>
+                              ))}
+                            </select>
+                          </label>
 
-                            {/* Driver */}
-                            <label className="block">
-                              <span className="text-gray-700">Driver:</span>
-                              <select
-                                {...register("driverId", {
-                                  required: "Driver selection is required",
-                                })}
-                                defaultValue={drivers[0]._id}
-                                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                              >
-                                {drivers.map((driver) => (
-                                  <option key={driver._id} value={driver._id}>
-                                    {driver.name}
-                                  </option>
-                                ))}
-                              </select>
-                            </label>
-
-                            {/* Submit and Close Buttons */}
+                          {/* Submit and Close Buttons */}
+                          <div className="flex justify-between">
                             <input
                               type="submit"
+                              value="Submit"
                               className="py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             />
                             <button
                               type="button"
                               onClick={() => setIsOpen(false)}
-                              className="btn"
+                              className="py-2 px-4 border border-gray-300 text-sm font-medium rounded-md bg-gray-200 hover:bg-gray-300 focus:outline-none"
                             >
                               Close
                             </button>
-                          </form>
-                        </div>
+                          </div>
+
+                        </form>
                       </div>
                     </dialog>
                   )}
