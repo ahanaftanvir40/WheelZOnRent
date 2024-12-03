@@ -44,7 +44,6 @@ function UserDashboard() {
     const approveBooking = async (bookingId) => {
         try {
             await axios.post(`http://localhost:3000/api/bookings/${bookingId}/approve`);
-            // Update the local state to reflect the approval
             const approvedBooking = pendingBookings.find(booking => booking._id === bookingId);
             setPendingBookings(pendingBookings.filter(booking => booking._id !== bookingId));
             setApprovedBookings([...approvedBookings, { ...approvedBooking, status: 'approved' }]);
@@ -83,121 +82,103 @@ function UserDashboard() {
     }, []);
 
     return (
-        <div>
-            <div className="flex items-center justify-center gap-4">
-                <div className="w-24 h-24 rounded-xl overflow-hidden">
+        <div className="container mx-auto p-4">
+            <div className="flex items-center justify-center gap-4 mb-6">
+                <div className="w-16 h-16 rounded-full overflow-hidden shadow-md">
                     <img src={`http://localhost:3000/public/images/user-avatars/${user?.avatar || 'default-avatar.jpg'}`} alt={`${user?.name || 'User'}'s avatar`} className="w-full h-full object-cover" />
                 </div>
                 <div>
-                    <h1 className="text-lg sm:text-2xl font-bold sm:py-6 sm:px-6 bg-slate-200 py-2 px-2 rounded-md">Welcome, {user.name} to your Dashboard</h1>
+                    <h1 className="text-xl font-bold text-gray-800">Welcome, {user.name}</h1>
+                    <p className="text-gray-600">to your Dashboard</p>
                 </div>
             </div>
 
-            <div className="flex w-full flex-col sm:mt-28  mt-8">
-                <div className="card rounded-box grid h-fit place-items-center">
-                    <h1 className='font-semibold text-2xl tracking-tighter text-slate-300'>Your Rent Requests:</h1>
-                </div>
-                <div className="divider"></div>
-                <div className="card bg-base-300 rounded-box grid h-fit place-items-center">
-                    <div className='flex flex-wrap'>
+            <div className="mb-8">
+                <h2 className="text-lg font-semibold text-gray-800 mb-2">Your Rent Requests</h2>
+                <table className="min-w-full bg-white">
+                    <thead>
+                        <tr>
+                            <th className="py-2">Vehicle</th>
+                            <th className="py-2">Owner</th>
+                            <th className="py-2">Contact</th>
+                            <th className="py-2">From</th>
+                            <th className="py-2">To</th>
+                            <th className="py-2">Status</th>
+                            <th className="py-2">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         {[...userBooking].reverse().map(booking => (
-                            <div key={booking._id} className="card glass w-96 m-2">
-                                <figure>
-                                    {booking.vehicleId.images && booking.vehicleId.images.length > 0 && booking.vehicleId.images[0].length > 0 ? (
-                                        <img
-                                            src={`http://localhost:3000/public/images/vehicle-images/${booking.vehicleId.images[0][0]}`}
-                                            alt="vehicle" />
-                                    ) : (
-                                        <img
-                                            src="http://localhost:3000/public/images/vehicle-images/default-vehicle.jpg"
-                                            alt="default vehicle" />
+                            <tr key={booking._id}>
+                                <td className="border px-4 py-2">{booking.vehicleId.brand} {booking.vehicleId.model}</td>
+                                <td className="border px-4 py-2">{booking.ownerId.name}</td>
+                                <td className="border px-4 py-2">{booking.ownerId.phoneNumber}</td>
+                                <td className="border px-4 py-2">{new Date(booking.bookingStart).toLocaleDateString()}</td>
+                                <td className="border px-4 py-2">{new Date(booking.bookingEnd).toLocaleDateString()}</td>
+                                <td className="border px-4 py-2">{booking.status}</td>
+                                <td className="border px-4 py-2">
+                                    {booking.status !== 'approved' && (
+                                        <button onClick={() => handleDelete(booking._id)} className="bg-red-500 text-white px-2 py-1 rounded text-sm">Cancel Booking</button>
                                     )}
-                                </figure>
-                                <div className="card-body">
-                                    <h2 className="card-title">{booking.vehicleId.name}</h2>
-                                    <p>Owner Name: {booking.ownerId.name}</p>
-                                    <p>Owner Contact: {booking.ownerId.phoneNumber}</p>
-                                    <p>From: {new Date(booking.bookingStart).toLocaleDateString()}</p>
-                                    <p>To: {new Date(booking.bookingEnd).toLocaleDateString()}</p>
-                                    <p>Status: {booking.status}</p>
-
-                                    <div className="card-actions justify-end">
-                                        {booking.status === 'approved' ? (
-                                            ''
-                                        ) : (
-                                            <button onClick={() => handleDelete(booking._id)} className="btn btn-primary">Cancel Booking</button>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
+                                </td>
+                            </tr>
                         ))}
-                    </div>
-                </div>
+                    </tbody>
+                </table>
             </div>
-            <div className="divider sm:mt-24"></div>
-            <div className="flex w-full flex-col  mt-8">
-                <div className="card rounded-box grid h-fit place-items-center">
-                    <h1 className='font-semibold text-2xl tracking-tighter text-slate-300'>Approve Rent Requests</h1>
-                </div>
-                <div className="divider"></div>
-                <div className="card bg-base-300 rounded-box grid h-fit place-items-center">
-                    <div className='flex flex-wrap'>
+
+            <div className="mb-8">
+                <h2 className="text-lg font-semibold text-gray-800 mb-2">Approve Rent Requests</h2>
+                <table className="min-w-full bg-white">
+                    <thead>
+                        <tr>
+                            <th className="py-2">Vehicle</th>
+                            <th className="py-2">Booked by</th>
+                            <th className="py-2">From</th>
+                            <th className="py-2">To</th>
+                            <th className="py-2">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         {pendingBookings.map(booking => (
-                            <div key={booking._id} className="card glass w-96 m-2">
-                                <figure>
-                                    {booking.vehicleId.images && booking.vehicleId.images.length > 0 && booking.vehicleId.images[0].length > 0 ? (
-                                        <img
-                                            src={`http://localhost:3000/public/images/vehicle-images/${booking.vehicleId.images[0][0]}`}
-                                            alt="vehicle" />
-                                    ) : (
-                                        <img
-                                            src="http://localhost:3000/public/images/vehicle-images/default-vehicle.jpg"
-                                            alt="default vehicle" />
-                                    )}
-                                </figure>
-                                <div className="card-body">
-                                    <h2 className="card-title">{booking.vehicleId.name}</h2>
-                                    <p>Booked by: {booking.userId.name}</p>
-                                    <p>From: {new Date(booking.bookingStart).toLocaleDateString()}</p>
-                                    <p>To: {new Date(booking.bookingEnd).toLocaleDateString()}</p>
-                                    <div className="card-actions justify-end">
-                                        <button onClick={() => approveBooking(booking._id)} className="btn btn-primary">Approve</button>
-                                    </div>
-                                </div>
-                            </div>
+                            <tr key={booking._id}>
+                                <td className="border px-4 py-2">{booking.vehicleId.name}</td>
+                                <td className="border px-4 py-2">{booking.userId.name}</td>
+                                <td className="border px-4 py-2">{new Date(booking.bookingStart).toLocaleDateString()}</td>
+                                <td className="border px-4 py-2">{new Date(booking.bookingEnd).toLocaleDateString()}</td>
+                                <td className="border px-4 py-2">
+                                    <button onClick={() => approveBooking(booking._id)} className="bg-green-500 text-white px-2 py-1 rounded text-sm">Approve</button>
+                                </td>
+                            </tr>
                         ))}
-                    </div>
-                </div>
-                <div className="divider"></div>
-                <div tabIndex={0} className="collapse collapse-arrow border-base-300 bg-base-200 border">
-                    <div className="collapse-title text-xl font-medium">All Approved Rent History</div>
-                    <div className="collapse-content">
-                        <div className='flex flex-wrap'>
-                            {approvedBookings.map(booking => (
-                                <div key={booking._id} className="card glass w-96 m-2">
-                                    <figure>
-                                        {booking.vehicleId.images && booking.vehicleId.images.length > 0 && booking.vehicleId.images[0].length > 0 ? (
-                                            <img
-                                                src={`http://localhost:3000/public/images/vehicle-images/${booking.vehicleId.images[0][0]}`}
-                                                alt="vehicle" />
-                                        ) : (
-                                            <img
-                                                src="http://localhost:3000/public/images/vehicle-images/default-vehicle.jpg"
-                                                alt="default vehicle" />
-                                        )}
-                                    </figure>
-                                    <div className="card-body">
-                                        <h2 className="card-title">{booking.vehicleId.name}</h2>
-                                        <p>Booked by: {booking.userId.name}</p>
-                                        <p>From: {new Date(booking.bookingStart).toLocaleDateString()}</p>
-                                        <p>To: {new Date(booking.bookingEnd).toLocaleDateString()}</p>
-                                        <p>Status: {booking.status}</p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
+                    </tbody>
+                </table>
+            </div>
+
+            <div className="mb-8">
+                <h2 className="text-lg font-semibold text-gray-800 mb-2">All Approved Rent History</h2>
+                <table className="min-w-full bg-white">
+                    <thead>
+                        <tr>
+                            <th className="py-2">Vehicle</th>
+                            <th className="py-2">Booked by</th>
+                            <th className="py-2">From</th>
+                            <th className="py-2">To</th>
+                            <th className="py-2">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {approvedBookings.map(booking => (
+                            <tr key={booking._id}>
+                                <td className="border px-4 py-2">{booking.vehicleId.name}</td>
+                                <td className="border px-4 py-2">{booking.userId.name}</td>
+                                <td className="border px-4 py-2">{new Date(booking.bookingStart).toLocaleDateString()}</td>
+                                <td className="border px-4 py-2">{new Date(booking.bookingEnd).toLocaleDateString()}</td>
+                                <td className="border px-4 py-2">{booking.status}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
             </div>
         </div>
     );

@@ -238,6 +238,8 @@ function Vehicle() {
   // console.log('Vehicle ID from fetch:' , vehicle._id);
   const ownerID = vehicle.ownerId && vehicle.ownerId._id;
   console.log("unavailable dates:", unavailableDates);
+  console.log('vehicle latitude and longitude:', vehicle.latitude, vehicle.longitude);
+
 
   return (
     <div className="mx-auto max-w-sm sm:max-w-full py-8 min-h-screen w-full sm:px-52 ">
@@ -277,7 +279,7 @@ function Vehicle() {
 
       <div className="flex flex-col sm:flex-row justify-between mt-3 sm:mt-5">
         <div>
-          <h1 className="flex items-center mb-2 sm:mb-1 text-4xl sm:text-5xl font-extrabold text-slate-700 dark:text-white mt-3">
+          <h1 className="flex items-center mb-2 sm:mb-1 text-4xl sm:text-5xl font-extrabold text-gray-200 dark:text-white mt-3">
             {vehicle.brand}
             <span className="bg-blue-100 text-blue-800 text-xl sm:text-2xl font-semibold me-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ms-2">
               {vehicle.model}
@@ -294,13 +296,10 @@ function Vehicle() {
         </h1>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-4 justify-start items-start mt-4">
-        <div className="w-full sm:w-3/4 sm:min-h-[600px] shadow-md shadow-slate-400 dark:shadow-zinc-600 p-4 rounded-lg dark:bg-zinc-900">
-          <h1 className="text-3xl dark:text-white/90 text-black mb-4">
-            Vehicle Details
-          </h1>
+      <div className={`${vehicle.latitude !== 0 ? 'flex flex-col sm:flex-row gap-4' : 'border flex justify-center'} mt-4`}>
+        <div className={`${vehicle.latitude ? 'sm:w-3/4 w-full' : 'sm:min-w-full'} bg-[#9389bd]  sm:min-h-[600px]  dark:shadow-zinc-600 p-4 rounded-lg dark:bg-zinc-900 flex-col justify-between`}>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-5 text-gray-200">
             <div className="flex items-center dark:text-white/80">
               <CarIcon className="mr-2 h-5 w-5" />
               <span>{vehicle.category}</span>
@@ -319,15 +318,15 @@ function Vehicle() {
             </div>
           </div>
           <div className="mt-6">
-            <h3 className="text-lg sm:text-2xl font-semibold mb-2 dark:text-white/90">
+            <h3 className="text-lg sm:text-2xl font-semibold mb-2 text-gray-200 dark:text-white/90">
               Description
             </h3>
-            <div className="dark:text-white/80 min-h-32 max-h-32 overflow-y-auto ">
+            <div className="dark:text-white/80 text-gray-200 min-h-32 max-h-32 overflow-y-auto ">
               {vehicle.description}
             </div>
           </div>
 
-          <div className="mt-8 ">
+          <div className="mt-8 text-gray-200 ">
             <h1 className="text-lg sm:text-3xl font-semibold mb-2 dark:text-white/90">
               Booking Information
             </h1>
@@ -340,9 +339,11 @@ function Vehicle() {
                 <MapPinnedIcon className="mr-2 h-5 w-5" />
                 <span>{vehicle.location}</span>
               </div>
-              <h1 className="mt-1 font-semibold sm:text-2xl text-md text-black dark:text-white/80">
-                {vehicle.pricePerDay}Tk / day
-              </h1>
+              <div className="bg-[#6768ab] rounded-lg w-fit px-2 py-1 my-2">
+                <h1 className="font-semibold sm:text-2xl text-md text-gray-100 dark:text-white/80">
+                  {vehicle.pricePerDay}Tk / day
+                </h1>
+              </div>
               <div className="flex items-center mb-4 mt-2">
                 <StarIcon className="text-yellow-400 mr-1" />
                 <StarIcon className="text-yellow-400 mr-1" />
@@ -506,25 +507,26 @@ function Vehicle() {
             </div>
           </div>
         </div>
-
-        <div className="w-full sm:w-2/5 h-full">
-          <div className="max-w-full">
-            <div className="flex justify-center">
-              {vehicle.latitude && vehicle.latitude !== 0 && (
-                <MapContainer
-                  center={[vehicle.latitude, vehicle.longitude]}
-                  zoom={13}
-                >
-                  <TileLayer
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  />
-                  <Marker position={[vehicle.latitude, vehicle.longitude]} />
-                </MapContainer>
-              )}
+        {vehicle.latitude && vehicle.latitude !== 0 && (
+          <div className={`w-full sm:w-2/5 h-full`}>
+            <div className="max-w-full">
+              <div className="flex justify-center">
+                {vehicle.latitude && vehicle.latitude !== 0 && (
+                  <MapContainer
+                    center={[vehicle.latitude, vehicle.longitude]}
+                    zoom={13}
+                  >
+                    <TileLayer
+                      attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                      url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                    <Marker position={[vehicle.latitude, vehicle.longitude]} />
+                  </MapContainer>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* {authUser !== ownerID && (
