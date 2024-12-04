@@ -49,14 +49,14 @@ function AddVehicles() {
                 console.log(json.results[0].formatted);
                 setVehicle(prevVehicle => ({ ...prevVehicle, location: json.results[0].formatted }));
             },
-        (error)=>{
-            console.log(error);
-        },
-        {
-            enableHighAccuracy:true
-        }
-        
-    );
+                (error) => {
+                    console.log(error);
+                },
+                {
+                    enableHighAccuracy: true
+                }
+
+            );
         }
     };
 
@@ -92,113 +92,271 @@ function AddVehicles() {
         }
     };
 
+    const [step, setStep] = useState(1);
+
+    const nextStep = () => {
+        setStep(step + 1);
+    };
+
+    const prevStep = () => {
+        setStep(step - 1);
+    };
+
     return (
-        <div className="mx-auto max-w-xl">
-            <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="type">Type:</label>
-                    <select className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="type" value={vehicle.type} onChange={handleChange}>
-                        {Object.values(VehicleTypes).map((type) => (
-                            <option key={type} value={type}>
-                                {type}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+        <div className="mx-auto max-w-xl p-4">
+            <form onSubmit={handleSubmit} className="space-y-6 bg-white shadow-lg rounded-lg p-6">
+                {step === 1 && (
+                    <>
+                        <div>
+                            <label htmlFor="type" className="block text-sm font-medium text-gray-700">
+                                Type:
+                            </label>
+                            <select
+                                name="type"
+                                value={vehicle.type}
+                                onChange={handleChange}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                            >
+                                {Object.values(VehicleTypes).map((type) => (
+                                    <option key={type} value={type}>
+                                        {type}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="brand">Brand:</label>
-                    <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="brand" value={vehicle.brand} onChange={handleChange} required />
-                </div>
+                        <div>
+                            <label htmlFor="brand" className="block text-sm font-medium text-gray-700">
+                                Brand:
+                            </label>
+                            <input
+                                type="text"
+                                name="brand"
+                                value={vehicle.brand}
+                                onChange={handleChange}
+                                required
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                            />
+                        </div>
 
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="model">Model:</label>
-                    <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="model" value={vehicle.model} onChange={handleChange} required />
-                </div>
+                        <div>
+                            <label htmlFor="model" className="block text-sm font-medium text-gray-700">
+                                Model:
+                            </label>
+                            <input
+                                type="text"
+                                name="model"
+                                value={vehicle.model}
+                                onChange={handleChange}
+                                required
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                            />
+                        </div>
 
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="year">Year:</label>
-                    <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="number" name="year" value={vehicle.year} onChange={handleChange} required />
-                </div>
+                        <div>
+                            <label htmlFor="year" className="block text-sm font-medium text-gray-700">
+                                Year:
+                            </label>
+                            <input
+                                type="number"
+                                name="year"
+                                value={vehicle.year}
+                                onChange={handleChange}
+                                required
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                            />
+                        </div>
 
-                <div className="mb-4">
-                    <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                        Description:
-                    </label>
-                    <textarea
-                        id="description"
-                        name="description"
-                        rows={4}
-                        className="block resize-none p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        placeholder="Write your thoughts here..."
-                        value={vehicle.description}
-                        onChange={handleChange}
-                    />
-                </div>
+                        <div>
+                            <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                                Description:
+                            </label>
+                            <textarea
+                                id="description"
+                                name="description"
+                                rows={4}
+                                placeholder="Write your thoughts here..."
+                                value={vehicle.description}
+                                onChange={handleChange}
+                                className="mt-1 block w-full resize-none rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                            />
+                        </div>
 
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="pricePerDay">Price per day:</label>
-                    <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="number" name="pricePerDay" value={vehicle.pricePerDay} onChange={handleChange} required />
-                </div>
+                        <div className="flex justify-end">
+                            <button
+                                type="button"
+                                onClick={nextStep}
+                                className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-200"
+                            >
+                                Next
+                            </button>
+                        </div>
+                    </>
+                )}
 
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="location">Location:</label>
-                    <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="location" value={vehicle.location} onChange={handleChange} required />
-                </div>
-                
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="model">Set Your Current Location as Your Location?</label>
-                    <input className="leading-tight" type="checkbox" name="currentLocation" checked={currentLocation} onChange={handleCheckboxChange} />
-                </div>
+                {step === 2 && (
+                    <>
+                        <div>
+                            <label htmlFor="pricePerDay" className="block text-sm font-medium text-gray-700">
+                                Price per day:
+                            </label>
+                            <input
+                                type="number"
+                                name="pricePerDay"
+                                value={vehicle.pricePerDay}
+                                onChange={handleChange}
+                                required
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                            />
+                        </div>
 
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="availability">Availability:</label>
-                    <input className="leading-tight" type="checkbox" name="availability" checked={vehicle.availability} onChange={(e) => setVehicle({ ...vehicle, availability: e.target.checked })} />
-                </div>
+                        <div>
+                            <label htmlFor="location" className="block text-sm font-medium text-gray-700">
+                                Location:
+                            </label>
+                            <input
+                                type="text"
+                                name="location"
+                                value={vehicle.location}
+                                onChange={handleChange}
+                                required
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                            />
+                        </div>
 
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="images">Images:</label>
-                    <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="file" name="images" multiple onChange={handleImageChange} />
-                </div>
+                        <div className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="currentLocation"
+                                checked={currentLocation}
+                                onChange={handleCheckboxChange}
+                                className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                            />
+                            <label htmlFor="currentLocation" className="ml-2 text-sm text-gray-700">
+                                Set your current location as your location?
+                            </label>
+                        </div>
 
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">Category:</label>
-                    <select className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="category" value={vehicle.category} onChange={handleChange}>
-                        {Object.values(VehicleCategories).map((category) => (
-                            <option key={category} value={category}>
-                                {category}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+                        <div className="flex items-center">
+                            <input
+                                type="checkbox"
+                                name="availability"
+                                checked={vehicle.availability}
+                                onChange={(e) => setVehicle({ ...vehicle, availability: e.target.checked })}
+                                className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                            />
+                            <label htmlFor="availability" className="ml-2 text-sm text-gray-700">
+                                Available for rent
+                            </label>
+                        </div>
 
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="condition">Condition:</label>
-                    <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="condition" value={vehicle.condition} onChange={handleChange} required />
-                </div>
+                        <div>
+                            <label htmlFor="images" className="block text-sm font-medium text-gray-700">
+                                Images:
+                            </label>
+                            <input
+                                type="file"
+                                name="images"
+                                multiple
+                                onChange={handleImageChange}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                            />
+                        </div>
 
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="no_plate">Number Plate:</label>
-                    <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="no_plate" value={vehicle.no_plate} onChange={handleChange} required />
-                </div>
+                        <div>
+                            <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+                                Category:
+                            </label>
+                            <select
+                                name="category"
+                                value={vehicle.category}
+                                onChange={handleChange}
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                            >
+                                {Object.values(VehicleCategories).map((category) => (
+                                    <option key={category} value={category}>
+                                        {category}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
 
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="chassis_no">Chassis Number:</label>
-                    <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="chassis_no" value={vehicle.chassis_no} onChange={handleChange} required />
-                </div>
+                        <div>
+                            <label htmlFor="condition" className="block text-sm font-medium text-gray-700">
+                                Condition:
+                            </label>
+                            <input
+                                type="text"
+                                name="condition"
+                                value={vehicle.condition}
+                                onChange={handleChange}
+                                required
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                            />
+                        </div>
 
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="registration_no">Registration Number:</label>
-                    <input className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="registration_no" value={vehicle.registration_no} onChange={handleChange} required />
-                </div>
+                        <div>
+                            <label htmlFor="no_plate" className="block text-sm font-medium text-gray-700">
+                                Number Plate:
+                            </label>
+                            <input
+                                type="text"
+                                name="no_plate"
+                                value={vehicle.no_plate}
+                                onChange={handleChange}
+                                required
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                            />
+                        </div>
 
-                <div className="mb-6">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                        Add Vehicle
-                    </button>
-                </div>
+                        <div>
+                            <label htmlFor="chassis_no" className="block text-sm font-medium text-gray-700">
+                                Chassis Number:
+                            </label>
+                            <input
+                                type="text"
+                                name="chassis_no"
+                                value={vehicle.chassis_no}
+                                onChange={handleChange}
+                                required
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="registration_no" className="block text-sm font-medium text-gray-700">
+                                Registration Number:
+                            </label>
+                            <input
+                                type="text"
+                                name="registration_no"
+                                value={vehicle.registration_no}
+                                onChange={handleChange}
+                                required
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                            />
+                        </div>
+
+                        <div className="flex justify-between">
+                            <button
+                                type="button"
+                                onClick={prevStep}
+                                className="px-4 py-2 bg-gray-500 text-white rounded-md shadow hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-200"
+                            >
+                                Previous
+                            </button>
+                            <button
+                                type="submit"
+                                className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-200"
+                            >
+                                Add Vehicle
+                            </button>
+                        </div>
+                    </>
+                )}
             </form>
         </div>
+
     );
 }
 
