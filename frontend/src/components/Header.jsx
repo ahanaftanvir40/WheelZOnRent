@@ -78,15 +78,7 @@ function Header() {
                 to="#"
                 className="dark:text-white/60 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-300"
               >
-                About
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="#"
-                className="dark:text-white/60 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-300"
-              >
-                Services
+                WheelHub
               </Link>
             </li>
             {localStorage.getItem("authToken") && (

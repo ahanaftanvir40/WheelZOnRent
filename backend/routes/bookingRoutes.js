@@ -161,32 +161,39 @@ router.delete("/booking/:id", auth, async (req, res) => {
   try {
     const booking = await Booking.findOneAndDelete({
       _id: req.params.id,
-    }).populate("userId ownerId");
+    }).populate("userId ownerId vehicleId");
 
     console.log("booking to Delete:", booking);
 
     if (!booking) {
-      return res.status(404);
-    }
-    if (booking.userId.toString() !== req.user.id) {
-      return res.status(401).json({ success: false, message: "Unauthorized" });
+      return res.status(404).json({ success: false, message: "Booking not found" });
     }
 
-    const userNotify = await sendEmail(
-      booking.userId.email,
-      `Booking Cancelled. Booking ID: ${booking._id}`,
-      `Dear ${booking.userId.name}, \nYour booking for ${booking.vehicleId.brand} ${booking.vehicleId.model} has been cancelled. \n\nRegards, \nTeam WheelZOnRent`
-    );
 
-    const ownerNotify = await sendEmail(
-      booking.ownerId.email,
-      `Booking Cancelled. Booking ID: ${booking._id}`,
-      `Dear ${booking.ownerId.name}, \n${booking.userId.name} has cancelled the booking for your vehicle ${booking.vehicleId.brand} ${booking.vehicleId.model}. \n\nRegards, \nTeam WheelZOnRent`
-    );
+    try {
+      await sendEmail(
+        booking.userId.email,
+        `Booking Cancelled. Booking ID: ${booking._id}`,
+        `Dear ${booking.userId.name}, \nYour booking for ${booking.vehicleId.brand} ${booking.vehicleId.model} has been cancelled. \n\nRegards, \nTeam WheelZOnRent`
+      );
+    } catch (emailError) {
+      console.error("Error sending email to user:", emailError);
+    }
+
+    try {
+      await sendEmail(
+        booking.ownerId.email,
+        `Booking Cancelled. Booking ID: ${booking._id}`,
+        `Dear ${booking.ownerId.name}, \n${booking.userId.name} has cancelled the booking for your vehicle ${booking.vehicleId.brand} ${booking.vehicleId.model}. \n\nRegards, \nTeam WheelZOnRent`
+      );
+    } catch (emailError) {
+      console.error("Error sending email to owner:", emailError);
+    }
 
     res.json({ success: true, message: "Booking deleted successfully" });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ success: false, message: "Server error" });
   }
 });
 

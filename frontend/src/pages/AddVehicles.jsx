@@ -103,19 +103,19 @@ function AddVehicles() {
     };
 
     return (
-        <div className="mx-auto max-w-xl p-4">
-            <form onSubmit={handleSubmit} className="space-y-6 bg-white shadow-lg rounded-lg p-6">
+        <div className="mx-auto  p-4 h-screen flex items-center justify-center ">
+            <form onSubmit={handleSubmit} className="space-y-6 max-w-xl w-full bg-[#2f2d3b] shadow-lg rounded-lg p-6">
                 {step === 1 && (
                     <>
                         <div>
-                            <label htmlFor="type" className="block text-sm font-medium text-gray-700">
+                            <label htmlFor="type" className="block text-sm font-medium text-gray-300">
                                 Type:
                             </label>
                             <select
                                 name="type"
                                 value={vehicle.type}
                                 onChange={handleChange}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                                className="mt-1 block w-full text-black/70 bg-[#cfcad1] rounded-md border-gray-300 shadow-sm outline-none"
                             >
                                 {Object.values(VehicleTypes).map((type) => (
                                     <option key={type} value={type}>
@@ -135,7 +135,7 @@ function AddVehicles() {
                                 value={vehicle.brand}
                                 onChange={handleChange}
                                 required
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                                className="mt-1 block w-full rounded-md bg-[#cfcad1] border-gray-300 shadow-sm outline-none"
                             />
                         </div>
 
@@ -149,7 +149,7 @@ function AddVehicles() {
                                 value={vehicle.model}
                                 onChange={handleChange}
                                 required
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                                className="mt-1 block w-full rounded-md bg-[#cfcad1] border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
                             />
                         </div>
 
@@ -163,7 +163,7 @@ function AddVehicles() {
                                 value={vehicle.year}
                                 onChange={handleChange}
                                 required
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                                className="mt-1 block w-full rounded-md bg-[#cfcad1] border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
                             />
                         </div>
 
@@ -178,7 +178,7 @@ function AddVehicles() {
                                 placeholder="Write your thoughts here..."
                                 value={vehicle.description}
                                 onChange={handleChange}
-                                className="mt-1 block w-full resize-none rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                                className="mt-1 block w-full resize-none bg-[#cfcad1] rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
                             />
                         </div>
 
@@ -206,7 +206,7 @@ function AddVehicles() {
                                 value={vehicle.pricePerDay}
                                 onChange={handleChange}
                                 required
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                                className="mt-1 block w-full rounded-md bg-[#cfcad1] border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
                             />
                         </div>
 
@@ -220,7 +220,7 @@ function AddVehicles() {
                                 value={vehicle.location}
                                 onChange={handleChange}
                                 required
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                                className="mt-1 block w-full rounded-md border-gray-300 bg-[#cfcad1] shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
                             />
                         </div>
 
@@ -259,7 +259,7 @@ function AddVehicles() {
                                 name="images"
                                 multiple
                                 onChange={handleImageChange}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm  focus:border-blue-500 focus:ring focus:ring-blue-200"
                             />
                         </div>
 
@@ -271,7 +271,7 @@ function AddVehicles() {
                                 name="category"
                                 value={vehicle.category}
                                 onChange={handleChange}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-[#cfcad1] outline-none"
                             >
                                 {Object.values(VehicleCategories).map((category) => (
                                     <option key={category} value={category}>
@@ -291,7 +291,7 @@ function AddVehicles() {
                                 value={vehicle.condition}
                                 onChange={handleChange}
                                 required
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-[#cfcad1] outline-none"
                             />
                         </div>
 
@@ -305,7 +305,7 @@ function AddVehicles() {
                                 value={vehicle.no_plate}
                                 onChange={handleChange}
                                 required
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm outline-none"
                             />
                         </div>
 
@@ -319,7 +319,7 @@ function AddVehicles() {
                                 value={vehicle.chassis_no}
                                 onChange={handleChange}
                                 required
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm outline-none"
                             />
                         </div>
 
@@ -333,7 +333,7 @@ function AddVehicles() {
                                 value={vehicle.registration_no}
                                 onChange={handleChange}
                                 required
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200"
+                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm outline-none"
                             />
                         </div>
 
