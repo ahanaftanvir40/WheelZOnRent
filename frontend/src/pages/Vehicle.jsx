@@ -133,64 +133,6 @@ function Vehicle() {
   console.log("unavailableDateObjects:", unavailableDateObjects);
 
 
-  // const nextDay = new Date(startDate);
-  // nextDay.setDate(nextDay.getDate() + 1);
-
-
-
-
-  // const validateStartDate = (value) => {
-  //   const selectedDate = new Date(value);
-  //   const isUnavailable = unavailableDates.some(
-  //     (range) =>
-  //       selectedDate >= new Date(range.start) && selectedDate <= new Date(range.end)
-  //   );
-  //   return isUnavailable ? "Selected start date is unavailable" : true;
-  // };
-
-  // const validateEndDate = (value) => {
-  //   const selectedDate = new Date(value);
-  //   const isUnavailable = unavailableDates.some(
-  //     (range) =>
-  //       selectedDate >= new Date(range.start) && selectedDate <= new Date(range.end)
-  //   );
-  //   return isUnavailable ? "Selected end date is unavailable" : true;
-  // };
-  // const onSubmit = (data) => {
-  //   console.log(data);
-  //   console.log(vehicle);
-  //   const startDate = new Date(data.startDate);
-  //   startDate.setHours(0, 0, 0, 0); // Reset time to start of the day
-  //   const endDate = new Date(data.endDate);
-  //   endDate.setHours(0, 0, 0, 0); // Reset time to start of the day
-  //   const dailyRate = vehicle.pricePerDay;
-  //   const diffTime = Math.abs(endDate - startDate);
-  //   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-  //   const driverId = data.driverId;
-  //   const totalAmount = diffDays * dailyRate;
-  //   const newBooking = {
-  //     vehicleId: vehicle._id,
-  //     ownerId: vehicle.ownerId,
-  //     driverId,
-  //     bookingStart: startDate,
-  //     bookingEnd: endDate,
-  //     totalAmount: totalAmount,
-  //   };
-  //   axios
-  //     .post(`http://localhost:3000/api/bookings`, newBooking, {
-  //       headers: {
-  //         Authorization: `Bearer ${localStorage.getItem("authToken")}`,
-  //       },
-  //     })
-  //     .then((response) => {
-  //       console.log("Success:", response.data);
-  //       setBooked(true);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error:", error);
-  //     });
-  // };
-
   const onSubmit = async (data) => {
     try {
       const { driverId } = data;
@@ -372,59 +314,7 @@ function Vehicle() {
                       Already Booked
                     </button>
                   )}
-                  {/* {isOpen && !booked && (
-                                        <dialog id="my_modal_4" className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-                                            <div className="modal-box bg-white p-6 sm:p-20 rounded-lg shadow-xl w-full max-w-lg">
-                                                <h3 className="font-bold text-center text-lg mb-4">BOOKING INFO</h3>
-                                                <div className="modal-action">
-                                                    <form onSubmit={handleSubmit(onSubmit)} method="dialog" className="space-y-6 px-4 sm:px-20">
-                                                        <label className="block">
-                                                            <span className="text-gray-700">Start Date:</span>
-                                                            <input
-                                                                {...register("startDate", { required: "Start date is required", validate: validateStartDate })}
-                                                                type="date"
-                                                                min={today}
-                                                                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                                            />
-                                                            {errors.startDate && <p className="text-red-500">{errors.startDate.message}</p>}
-                                                        </label>
-                                                        <label className="block">
-                                                            <span className="text-gray-700">End Date:</span>
-                                                            <input
-                                                                {...register("endDate", { required: "End date is required", validate: validateEndDate })}
-                                                                type="date"
-                                                                min={nextDay.toISOString().split('T')[0]}
-                                                                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                                            />
-                                                            {errors.endDate && <p className="text-red-500">{errors.endDate.message}</p>}
-                                                        </label>
-                                                        <label className="block">
-                                                            <span className="text-gray-700">Driver:</span>
-                                                            <select
-                                                                {...register("driverId", { required: "Driver selection is required" })}
-                                                                defaultValue={drivers[0]._id}
-                                                                className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                                            >
-                                                                {drivers.map((driver) => (
-                                                                    <option key={driver._id} value={driver._id}>
-                                                                        {driver.name}
-                                                                    </option>
-                                                                ))}
-                                                            </select>
-                                                        </label>
-                                                        <input
-                                                            type="submit"
-                                                            className="py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                                                        />
-                                                        <button type="button" onClick={() => setIsOpen(false)} className="btn">
-                                                            Close
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </dialog>
-                                    )} */}
-
+                  
                   {isOpen && (
                     <dialog className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
                       <div className="modal-box bg-white p-6 sm:p-20 rounded-lg shadow-xl w-full max-w-lg">
