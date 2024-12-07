@@ -142,5 +142,43 @@ router.post('/upload', upload.array('photos', 10), async (req, res) => {
     }
 });
 
+//ratings
+router.post('/vehicles/:vehicleId/rate', auth, async (req, res) => {
+    try {
+        let { rating, review } = req.body
+
+
+        const vehicle = await Vehicle.findById(req.params.vehicleId)
+
+        if (!vehicle) {
+            return res.status(404).json({ message: 'Vehicle not found' })
+        }
+
+        if (vehicle.ratings.find(rating => rating.userId.toString() === req.user.id.toString())) {
+            return res.status(400).json({ message: 'You have already rated this vehicle' })
+        }
+
+        const newRating = {
+            userId: req.user.id,
+            rating,
+            review
+        }
+
+        vehicle.ratings.push(newRating)
+
+        const totalRatings = vehicle.ratings.length
+        const sumRatings = vehicle.ratings.reduce((sum, rating) => sum + rating.rating, 0)
+
+        vehicle.averageRating = sumRatings / totalRatings
+
+        await vehicle.save()
+
+        res.status(201).json({ message: 'Rating added successfully', vehicle })
+    } catch (error) {
+        res.status(500).json({ message: error.message })
+    }
+
+})
+
 
 export default router

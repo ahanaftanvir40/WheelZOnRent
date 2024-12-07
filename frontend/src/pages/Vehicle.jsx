@@ -40,6 +40,10 @@ function Vehicle() {
   console.log("vehicle id from params:", vehicleId);
   const [booked, setBooked] = useState(false);
   const [unavailableDates, setUnavailableDates] = useState([]);
+  const [rating, setRating] = useState({
+    rating: 0,
+    review: ''
+  });
 
   useEffect(() => {
     const fetchVehicle = async () => {
@@ -176,6 +180,26 @@ function Vehicle() {
     }
   };
 
+  //Ratings
+  const onSubmitRating = async (e) => {
+    e.preventDefault()
+    console.log("Rating:", rating);
+
+    try {
+      const response = await axios.post(`http://localhost:3000/api/vehicles/${vehicleId}/rate`, rating, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`
+        }
+      })
+      setVehicle(response.data.vehicle)
+      toast.success("Rating Successful!")
+
+    } catch (error) {
+      console.log("Error rating vehicle:", error)
+    }
+  }
+
+
 
   // console.log('Vehicle ID from fetch:' , vehicle._id);
   const ownerID = vehicle.ownerId && vehicle.ownerId._id;
@@ -273,6 +297,43 @@ function Vehicle() {
               Booking Information
             </h1>
             <div className="mt-4">
+              <div className="mt-4">
+                <h2 className="text-lg sm:text-2xl font-semibold mb-2 dark:text-white/90">
+                  Submit Your Rating
+                </h2>
+                <form onSubmit={onSubmitRating} className="space-y-4">
+                  <label className="block">
+                    <span className="text-gray-700">Rating:</span>
+                    <select
+                      value={rating.rating}
+                      onChange={(e) => setRating({ ...rating, rating: e.target.value })}
+                      className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    >
+                      <option value="">Select a rating</option>
+                      {[1, 2, 3, 4, 5].map((value) => (
+                        <option key={value} value={value}>
+                          {value}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.rating && <span className="text-red-500">{errors.rating.message}</span>}
+                  </label>
+                  <label className="block">
+                    <span className="text-gray-700">Review:</span>
+                    <textarea
+                      value={rating.review}
+                      onChange={(e) => setRating({ ...rating, review: e.target.value })}
+                      className="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                    />
+                  </label>
+                  <button
+                    type="submit"
+                    className="py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  >
+                    Submit
+                  </button>
+                </form>
+              </div>
               <div className="flex items-center mb-1 dark:text-white/80">
                 <UserRoundIcon className="mr-2 h-5 w-5" />
                 <span>{vehicle.ownerId && vehicle.ownerId.name}</span>
@@ -314,7 +375,7 @@ function Vehicle() {
                       Already Booked
                     </button>
                   )}
-                  
+
                   {isOpen && (
                     <dialog className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
                       <div className="modal-box bg-white p-6 sm:p-20 rounded-lg shadow-xl w-full max-w-lg">
