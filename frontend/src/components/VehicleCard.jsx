@@ -4,7 +4,7 @@ import gt86 from '../assets/gt86.jpg' //dummy img
 
 function VehicleCard({ vehicle }) {
     return (
-        <div className="max-w-sm bg-white rounded-lg shadow-md overflow-hidden transition transform hover:-translate-y-1 hover:shadow-lg dark:bg-black/70 dark:border-gray-700 dark:shadow-zinc-900">
+        <div className="max-w-sm bg-gray-200 rounded-lg shadow-md overflow-hidden transition transform hover:-translate-y-1 hover:shadow-lg dark:bg-black/70 dark:border-gray-700 dark:shadow-zinc-900">
             <Link to={`/vehicles/${vehicle._id}`}>
                 {vehicle.images && vehicle.images.length > 0 ? (
                     <img className="rounded-t-lg w-full h-56 sm:h-60 object-cover" src={`http://localhost:3000/public/images/vehicle-images/${vehicle.images[0][0]}`} alt={`${vehicle.brand} ${vehicle.model}`} />
@@ -24,7 +24,7 @@ function VehicleCard({ vehicle }) {
                         </Link>
                     </div>
                     <div>
-                        <span className="bg-slate-800 dark:bg-transparent dark:border-2 text-white font-semibold px-2 py-1.5 pointer-events-none rounded-full">
+                        <span className="bg-[#2f2d3b] dark:bg-transparent dark:border-2 text-white font-semibold px-2 py-1.5 pointer-events-none rounded-full">
                             {vehicle.pricePerDay}Tk<span className="text-slate-200 dark:text-white/60 font-medium">/day</span>
                         </span>
                     </div>
@@ -65,7 +65,7 @@ function VehicleCard({ vehicle }) {
                 <div className="flex justify-center">
                     <Link
                         to={`/vehicles/${vehicle._id}`}
-                        className="mt-2 flex items-center text-center w-full px-4 py-3 text-sm font-medium text-white bg-slate-800 rounded-lg hover:bg-slate-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800 transition justify-center"
+                        className="mt-2 flex items-center text-center w-full px-4 py-3 text-sm font-medium text-white bg-[#2f2d3b] rounded-lg hover:bg-slate-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800 transition justify-center"
                     >
                         Read More
                         <svg
