@@ -155,7 +155,7 @@ router.post('/vehicles/:vehicleId/rate', auth, async (req, res) => {
         }
 
         if (vehicle.ratings.find(rating => rating.userId.toString() === req.user.id.toString())) {
-            return res.status(400).json({ message: 'You have already rated this vehicle' })
+            return res.status(400).json({ message: 'You have already rated this vehicle', code: 400 })
         }
 
         const newRating = {
