@@ -23,7 +23,7 @@ const WheelHub = () => {
         };
 
         fetchPosts();
-    }, []);
+    }, [posts]);
 
     const handlePostSubmit = async () => {
         if (!newPost.trim()) return;
@@ -33,41 +33,47 @@ const WheelHub = () => {
                     Authorization: `Bearer ${localStorage.getItem("authToken")}`,
                 },
             });
-            console.log("NEWPOST: ", response.data);
             setPosts([
                 ...posts,
-                response.data
+                { ...response.data, comments: [] } // Initialize comments as an empty array
             ]);
             setNewPost(""); // Clear input
             toast.success("Post created successfully!");
         } catch (error) {
             console.error(error);
-
         }
-
-
-
     };
 
-    const handleCommentSubmit = (postId, comment) => {
-        setPosts((prevPosts) =>
-            prevPosts.map((post) =>
-                post.id === postId
-                    ? { ...post, comments: [...post.comments, { id: Date.now(), content: comment, replies: [] }] }
-                    : post
-            )
-        );
+    const handleCommentSubmit = async (postId, comment) => {
+        try {
+            const response = await axios.post(`http://localhost:3000/api/posts/${postId}/comments`, { content: comment }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+                },
+            });
+            const newComment = response.data.comments;
+
+            setPosts((prevPosts) =>
+                prevPosts.map((post) =>
+                    post._id === postId
+                        ? { ...post, comments: [...post.comments, newComment] }
+                        : post
+                )
+            );
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     const handleReplySubmit = (postId, commentId, reply) => {
         setPosts((prevPosts) =>
             prevPosts.map((post) =>
-                post.id === postId
+                post._id === postId
                     ? {
                         ...post,
                         comments: post.comments.map((comment) =>
-                            comment.id === commentId
-                                ? { ...comment, replies: [...comment.replies, { id: Date.now(), content: reply }] }
+                            comment._id === commentId
+                                ? { ...comment, replies: [...comment.replies, { _id: Date.now(), content: reply }] }
                                 : comment
                         ),
                     }
@@ -75,9 +81,10 @@ const WheelHub = () => {
             )
         );
     };
+    console.log("Posts", posts);
 
     return (
-        <div className="p-4 max-w-4xl mx-auto space-y-4 h-screen">
+        <div className="p-4 max-w-4xl mx-auto space-y-4 min-h-screen">
             {/* New Post */}
             <div className="bg-white p-4 rounded shadow space-y-2">
                 <textarea
