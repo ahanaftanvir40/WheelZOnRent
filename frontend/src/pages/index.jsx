@@ -8,4 +8,5 @@ export { default as Vehicle } from './Vehicle'
 export { default as AllVehicles } from './AllVehicles'
 export { default as EditProfile } from './EditProfile'
 export { default as UserDashboard } from './UserDashboard'
+export { default as WheelHub } from './WheelHub'
 

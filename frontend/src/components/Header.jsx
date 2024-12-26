@@ -75,7 +75,7 @@ function Header() {
             </li>
             <li>
               <Link
-                to="#"
+                to="/WheelHub"
                 className="dark:text-white/60 hover:text-blue-500 dark:hover:text-blue-400 transition-colors duration-300"
               >
                 WheelHub

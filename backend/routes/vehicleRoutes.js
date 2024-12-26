@@ -65,7 +65,7 @@ router.post('/vehicles', auth, upload.array('vehicleImages', 5), async (req, res
 });
 
 router.get('/vehicles/:vehicleId', auth, async (req, res) => {
-    let vehicleData = await Vehicle.findOne({ _id: req.params.vehicleId }).populate('ownerId')
+    let vehicleData = await Vehicle.findOne({ _id: req.params.vehicleId }).populate('ownerId').populate('ratings.userId', 'name email');
     //console.log(vehicleData);
     res.json(vehicleData)
 })

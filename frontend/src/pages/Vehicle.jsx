@@ -204,8 +204,10 @@ function Vehicle() {
 
   // console.log('Vehicle ID from fetch:' , vehicle._id);
   const ownerID = vehicle.ownerId && vehicle.ownerId._id;
-  console.log("unavailable dates:", unavailableDates);
-  console.log('vehicle latitude and longitude:', vehicle.latitude, vehicle.longitude);
+  // console.log("unavailable dates:", unavailableDates);
+  // console.log('vehicle latitude and longitude:', vehicle.latitude, vehicle.longitude);
+  console.log("vehicle data:", vehicle);
+
 
 
   return (
@@ -495,12 +497,12 @@ function Vehicle() {
           />
         )}
       </div>
-      <div className="flex flex-col  items-start justify-start ">
+      <div className="flex flex-col  items-start justify-start sm:px-52 px-6">
         <div className=" text-gray-200 "></div>
-        <h1 className="text-lg sm:text-3xl font-semibold mb-2 dark:text-white/90 px-10">
+        <h1 className="text-lg sm:text-3xl font-semibold mb-2 dark:text-white/90  text-gray-50">
           Reviews
         </h1>
-        <div className="space-y-4  w-3/4 px-10 mb-10">
+        <div className="space-y-4  w-3/4  mb-10">
           {vehicle.ratings && vehicle.ratings.length > 0 ? (
             vehicle.ratings.map((review, index) => (
               <div key={index} className="bg-gray-800 p-4 rounded-lg shadow-md">
@@ -508,10 +510,12 @@ function Vehicle() {
                   <StarIcon className="text-yellow-400 mr-1" />
                   <span className="text-sm text-gray-400">{review.rating} / 5</span>
                 </div>
-                <p className="text-gray-300">{review.review}</p>
-                <div className="mt-2 text-sm text-gray-500">
-                  - {review.userName}
-                </div>
+                <p className="text-gray-200">{review.review}</p>
+                {review.userId && (
+                  <div className="mt-2 text-sm text-gray-300">
+                    - {review.userId.name}
+                  </div>
+                )}
               </div>
             ))
           ) : (
