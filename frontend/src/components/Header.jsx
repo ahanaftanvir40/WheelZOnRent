@@ -46,7 +46,7 @@ function Header() {
   return (
     <div>
       <div className="py-2 hidden sm:flex"></div>
-      <div className="relative mx-auto transform md:w-full lg:w-1/2 lg:rounded-full py-4 dark:bg-slate-900 bg-[#2f2d3b]  w-full sm:px-10 transition-all duration-500 sm:hover:w-7/12 ">
+      <div className="relative mx-auto transform w-full md:w-full lg:w-2/3 lg:rounded-full py-4 dark:bg-slate-900 bg-[#2f2d3b] sm:px-10 transition-all duration-500 ">
         <div className="mx-auto px-4 flex justify-between items-center">
           {/* Logo and Branding */}
           <Link

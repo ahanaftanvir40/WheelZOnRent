@@ -9,6 +9,7 @@ import adminRoutes from "./routes/adminRoutes.js";
 import bookingRoutes from "./routes/bookingRoutes.js";
 import notificationRoutes from "./routes/notificationRoutes.js";
 import ollamaRoutes from "./routes/ollamaRoutes.js";
+import wheelhubRoutes from "./routes/wheelhubRoutes.js";
 import dotenv from "dotenv";
 import path from "path";
 import bodyParser from "body-parser";
@@ -42,6 +43,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api", bookingRoutes);
 app.use("/api", notificationRoutes);
 app.use("/api/ollama", ollamaRoutes);
+app.use("/api", wheelhubRoutes);
 
 const server = http.createServer(app);
 const io = new Server(server, {

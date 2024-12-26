@@ -1,22 +1,52 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CommentsSection from "../components/CommentsSection";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const WheelHub = () => {
     const [posts, setPosts] = useState([]);
     const [newPost, setNewPost] = useState("");
 
-    const handlePostSubmit = () => {
-        if (!newPost.trim()) return;
+    // Fetch posts
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const response = await axios.get("http://localhost:3000/api/getposts", {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+                    },
+                });
+                setPosts(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
 
-        setPosts([
-            ...posts,
-            {
-                id: Date.now(),
-                content: newPost,
-                comments: [],
-            },
-        ]);
-        setNewPost(""); // Clear input
+        fetchPosts();
+    }, []);
+
+    const handlePostSubmit = async () => {
+        if (!newPost.trim()) return;
+        try {
+            const response = await axios.post("http://localhost:3000/api/posts", { content: newPost }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("authToken")}`,
+                },
+            });
+            console.log("NEWPOST: ", response.data);
+            setPosts([
+                ...posts,
+                response.data
+            ]);
+            setNewPost(""); // Clear input
+            toast.success("Post created successfully!");
+        } catch (error) {
+            console.error(error);
+
+        }
+
+
+
     };
 
     const handleCommentSubmit = (postId, comment) => {
@@ -66,7 +96,7 @@ const WheelHub = () => {
 
             {/* Posts */}
             {posts.map((post) => (
-                <div key={post.id} className="bg-white p-4 rounded shadow space-y-4">
+                <div key={post._id} className="bg-white p-4 rounded shadow space-y-4">
                     {/* Post Content */}
                     <p>{post.content}</p>
 
