@@ -56,15 +56,14 @@ function Vehicle() {
             },
           }
         );
-
         setVehicle(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       } catch (error) {
         console.log("Vehicle fetch failed:", error);
       }
     };
     fetchVehicle();
-  }, [vehicleId, booked]);
+  }, [vehicleId, booked ]); // Dependency array includes `vehicleId` and `booked`
 
   //fetch unavailable dates
   useEffect(() => {
@@ -206,7 +205,7 @@ function Vehicle() {
   const ownerID = vehicle.ownerId && vehicle.ownerId._id;
   // console.log("unavailable dates:", unavailableDates);
   // console.log('vehicle latitude and longitude:', vehicle.latitude, vehicle.longitude);
-  console.log("vehicle data:", vehicle);
+  // console.log("vehicle data:", vehicle);
 
 
 

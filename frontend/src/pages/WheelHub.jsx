@@ -2,10 +2,20 @@ import { useEffect, useState } from "react";
 import CommentsSection from "../components/CommentsSection";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useAuth } from "../store/auth";
+
 
 const WheelHub = () => {
     const [posts, setPosts] = useState([]);
     const [newPost, setNewPost] = useState("");
+    const { user } = useAuth()
+
+
+
+
+
+
+
 
     // Fetch posts
     useEffect(() => {
@@ -81,31 +91,56 @@ const WheelHub = () => {
             )
         );
     };
-    console.log("Posts", posts);
+
 
     return (
         <div className="p-4 max-w-4xl mx-auto space-y-4 min-h-screen">
             {/* New Post */}
-            <div className="bg-white p-4 rounded shadow space-y-2">
-                <textarea
-                    value={newPost}
-                    onChange={(e) => setNewPost(e.target.value)}
-                    placeholder="Share your thoughts..."
-                    className="w-full p-2 border rounded"
-                />
-                <button
-                    onClick={handlePostSubmit}
-                    className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                >
-                    Post
-                </button>
+            <div className="bg-[#252728] p-4 shadow space-y-2 border-blue-400 rounded-lg max-w-4xl mx-auto">
+                <div className="flex gap-2 items-start">
+                    <img
+                        className="h-12 w-12 rounded-full"
+                        src={`http://localhost:3000/public/images/user-avatars/${user.avatar}`}
+                        alt="Profile Avatar"
+                    />
+                    <div className="flex-grow">
+                        <textarea
+                            value={newPost}
+                            onChange={(e) => setNewPost(e.target.value)}
+                            placeholder="Share your thoughts..."
+                            className="w-full bg-[#333334] p-4 rounded mb-2 outline-none resize-none text-white/80"
+                        />
+                        <button
+                            onClick={handlePostSubmit}
+                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                        >
+                            Post
+                        </button>
+                    </div>
+                </div>
             </div>
 
             {/* Posts */}
             {posts.map((post) => (
-                <div key={post._id} className="bg-white p-4 rounded shadow space-y-4">
+                <div key={post._id} className="bg-[#252728] p-4 rounded shadow space-y-4">
                     {/* Post Content */}
-                    <p>{post.content}</p>
+                    <div className="flex gap-2 flex-col">
+                        <div className="flex gap-2">
+
+                            <img
+                                className="h-12 w-12 rounded-full"
+                                src={`http://localhost:3000/public/images/user-avatars/${user.avatar}`}
+                                alt="Profile Avatar"
+                            />
+                            <div className="flex flex-col">
+
+                                <h1>{user.name}</h1>
+                                <h1>{new Date(post.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} at {new Date(post.createdAt).toLocaleTimeString('en-US', { hour: 'numeric' })}</h1>
+                            </div>
+
+                        </div>
+                        <p>{post.content}</p>
+                    </div>
 
                     {/* Comments */}
                     <CommentsSection post={post} onCommentSubmit={handleCommentSubmit} onReplySubmit={handleReplySubmit} />
