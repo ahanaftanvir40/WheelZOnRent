@@ -24,9 +24,9 @@ router.post("/posts", auth, async (req, res) => {
 router.get("/getposts", async (req, res) => {
     try {
         const posts = await Post.find()
-            .populate("userId", "name") // Populate user details if needed
-            .populate("comments.userId", "name")
-            .populate("comments.replies.userId", "name")
+            .populate("userId", ["name", "avatar"]) // Populate user details if needed
+            .populate("comments.userId", ["name", "avatar"])
+            .populate("comments.replies.userId", ["name", "avatar"])
             .exec();
         res.status(200).json(posts);
     } catch (error) {

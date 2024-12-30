@@ -32,16 +32,21 @@ const CommentsSection = ({ post, onCommentSubmit, onReplySubmit }) => {
 
             {/* Comments */}
             {post.comments && post.comments.length === 0 ? (
-                <p>No comments yet.</p>
+                <p className="text-white/90">No comments yet.</p>
             ) : (
                 post.comments.map((comment) => (
                     <div key={comment._id} className="space-y-2">
-                        <div className="flex items-center justify-between">
-                            <p>{comment && comment.content}</p>
+                        <div className="flex items-center gap-2 mt-6">
+                            <img
+                                className="h-10 w-10 rounded-full"
+                                src={`http://localhost:3000/public/images/user-avatars/${comment.userId.avatar}`}
+                                alt="Profile Avatar"
+                            />
+                            <p className="text-white/90">{comment && comment.content}</p>
                         </div>
 
                         {/* Reply to Comment */}
-                        <div className="pl-4 space-y-2">
+                        <div className="pl-4 space-y-4">
                             <input
                                 type="text"
                                 value={reply.commentId === comment._id ? reply.text : ""}

@@ -129,17 +129,17 @@ const WheelHub = () => {
 
                             <img
                                 className="h-12 w-12 rounded-full"
-                                src={`http://localhost:3000/public/images/user-avatars/${user.avatar}`}
+                                src={`http://localhost:3000/public/images/user-avatars/${post.userId.avatar}`}
                                 alt="Profile Avatar"
                             />
                             <div className="flex flex-col">
 
-                                <h1>{user.name}</h1>
-                                <h1>{new Date(post.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} at {new Date(post.createdAt).toLocaleTimeString('en-US', { hour: 'numeric' })}</h1>
+                                <h1 className="text-white/90">{user.name}</h1>
+                                <h1 className="text-white/90">{new Date(post.createdAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} at {new Date(post.createdAt).toLocaleTimeString('en-US', { hour: 'numeric' })}</h1>
                             </div>
 
                         </div>
-                        <p>{post.content}</p>
+                        <p className="text-white/90">{post.content}</p>
                     </div>
 
                     {/* Comments */}
