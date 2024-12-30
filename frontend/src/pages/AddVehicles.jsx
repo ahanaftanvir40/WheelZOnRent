@@ -219,16 +219,16 @@ function AddVehicles() {
                     </CardContent>
                     <CardFooter className="flex justify-between">
                         {step === 2 && (
-                            <Button type="button" variant="outline" className='text-white' onClick={prevStep}>
+                            <Button type="button" variant="outline" className='text-white bg-black/90' onClick={prevStep}>
                                 Previous
                             </Button>
                         )}
                         {step === 1 ? (
-                            <Button type="button" variant='outline' className='text-white' onClick={nextStep}>
+                            <Button type="button" variant='outline' className='text-white bg-black/90' onClick={nextStep}>
                                 Next
                             </Button>
                         ) : (
-                            <Button type="submit" variant='secondary'>
+                            <Button type="submit" variant='secondary' className='text-white bg-black/90'>
                                 Add Vehicle
                             </Button>
                         )}
