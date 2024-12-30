@@ -63,7 +63,7 @@ function Vehicle() {
       }
     };
     fetchVehicle();
-  }, [vehicleId, booked ]); // Dependency array includes `vehicleId` and `booked`
+  }, [vehicleId, booked]); // Dependency array includes `vehicleId` and `booked`
 
   //fetch unavailable dates
   useEffect(() => {
@@ -506,7 +506,9 @@ function Vehicle() {
             vehicle.ratings.map((review, index) => (
               <div key={index} className="bg-gray-800 p-4 rounded-lg shadow-md">
                 <div className="flex items-center mb-2">
-                  <StarIcon className="text-yellow-400 mr-1" />
+                  {Array.from({ length: review.rating }, (_, index) => (
+                    <StarIcon key={index} className="text-yellow-400 mr-1" />
+                  ))}
                   <span className="text-sm text-gray-400">{review.rating} / 5</span>
                 </div>
                 <p className="text-gray-200">{review.review}</p>
